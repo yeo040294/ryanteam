@@ -67,9 +67,33 @@ class App extends Component {
                   <MDBNavItem>
                     <MDBNavLink
                       onClick={this.closeCollapse('mainNavbarCollapse')}
-                      to='/components'
+                      to='/search'
                     >
-                      <strong>Components</strong>
+                      <strong>Search</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                  <MDBNavItem>
+                    <MDBNavLink
+                      onClick={this.closeCollapse('mainNavbarCollapse')}
+                      to='/listing'
+                    >
+                       <strong>Listing</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                  <MDBNavItem>
+                    <MDBNavLink
+                      onClick={this.closeCollapse('mainNavbarCollapse')}
+                      to='/admin'
+                    > 
+                      <strong>Admin</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                  <MDBNavItem>
+                    <MDBNavLink
+                      onClick={this.closeCollapse('mainNavbarCollapse')}
+                      to='/donation'
+                    >
+                      <strong>Donation</strong>
                     </MDBNavLink>
                   </MDBNavItem>
                   <MDBNavItem>
