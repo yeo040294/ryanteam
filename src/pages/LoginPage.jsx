@@ -2,21 +2,18 @@ import React, { Component } from 'react'
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact"
 import Login from '../components/Login'
 
-class About extends Component {
+class LoginPage extends Component {
     render() {
         return (
-            <MDBContainer>
-                <MDBRow>
-                    <MDBCol>
+            <MDBContainer >
+                <MDBRow >
+                    <MDBCol size= '12' >
                         <h1>Welcome, User!</h1>
-                    <Login/>
+                        <Login />
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>
-            
-                
-            
         )
     }
 }
-export default About
+export default LoginPage

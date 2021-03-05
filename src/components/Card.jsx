@@ -7,11 +7,11 @@ const Card = ({ post }) => {
       <MDBCard style={{ width: "22rem" }}>
         <MDBCardImage className="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/images/43.jpg" waves />
         <MDBCardBody>
-          <MDBCardTitle>{post.user.name}</MDBCardTitle>
+          <MDBCardTitle>{post.name}</MDBCardTitle>
           <MDBCardText>
-            {post.text}
+            {post.description}
           </MDBCardText>
-          <MDBBtn color="green" href={post.user.url}>View</MDBBtn>
+          <MDBBtn color="green" /* href={add link to each item here  }*/>View</MDBBtn>
         </MDBCardBody>
       </MDBCard>
     </MDBCol>

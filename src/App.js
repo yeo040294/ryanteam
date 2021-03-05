@@ -59,9 +59,9 @@ class App extends Component {
                   <MDBNavItem>
                     <MDBNavLink
                       onClick={this.closeCollapse('mainNavbarCollapse')}
-                      to='/about'
+                      to='/login'
                     >
-                      <strong>About</strong>
+                      <strong>Login</strong>
                     </MDBNavLink>
                   </MDBNavItem>
                   <MDBNavItem>
@@ -99,9 +99,9 @@ class App extends Component {
                   <MDBNavItem>
                     <MDBNavLink
                       onClick={this.closeCollapse('mainNavbarCollapse')}
-                      to='/advanced'
+                      to='/main'
                     >
-                      <strong>Advanced</strong>
+                      <strong>Main</strong>
                     </MDBNavLink>
                   </MDBNavItem>
                 </MDBNavbarNav>
