@@ -20,7 +20,7 @@ class Donation extends Component {
                     </MDBCol>
                     <MDBCol>
                         <h3>Map Location</h3>
-                        <GoogleMap/>
+                        {/* <GoogleMap /> */}
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>
