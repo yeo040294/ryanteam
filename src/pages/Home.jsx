@@ -13,9 +13,6 @@ class Home extends Component {
             .then((res) => res.json())
             .then(data => {
             console.log(data)
-            this.setState({
-                items : data
-            })
             })
             .catch((err) => console.log(err));
         this.props.fetchPosts();

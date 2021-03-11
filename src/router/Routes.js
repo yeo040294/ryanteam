@@ -8,6 +8,7 @@ import Listing from '../pages/Listing';
 import Admin from '../pages/Admin';
 import Donation from '../pages/Donation';
 import Main from '../pages/Main'
+import Signup from '../pages/Signup'
 
 class Routes extends React.Component {
   render() {
@@ -20,6 +21,7 @@ class Routes extends React.Component {
         <Route path='/admin' component={Admin} />
         <Route path='/donation' component={Donation} />
         <Route path='/main' component={Main} />
+        <Route path='/signup' component={Signup} />
         <Route
           render={function () {
             return <h1>Not Found</h1>;

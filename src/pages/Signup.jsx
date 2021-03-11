@@ -1,30 +1,28 @@
 import React, { Component } from 'react'
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact"
-import Login from '../components/Login'
 
-class LoginPage extends Component {
+class Signup extends Component {
 
     componentDidMount() {
         //fetch items from firebase server
-        fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/login',{
+        fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/signup',{
             method: 'POST',
             headers : {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                //Put user data here
-                "email" : "showpic@dogogg.com",
-                "password": "123456"
+                //Put user data here, take note : signing up twice with same data will return error in JSON
+                "email" : "newuser001@dogogg.com",
+                "password": "123456",
+                "confirmPassword" : "123456",
+                "handle" : "newuser001"
             })
         })
             .then((res) => res.json())
             .then(data => {
+                localStorage.setItem('FBIdToken', `Bearer ${data.token}`)
                 //data is login token
                 console.log(data)
-                localStorage.setItem('FBIdToken', `Bearer ${data.token}`)
-                this.setState({
-                    items : data
-                })
             })
             .catch((err) => console.log(err));
     }
@@ -35,11 +33,10 @@ class LoginPage extends Component {
                 <MDBRow >
                     <MDBCol size= '12' >
                         <h1>Welcome, User!</h1>
-                        <Login />
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>
         )
     }
 }
-export default LoginPage
+export default Signup
