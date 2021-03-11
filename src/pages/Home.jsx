@@ -8,6 +8,16 @@ import { fetchPosts } from '../Redux/Actions/TwitterAction'
 
 class Home extends Component {
     componentDidMount() {
+        //fetch items from firebase server
+        fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/allItems')
+            .then((res) => res.json())
+            .then(data => {
+            console.log(data)
+            this.setState({
+                items : data
+            })
+            })
+            .catch((err) => console.log(err));
         this.props.fetchPosts();
     }
     render() {

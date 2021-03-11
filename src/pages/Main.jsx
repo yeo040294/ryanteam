@@ -25,6 +25,20 @@ export default class Main extends Component {
         ],
         
     }
+
+    componentDidMount() {
+        //fetch items from firebase server
+        fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/allItems')
+            .then((res) => res.json())
+            .then(data => {
+            console.log(data)
+            this.setState({
+                items : data
+            })
+            })
+            .catch((err) => console.log(err));
+    }
+
     render() {
         return (
             <MDBContainer>
