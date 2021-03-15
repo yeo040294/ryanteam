@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem, MDBFooter, MDBNavLink } from 'mdbreact';
+import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem, MDBFooter, MDBNavLink, MDBIcon } from 'mdbreact';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { ReactComponent as Logo } from './assets/logo.svg';
+//import { ReactComponent as Logo } from './assets/logo.svg';
 import Routes from './router/Routes';
 import Store from './Redux/Store/Store';
 import { Provider } from 'react-redux';
@@ -37,10 +37,10 @@ class App extends Component {
       <Provider store={Store}>
         <Router>
           <div className='flyout'>
-            <MDBNavbar color='indigo' dark expand='md' fixed='top' scrolling>
+            <MDBNavbar color='rgba-pink-strong' dark expand='md' fixed='top' scrolling>
               <MDBNavbarBrand href='/' className='py-0 font-weight-bold'>
-                <Logo style={{ height: '2.5rem', width: '2.5rem' }} />
-                <strong className='align-middle'>SSAD Project</strong>
+                <MDBIcon fab icon="gratipay" style = {{height: '1.5rem', width: '1.5rem'}} />
+                <strong className='align-middle'>SecondLove</strong>
               </MDBNavbarBrand>
               <MDBNavbarToggler
                 onClick={this.toggleCollapse('mainNavbarCollapse')}
@@ -96,14 +96,6 @@ class App extends Component {
                       <strong>Donation</strong>
                     </MDBNavLink>
                   </MDBNavItem>
-                  <MDBNavItem>
-                    <MDBNavLink
-                      onClick={this.closeCollapse('mainNavbarCollapse')}
-                      to='/main'
-                    >
-                      <strong>Main</strong>
-                    </MDBNavLink>
-                  </MDBNavItem>
                 </MDBNavbarNav>
               </MDBCollapse>
             </MDBNavbar>
@@ -113,7 +105,7 @@ class App extends Component {
               <Routes />
               <br/>
             </main>
-            <MDBFooter color='indigo'>
+            <MDBFooter color='rgba-pink-strong' >
               <p className='footer-copyright mb-0 py-3 text-center'>
                 &copy; {new Date().getFullYear()} Copyright:
               <a href='https://www.MDBootstrap.com'> MDBootstrap.com </a>

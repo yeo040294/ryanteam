@@ -3,40 +3,28 @@ import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBIcon } from 'mdbreact'
 import CarouselPage from '../components/CarouselPage'
 import Card from '../components/Card'
 import CategoriesBtn from '../components/CategoriesBtn'
+import {connect} from 'react-redux'
+import PropTypes from 'prop-types'
+import { fetchAllItems } from '../Redux/Actions/ItemsAction' 
 
-export default class Main extends Component {
-    state = { //dummy data
-        Posts: [
-            {
-                image: 'https://mdbootstrap.com/img/Photos/Others/placeholder1.jpg',
-                name: 'Apple',
-                description: 'asd',
-            },
-            {
-                image: 'https://mdbootstrap.com/img/Photos/Others/placeholder1.jpg',
-                name: 'Banana',
-                description: 'asa',
-            },
-            {
-                image: 'https://mdbootstrap.com/img/Photos/Others/placeholder1.jpg',
-                name: 'Orange',
-                description: 'wda',
-            },
-        ],
-        
+class Main extends Component {
+    state = {
+        FilteredPosts: '',
     }
 
     componentDidMount() {
-        //fetch items from firebase server
-        fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/allItems')
-            .then((res) => res.json())
-            .then(data => {
-            console.log(data)
-            this.setState({
-                items : data
-            })
-            })
-            .catch((err) => console.log(err));
+        this.props.fetchAllItems();
+        console.log(this.props.Posts);
+    }
+
+    FilterPosts = (id) => {
+        //console.log(id);
+        let newPosts = this.props.Posts;
+        const result = newPosts.filter(x => x.category == id)
+        this.setState(state => ({
+            ...state,
+            FilteredPosts: result,
+        }));
     }
 
     render() {
@@ -61,7 +49,7 @@ export default class Main extends Component {
                     <MDBCol>
                         <h3>Popular Listings</h3>
                         <MDBRow>
-                        {this.state.Posts && this.state.Posts.map(x => {
+                        {this.props.Posts && this.props.Posts.map(x => {
                                 return (
                                     <MDBCol lg="4">
                                         <Card post={x} />
@@ -78,8 +66,16 @@ export default class Main extends Component {
                 <MDBRow>
                     <MDBCol>
                         <h3> Categories </h3>
-                        <CategoriesBtn></CategoriesBtn>
-                        
+                        <CategoriesBtn posts= {this.FilterPosts}></CategoriesBtn>
+                        <MDBRow>
+                        { this.state.FilteredPosts && this.state.FilteredPosts.map(x => {
+                                return (
+                                    <MDBCol lg="4">
+                                        <Card post={x} />
+                                    </MDBCol>
+                                )
+                            })}
+                        </MDBRow>
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>
@@ -87,3 +83,12 @@ export default class Main extends Component {
         )
     }
 }
+Main.propTypes = {
+    fetchAllItems: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+    Posts: state.items.items
+});
+
+export default connect(mapStateToProps, { fetchAllItems })(Main)
