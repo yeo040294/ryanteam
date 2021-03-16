@@ -1,32 +1,38 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact"
 import Login from '../components/Login'
+import { loginUser } from '../Redux/Actions/userAction'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 class LoginPage extends Component {
 
+    constructor(){
+        super()
+        this.state = {
+            email : '',
+            password : '',
+            errors : {}
+        }
+    }
+
+    //1. link button to this
+    handleSubmit = (event) =>{
+        //2. Save what user entered to here
+        const userData = {
+            email : "baba@baba.com",
+            password : "123456"
+        }
+        this.props.loginUser(userData, this.props.history)
+    }
+
     componentDidMount() {
-        //fetch items from firebase server
-        fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/login',{
-            method: 'POST',
-            headers : {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                //Put user data here
-                "email" : "showpic@dogogg.com",
-                "password": "123456"
-            })
-        })
-            .then((res) => res.json())
-            .then(data => {
-                //data is login token
-                console.log(data)
-                localStorage.setItem('FBIdToken', `Bearer ${data.token}`)
-                this.setState({
-                    items : data
-                })
-            })
-            .catch((err) => console.log(err));
+        //For testing only :-)
+        // const userData = {
+        //     email : "baba@baba.com",
+        //     password : "123456"
+        // }
+        // this.props.loginUser(userData, this.props.history)
     }
 
     render() {
@@ -42,4 +48,15 @@ class LoginPage extends Component {
         )
     }
 }
-export default LoginPage
+const mapStateToProps = state => {
+    return {
+        user : state.user
+    }
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators(
+        {loginUser}
+    , dispatch);
+
+//export default LoginPage
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)

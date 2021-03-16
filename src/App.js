@@ -5,6 +5,20 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Routes from './router/Routes';
 import Store from './Redux/Store/Store';
 import { Provider } from 'react-redux';
+import jwtDecode from 'jwt-decode';
+
+let authenticated;
+const token = localStorage.FBIdToken;
+if (token) {
+  const decodedToken = jwtDecode(token);
+  if (decodedToken.exp * 1000 < Date.now()) {
+    authenticated = false;
+    window.location.href = '/login';
+  } else {
+    authenticated = true;
+  }
+}
+
 
 class App extends Component {
   state = {
