@@ -5,7 +5,8 @@ import Card from '../components/Card'
 import CategoriesBtn from '../components/CategoriesBtn'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import { fetchAllItems } from '../Redux/Actions/ItemsAction' 
+import { getAvailableItems } from '../Redux/Actions/itemAction'
+import { bindActionCreators } from 'redux'
 
 class Main extends Component {
     state = {
@@ -13,7 +14,8 @@ class Main extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchAllItems();
+        this.props.getAvailableItems()
+        console.log(this.props.item)
         console.log(this.props.Posts);
     }
 
@@ -84,11 +86,21 @@ class Main extends Component {
     }
 }
 Main.propTypes = {
-    fetchAllItems: PropTypes.func.isRequired
+    getAvailableItems: PropTypes.func.isRequired
 }
 
-const mapStateToProps = state => ({
-    Posts: state.items.items
-});
+const mapStateToProps = state => {
+    return {
+        // Assigning the state properties into our propname
+        // propname  :  state.somefield
+        item : state.item.items
+    }
+}
 
-export default connect(mapStateToProps, { fetchAllItems })(Main)
+const mapDispatchToProps = dispatch => bindActionCreators(
+        {getAvailableItems}
+    , dispatch);
+
+//connect is a function, returns a higher order component
+//higher order component is wrapping the home component
+export default connect(mapStateToProps, mapDispatchToProps)(Main)

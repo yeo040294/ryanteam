@@ -11,13 +11,18 @@ export const loginUser = (userData, history) => dispatch => {
         .then((res) => res.json())
         .then((data) => {
             //data is login token
-            
             const FBIdToken = `Bearer ${data.token}`
             localStorage.setItem('FBIdToken', `Bearer ${data.token}`)
             dispatch(getUserData());
+            dispatch({type : 'CLEAR_ERRORS'})
             history.push('/')
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+            dispatch({
+                type : 'SET_ERRORS',
+                payload : err.response.data
+            })
+        });
 }
 
 export const getUserData = () => (dispatch) => {
@@ -36,4 +41,6 @@ export const getUserData = () => (dispatch) => {
         });
       })
       .catch((err) => console.log(err));
-  } 
+  }
+  
+  

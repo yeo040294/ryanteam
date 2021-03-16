@@ -16,6 +16,8 @@ class LoginPage extends Component {
         }
     }
 
+    //useEffect()
+
     //1. link button to this
     handleSubmit = (event) =>{
         //2. Save what user entered to here
@@ -27,12 +29,12 @@ class LoginPage extends Component {
     }
 
     componentDidMount() {
-        //For testing only :-)
-        // const userData = {
-        //     email : "baba@baba.com",
-        //     password : "123456"
-        // }
-        // this.props.loginUser(userData, this.props.history)
+        //For testing 
+        const userData = {
+            email : "baba@baba.com",
+            password : "12346"
+        }
+        this.props.loginUser(userData, this.props.history)
     }
 
     render() {
