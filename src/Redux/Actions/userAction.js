@@ -62,12 +62,11 @@ export const registerUser = (userData, history) => dispatch => {
         body: JSON.stringify(userData)
     })
         .then((res) => {
+            console.log("bro register user response coming in")
             if(!res.ok) throw res;
             return res.json();
         })
         .then((data) => {  
-            // console.log("data is" + data.general)
-
             const FBIdToken = `Bearer ${data.token}`
             localStorage.setItem('FBIdToken', `Bearer ${data.token}`)
             dispatch({type : 'CLEAR_ERRORS'})

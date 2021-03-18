@@ -24,10 +24,10 @@ class Signup extends Component {
     handleSubmit = (event) =>{
         //2. Save what user entered to here
         const userData = {
-            email : 'xintian1@email.com',
+            email : 'xintian91@email.com',
             password : '123456',
             confirmPassword : '123456',
-            handle : 'xintian1'
+            handle : 'xintian91'
         }
         // this.props.registerUser(userData, this.props.history)
     }
@@ -36,10 +36,10 @@ class Signup extends Component {
         //For testing 
         console.log("running component id mount")
         const userData = {
-            email : 'xintian8@email.com',
+            email : 'xintian95@email.com',
             password : '123456',
             confirmPassword : '123456',
-            handle : 'xintian8'
+            handle : 'xintian95'
         }
         this.props.registerUser(userData, this.props.history)
     }
