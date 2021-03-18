@@ -52,4 +52,35 @@ export const getUserData = () => (dispatch) => {
       .catch((err) => console.log(err));
   }
   
-  
+export const registerUser = (userData, history) => dispatch => {
+    fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/signup',{
+        method: 'POST',
+        headers : {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
+    })
+        .then((res) => {
+            if(!res.ok) throw res;
+            return res.json();
+        })
+        .then((data) => {  
+            // console.log("data is" + data.general)
+
+            const FBIdToken = `Bearer ${data.token}`
+            localStorage.setItem('FBIdToken', `Bearer ${data.token}`)
+            dispatch({type : 'CLEAR_ERRORS'})
+            history.push('/')
+            
+        })
+        .catch((err) => {
+            console.log(err)
+            err.json().then((body)=>{
+                //console.log(body)
+                dispatch({
+                    type : 'SET_ERRORS',
+                    payload : body
+                })
+            })
+        });
+}

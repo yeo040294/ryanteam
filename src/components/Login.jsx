@@ -14,7 +14,10 @@ return (
           <MDBInput label="Type your password" icon="lock" group type="password" validate />
         </div>
         <div className="text-center">
-            <MDBBtn color = "blue-grey" size = "lg">Sign Up</MDBBtn>
+        <p class="card-text">Click here to </p>
+        <p class="card-text">
+            <a href="http://localhost:3000/signup" class="stretched-link">Sign Up</a>
+            </p>
           <MDBBtn color = "red" size = "lg">Login</MDBBtn>
         </div>
       </form>
