@@ -7,8 +7,10 @@ import Admin from '../pages/Admin';
 import Donation from '../pages/Donation';
 import Main from '../pages/Main'
 import Signup from '../pages/Signup'
+import Profile from '../pages/Profile'
 
 class Routes extends React.Component {
+
   render() {
     return (
       <Switch>
@@ -19,6 +21,7 @@ class Routes extends React.Component {
         <Route path='/admin' component={Admin} />
         <Route path='/donation' component={Donation} />
         <Route path='/signup' component={Signup} />
+        <Route path='/profile' component={Profile} />
         <Route
           render={function () {
             return <h1>Not Found</h1>;

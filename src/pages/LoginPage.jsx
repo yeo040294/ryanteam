@@ -26,13 +26,15 @@ class LoginPage extends Component {
             password : "123456"
         }
         this.props.loginUser(userData, this.props.history)
+        //3. display error - if user enters wrong login/pass the error state will be updated to
+        //{error : general : "Wrong password"}
     }
 
     componentDidMount() {
         //For testing 
         const userData = {
             email : "baba@baba.com",
-            password : "12356"
+            password : "123456"
         }
         this.props.loginUser(userData, this.props.history)
     }
