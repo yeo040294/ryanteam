@@ -35,6 +35,7 @@ export const loginUser = (userData, history) => dispatch => {
 }
 
 export const getUserData = () => (dispatch) => {
+    dispatch({ type: 'LOADING_USER' });
     fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/user',{
         method: 'GET',
         headers : {

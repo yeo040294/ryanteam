@@ -15,7 +15,10 @@ class Main extends Component {
 
     componentDidMount() {
         this.props.getAvailableItems()
-        console.log(this.props.item[0])
+        this.props.item.forEach(element => {
+            console.log(element)
+        });
+        
         console.log(this.props.Posts);
     }
 
