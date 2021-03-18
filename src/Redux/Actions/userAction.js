@@ -8,19 +8,28 @@ export const loginUser = (userData, history) => dispatch => {
         },
         body: JSON.stringify(userData)
     })
-        .then((res) => res.json())
-        .then((data) => {
-            //data is login token
+        .then((res) => {
+            if(!res.ok) throw res;
+            return res.json();
+        })
+        .then((data) => {  
+            console.log("data is" + data.general)
+
             const FBIdToken = `Bearer ${data.token}`
             localStorage.setItem('FBIdToken', `Bearer ${data.token}`)
             dispatch(getUserData());
             dispatch({type : 'CLEAR_ERRORS'})
             history.push('/')
+            
         })
         .catch((err) => {
-            dispatch({
-                type : 'SET_ERRORS',
-                payload : err.response.data
+            console.log(err)
+            err.json().then((body)=>{
+                //console.log(body)
+                dispatch({
+                    type : 'SET_ERRORS',
+                    payload : body
+                })
             })
         });
 }

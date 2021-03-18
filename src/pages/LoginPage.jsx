@@ -32,7 +32,7 @@ class LoginPage extends Component {
         //For testing 
         const userData = {
             email : "baba@baba.com",
-            password : "12346"
+            password : "12356"
         }
         this.props.loginUser(userData, this.props.history)
     }
