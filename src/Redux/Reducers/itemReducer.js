@@ -5,7 +5,7 @@ const initState = {
 const itemReducers = (state = initState, action) => {
 
     switch(action.type){
-        case 'GET_ALL_AVAILABLE_ITEMS':
+        case 'GET_ITEMS':
             return{
                 ...state,
                 items: action.payload
