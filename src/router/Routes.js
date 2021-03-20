@@ -3,11 +3,13 @@ import { Route, Switch } from 'react-router-dom';
 import Login from '../pages/LoginPage';
 import Search from '../pages/Search';
 import Listing from '../pages/Listing';
-import Admin from '../pages/Admin';
+import UnapprovedItems from '../pages/UnapprovedItems';
+import UnballotItems from '../pages/UnballotItems.jsx';
 import Donation from '../pages/Donation';
 import Main from '../pages/Main'
 import Signup from '../pages/Signup'
 import Profile from '../pages/Profile'
+import itemDetails from '../pages/ItemDetails'
 
 class Routes extends React.Component {
 
@@ -18,10 +20,12 @@ class Routes extends React.Component {
         <Route path='/login' component={Login} />
         <Route path='/search' component={Search} />
         <Route path='/listing' component={Listing} />
-        <Route path='/admin' component={Admin} />
+        <Route exact path='/admin/UnapprovedItems' component={UnapprovedItems} />
+        <Route exact path='/admin/UnballotItems' component={UnballotItems} />
         <Route path='/donation' component={Donation} />
         <Route path='/signup' component={Signup} />
         <Route path='/profile' component={Profile} />
+        <Route path = '/itemDetails/:itemId' component = {itemDetails}/>
         <Route
           render={function () {
             return <h1>Not Found</h1>;

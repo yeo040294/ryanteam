@@ -1,5 +1,6 @@
 const initState = {
-    items : []
+    items : [],
+    selectedItem : []
 }
 
 const itemReducers = (state = initState, action) => {
@@ -9,6 +10,12 @@ const itemReducers = (state = initState, action) => {
             return{
                 ...state,
                 items: action.payload
+            }
+
+        case 'GET_ITEM':
+            return{
+                ...state,
+                selectedItem : action.payload
             }
         default:
             return state;

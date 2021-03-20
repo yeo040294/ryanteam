@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Routes from './router/Routes';
 import Store from './Redux/Store/Store';
 import { Provider } from 'react-redux';
-import jwtDecode from 'jwt-decode';
+//import jwtDecode from 'jwt-decode';
 
 class App extends Component {
   state = {
@@ -98,9 +98,17 @@ class App extends Component {
                   <MDBNavItem>
                     <MDBNavLink
                       onClick={this.closeCollapse('mainNavbarCollapse')}
-                      to='/admin'
+                      to='/admin/UnapprovedItems'
                     > 
-                      <strong>Admin</strong>
+                      <strong>UnapprovedItems</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                  <MDBNavItem>
+                    <MDBNavLink
+                      onClick={this.closeCollapse('mainNavbarCollapse')}
+                      to='/admin/UnballotItems'
+                    > 
+                      <strong>UnballotItems</strong>
                     </MDBNavLink>
                   </MDBNavItem>
                   <MDBNavItem>

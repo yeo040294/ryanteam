@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 import { getAllUnapprovedItems } from '../Redux/Actions/itemAction'
 import { bindActionCreators } from 'redux'
 
-class Admin extends Component {
+class UnapprovedItems extends Component {
 
     componentDidMount(){
         this.props.getAllUnapprovedItems()
@@ -19,6 +19,7 @@ class Admin extends Component {
             <MDBContainer>
                 <MDBRow>
                     <MDBCol>
+                        <div><h1>getAllUnapprovedItems</h1></div>
                         <PendingItems/>
                     </MDBCol>
                 </MDBRow>
@@ -41,4 +42,4 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 
 //connect is a function, returns a higher order component
 //higher order component is wrapping the home component
-export default connect(mapStateToProps, mapDispatchToProps)(Admin)
+export default connect(mapStateToProps, mapDispatchToProps)(UnapprovedItems)
