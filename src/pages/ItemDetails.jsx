@@ -5,21 +5,36 @@ import Card from '../components/Card'
 import CategoriesBtn from '../components/CategoriesBtn'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import { getItem } from '../Redux/Actions/itemAction'
+import { getItem, requestItem } from '../Redux/Actions/itemAction'
 import { bindActionCreators } from 'redux'
 import {Link} from 'react-router-dom';
 
 class ItemDetails extends Component {
 
+    constructor (props){
+        super(props)
+        this.requestItem = this.requestItem.bind(this)
+    }
+
     componentDidMount(){
-         //For testing 
-         const { match } = this.props;
-         const matchUrl = match.url;
+        const { match } = this.props;
+        const matchUrl = match.url;
         this.props.getItem(matchUrl)
     }
 
+    requestItem(){
+        //can only request when user is login, <- enforce this in front-end
+        const { match } = this.props;
+        const matchUrl = match.url;
+        this.props.requestItem(matchUrl)
+        console.log(this.props.ui.notification)
+        console.log(this.props.ui.errors)
+        //look at dev tools
+        //if successful, new notification state
+        //if unsuccessful new error state
+    }   
+
     render() {
-        console.log("this is the item name of item "+ this.props.selectedItem.itemName)
         return (
             <div>
                 <h1>Item Details</h1>
@@ -29,6 +44,7 @@ class ItemDetails extends Component {
                 <h3>{this.props.selectedItem.ballotTime}</h3>
                 <h3>{this.props.selectedItem.itemCondition}</h3>
                 <h3>{this.props.selectedItem.imageUrl}</h3>
+                <button onClick = {this.requestItem}>Request for item</button>
             </div>
         )
     }
@@ -38,12 +54,14 @@ const mapStateToProps = state => {
     return {
         // Assigning the state properties into our propname
         // propname  :  state.somefield
-        selectedItem : state.item.selectedItem
+        user : state.user.user,
+        selectedItem : state.item.selectedItem,
+        ui : state.ui
     }
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators(
-        {getItem}
+        {getItem, requestItem}
     , dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItemDetails)

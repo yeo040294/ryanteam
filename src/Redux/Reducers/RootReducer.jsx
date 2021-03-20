@@ -9,7 +9,7 @@ const RootReducer = combineReducers({
     twitter: TwitterReducers,
     user : userReducer,
     item : itemReducer,
-    UI : uiReducer
+    ui : uiReducer
 });
 
 export default RootReducer;

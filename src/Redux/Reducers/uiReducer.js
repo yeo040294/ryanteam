@@ -1,7 +1,8 @@
 
 const initialState = {
     loading: false,
-    errors: null
+    errors: null,
+    notifcation : ''
   };
   
   export default function(state = initialState, action) {
@@ -23,6 +24,11 @@ const initialState = {
           ...state,
           loading: true
         };
+        case 'SET_NOTIFICATION':
+          return {
+            ...state,
+            notifcation : action.payload
+          }
       default:
         return state;
     }

@@ -13,7 +13,7 @@ export const loginUser = (userData, history) => dispatch => {
             return res.json();
         })
         .then((data) => {  
-            console.log("data is" + data.general)
+            //console.log("data is" + data.general)
 
             const FBIdToken = `Bearer ${data.token}`
             localStorage.setItem('FBIdToken', `Bearer ${data.token}`)
