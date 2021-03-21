@@ -28,6 +28,16 @@ export const getAllUnapprovedItems = () => dispatch => {
         );
 }
 
+export const getAllBallotItems = () => dispatch => {
+    fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/ballotItems')
+        .then((res) => res.json())
+        .then(data => dispatch ({
+            type: 'GET_ITEMS',
+            payload:data
+        })
+        );
+}
+
 export const getItem = (matchUrl) => dispatch => {
     let arr = matchUrl.split("/") 
     let url = `https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item/${arr[2]}`
@@ -55,7 +65,7 @@ export const requestItem = (matchUrl) => dispatch => {
     })
     .then(data => {
         dispatch ({
-            type : 'SET_NOTIFICATION',
+            type : 'SET_MESSAGE',
             payload : data
         })
         dispatch({type : 'CLEAR_ERRORS'})
@@ -87,7 +97,7 @@ export const approveItem = (itemId) => dispatch => {
     })
     .then(data => {
         dispatch ({
-            type : 'SET_NOTIFICATION',
+            type : 'SET_MESSAGE',
             payload : data
         })
         dispatch({type : 'CLEAR_ERRORS'})
@@ -104,4 +114,34 @@ export const approveItem = (itemId) => dispatch => {
 }
 
 
+export const ballotItem = (itemId) => dispatch => {
+    fetch(`https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item/${itemId}/ballotItem`,
+    {
+        method : 'GET',
+        headers : {
+            'Content-Type': 'application/json',
+            'Authorization' : localStorage.FBIdToken
+        }
+    })
+    .then((res) => {
+        if(!res.ok) throw res;
+        return res.json();
+    })
+    .then(data => {
+        dispatch ({
+            type : 'SET_MESSAGE',
+            payload : data
+        })
+        dispatch({type : 'CLEAR_ERRORS'})
+    })
+    .catch((err) => {
+        console.log(err)
+        err.json().then((body)=>{
+            dispatch({
+                type : 'SET_ERRORS',
+                payload : body
+            })
+        })
+    });
+}
 

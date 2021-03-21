@@ -3,8 +3,8 @@ import { Route, Switch } from 'react-router-dom';
 import Login from '../pages/LoginPage';
 import Search from '../pages/Search';
 import Listing from '../pages/Listing';
-import UnapprovedItems from '../pages/UnapprovedItems';
-import UnballotItems from '../pages/UnballotItems.jsx';
+import ApproveItems from '../pages/ApproveItems';
+import BallotItems from '../pages/BallotItems';
 import Donation from '../pages/Donation';
 import Main from '../pages/Main'
 import Signup from '../pages/Signup'
@@ -20,8 +20,8 @@ class Routes extends React.Component {
         <Route path='/login' component={Login} />
         <Route path='/search' component={Search} />
         <Route path='/listing' component={Listing} />
-        <Route exact path='/admin/UnapprovedItems' component={UnapprovedItems} />
-        <Route exact path='/admin/UnballotItems' component={UnballotItems} />
+        <Route exact path='/admin/approveItems' component={ApproveItems} />
+        <Route exact path='/admin/ballotItems' component={BallotItems} />
         <Route path='/donation' component={Donation} />
         <Route path='/signup' component={Signup} />
         <Route path='/profile' component={Profile} />

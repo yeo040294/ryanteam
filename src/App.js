@@ -98,17 +98,17 @@ class App extends Component {
                   <MDBNavItem>
                     <MDBNavLink
                       onClick={this.closeCollapse('mainNavbarCollapse')}
-                      to='/admin/UnapprovedItems'
+                      to='/admin/approveItems'
                     > 
-                      <strong>UnapprovedItems</strong>
+                      <strong>ApproveItems</strong>
                     </MDBNavLink>
                   </MDBNavItem>
                   <MDBNavItem>
                     <MDBNavLink
                       onClick={this.closeCollapse('mainNavbarCollapse')}
-                      to='/admin/UnballotItems'
+                      to='/admin/ballotItems'
                     > 
-                      <strong>UnballotItems</strong>
+                      <strong>BallotItems</strong>
                     </MDBNavLink>
                   </MDBNavItem>
                   <MDBNavItem>

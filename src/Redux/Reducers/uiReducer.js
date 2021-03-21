@@ -2,7 +2,7 @@
 const initialState = {
     loading: false,
     errors: null,
-    notification : ''
+    message : ''
   };
   
   export default function(state = initialState, action) {
@@ -24,10 +24,10 @@ const initialState = {
           ...state,
           loading: true
         };
-        case 'SET_NOTIFICATION':
+        case 'SET_MESSAGE':
           return {
             ...state,
-            notifcation : action.payload
+            message : action.payload
           }
       default:
         return state;

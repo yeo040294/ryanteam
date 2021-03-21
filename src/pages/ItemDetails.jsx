@@ -27,10 +27,10 @@ class ItemDetails extends Component {
         const { match } = this.props;
         const matchUrl = match.url;
         this.props.requestItem(matchUrl)
-        console.log(this.props.ui.notification)
+        console.log(this.props.ui.message)
         console.log(this.props.ui.errors)
         //look at dev tools
-        //if successful, new notification state
+        //if successful, new message state
         //if unsuccessful new error state
     }   
 

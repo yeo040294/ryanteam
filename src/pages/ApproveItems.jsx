@@ -6,11 +6,11 @@ import { getAllUnapprovedItems, approveItem } from '../Redux/Actions/itemAction'
 import { bindActionCreators } from 'redux'
 import {Link} from 'react-router-dom';
 
-class UnapprovedItems extends Component {
+class ApproveItems extends Component {
 
     constructor (props){
         super(props)
-        this.approveItemOnClick = this.handleApproveItem.bind(this)
+        this.handleApproveItem = this.handleApproveItem.bind(this)
     }
 
     componentDidMount(){
@@ -62,4 +62,4 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 
 //connect is a function, returns a higher order component
 //higher order component is wrapping the home component
-export default connect(mapStateToProps, mapDispatchToProps)(UnapprovedItems)
+export default connect(mapStateToProps, mapDispatchToProps)(ApproveItems)

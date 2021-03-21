@@ -18,7 +18,6 @@ class Profile extends Component {
 
     render() {
       return <div>
-          <GoogleMap />
       </div>
     }
 }
