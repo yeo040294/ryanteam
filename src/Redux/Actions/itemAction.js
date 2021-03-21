@@ -177,3 +177,32 @@ export const ballotItem = (itemId) => dispatch => {
     });
 }
 
+export const searchItems = (itemData, history) => dispatch => {
+    let itemResults = {}
+    fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item/search',{
+        method: 'POST',
+        headers : {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(itemData)
+    })
+        .then((res) => {
+            if(!res.ok) throw res;
+            return res.json();
+        })
+        .then((data) => {  
+            let itemResult = {}
+            item
+            dispatch({type : 'CLEAR_ERRORS'})
+        })
+        .catch((err) => {
+            console.log(err)
+            err.json().then((body)=>{
+                dispatch({
+                    type : 'SET_ERRORS',
+                    payload : body
+                })
+            })
+        });
+}
+

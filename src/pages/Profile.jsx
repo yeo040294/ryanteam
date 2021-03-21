@@ -18,7 +18,7 @@ class Profile extends Component {
 
     render() {
       return <div>
-        <h3>{this.props.user.credentials.handle}</h3>
+        <h3>logged in as: {this.props.user.credentials.handle}</h3>
         <Link to = "/profile/donationSummary">
         <button>view donation summary</button>
         </Link>
