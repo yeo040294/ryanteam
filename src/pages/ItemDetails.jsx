@@ -13,7 +13,7 @@ class ItemDetails extends Component {
 
     constructor (props){
         super(props)
-        this.requestItem = this.handleRequestItem.bind(this)
+        this.handleRequestItem = this.handleRequestItem.bind(this)
     }
 
     componentDidMount(){

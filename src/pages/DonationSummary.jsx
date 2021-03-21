@@ -9,21 +9,26 @@ import { connect } from 'react-redux';
 import { getUserData } from '../Redux/Actions/userAction';
 import GoogleMap from '../components/GoogleMap';
 
-class Profile extends Component {
+class DonationSummary extends Component {
 
   componentDidMount(){
     this.props.getUserData()
-    console.log(this.props.user.credentials)
   }
 
     render() {
       return <div>
-        <h3>{this.props.user.credentials.handle}</h3>
-        <Link to = "/profile/donationSummary">
-        <button>view donation summary</button>
-        </Link>
-        <Link to = "/profile/requestSummary">
-        <button>view requests summary</button>
+        <h1>donation summary page</h1>
+        {
+            this.props.user.items.map(item => (
+                <h2 key = {item.itemId}>
+                {item.itemName}
+                {item.itemStatus}
+                </h2>
+            ))
+        }
+        
+        <Link to = "/profile">
+        <button>go back</button>
         </Link>
       </div>
     }
@@ -32,7 +37,7 @@ const mapStateToProps = (state) => ({
     user: state.user
   });
   
-  Profile.propTypes = {
+  DonationSummary.propTypes = {
     user: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired
   };
@@ -43,4 +48,4 @@ const mapStateToProps = (state) => ({
 
   
   //export default connect(mapStateToProps)(Profile);
-  export default connect(mapStateToProps, mapDispatchToProps)(Profile)
+  export default connect(mapStateToProps, mapDispatchToProps)(DonationSummary)

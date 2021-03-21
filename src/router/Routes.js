@@ -10,6 +10,8 @@ import Main from '../pages/Main'
 import Signup from '../pages/Signup'
 import Profile from '../pages/Profile'
 import itemDetails from '../pages/ItemDetails'
+import DonationSummary from '../pages/DonationSummary'
+import RequestSummary from '../pages/RequestSummary'
 
 class Routes extends React.Component {
 
@@ -24,8 +26,10 @@ class Routes extends React.Component {
         <Route exact path='/admin/ballotItems' component={BallotItems} />
         <Route path='/donation' component={Donation} />
         <Route path='/signup' component={Signup} />
-        <Route path='/profile' component={Profile} />
+        <Route exact path='/profile' component={Profile} />
         <Route path = '/itemDetails/:itemId' component = {itemDetails}/>
+        <Route exact path = '/profile/donationSummary' component = {DonationSummary}/>
+        <Route exact path = '/profile/requestSummary' component = {RequestSummary}/>
         <Route
           render={function () {
             return <h1>Not Found</h1>;
