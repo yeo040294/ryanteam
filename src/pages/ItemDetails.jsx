@@ -13,7 +13,7 @@ class ItemDetails extends Component {
 
     constructor (props){
         super(props)
-        this.requestItem = this.requestItem.bind(this)
+        this.requestItem = this.handleRequestItem.bind(this)
     }
 
     componentDidMount(){
@@ -22,7 +22,7 @@ class ItemDetails extends Component {
         this.props.getItem(matchUrl)
     }
 
-    requestItem(){
+    handleRequestItem(){
         //can only request when user is login, <- enforce this in front-end
         const { match } = this.props;
         const matchUrl = match.url;
@@ -44,7 +44,8 @@ class ItemDetails extends Component {
                 <h3>{this.props.selectedItem.ballotTime}</h3>
                 <h3>{this.props.selectedItem.itemCondition}</h3>
                 <h3>{this.props.selectedItem.imageUrl}</h3>
-                <button onClick = {this.requestItem}>Request for item</button>
+                <button onClick = {() => {this.handleRequestItem}}>Request for item</button>
+            
             </div>
         )
     }

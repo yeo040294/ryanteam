@@ -72,5 +72,36 @@ export const requestItem = (matchUrl) => dispatch => {
 
 }
 
+export const approveItem = (itemId) => dispatch => {
+    fetch(`https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item/${itemId}/approve`,
+    {
+        method : 'GET',
+        headers : {
+            'Content-Type': 'application/json',
+            'Authorization' : localStorage.FBIdToken
+        }
+    })
+    .then((res) => {
+        if(!res.ok) throw res;
+        return res.json();
+    })
+    .then(data => {
+        dispatch ({
+            type : 'SET_NOTIFICATION',
+            payload : data
+        })
+        dispatch({type : 'CLEAR_ERRORS'})
+    })
+    .catch((err) => {
+        console.log(err)
+        err.json().then((body)=>{
+            dispatch({
+                type : 'SET_ERRORS',
+                payload : body
+            })
+        })
+    });
+}
+
 
 

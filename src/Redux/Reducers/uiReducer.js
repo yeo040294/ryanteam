@@ -2,7 +2,7 @@
 const initialState = {
     loading: false,
     errors: null,
-    notifcation : ''
+    notification : ''
   };
   
   export default function(state = initialState, action) {
