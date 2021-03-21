@@ -15,8 +15,21 @@ class Search extends Component {
 
     handleSearch(){
         const searchData ={
-            query : 'iphone',
-            location : 'cash converters',
+            //keyword
+            //Values : string or ''
+            //Description : '' if user entered no keywords
+            keyword : 'testing',
+            //allowBallotItems
+            //Values : True or false
+            //Description : True to display items that are waiting to be ballot / already donated
+            allowBallotItems : false,
+            //location
+            //Values : string or ''
+            //Description : '' if user entered no location
+            location : '',
+            //itemCondition
+            //Values : 'New | SlightlyUsed | WellUsed' or '' 
+            //Description : '' if user entered nothing for itemCondition
             itemCondition : 'well used'
         }
 

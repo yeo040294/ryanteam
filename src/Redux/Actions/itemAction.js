@@ -215,15 +215,17 @@ export const donateItem = (itemData,history) => dispatch => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(itemData)
+
     })
         .then((res) => {
             if(!res.ok) throw res;
             return res.json();
         })
         .then((data) => {  
-            let itemResult = {}
-            item
-            dispatch({type : 'CLEAR_ERRORS'})
+            dispatch ({
+                type: 'GET_ITEMS',
+                payload:data
+            })
         })
         .catch((err) => {
             console.log(err)
