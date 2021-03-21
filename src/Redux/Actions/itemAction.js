@@ -177,9 +177,39 @@ export const ballotItem = (itemId) => dispatch => {
     });
 }
 
-export const searchItems = (itemData, history) => dispatch => {
+export const searchItems = (searchData, history) => dispatch => {
     let itemResults = {}
     fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item/search',{
+        method: 'POST',
+        headers : {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(searchData)
+    })
+        .then((res) => {
+            if(!res.ok) throw res;
+            return res.json();
+        })
+        .then((data) => {  
+            dispatch ({
+                type: 'GET_ITEMS',
+                payload:data
+            })
+        })
+        .catch((err) => {
+            console.log(err)
+            err.json().then((body)=>{
+                dispatch({
+                    type : 'SET_ERRORS',
+                    payload : body
+                })
+            })
+        });
+}
+
+export const donateItem = (itemData,history) => dispatch => {
+    let itemResults = {}
+    fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item/donate',{
         method: 'POST',
         headers : {
             'Content-Type': 'application/json'
@@ -205,4 +235,3 @@ export const searchItems = (itemData, history) => dispatch => {
             })
         });
 }
-
