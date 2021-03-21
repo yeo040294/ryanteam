@@ -7,6 +7,7 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import { getAvailableItems } from '../Redux/Actions/itemAction'
 import { bindActionCreators } from 'redux'
+import {Link} from 'react-router-dom';
 
 class Main extends Component {
     state = {
@@ -33,6 +34,7 @@ class Main extends Component {
     }
 
     render() {
+        
         return (
             <MDBContainer>
                 <MDBRow >
@@ -61,6 +63,14 @@ class Main extends Component {
                                     </MDBCol>
                                 )
                             })}
+                        </MDBRow>
+                        <MDBRow>
+                        {this.props.item.map(item => (
+                           <h1 key = {item.itemId}>
+                               <Link to = {`/itemDetails/${item.itemId}`}>{item.itemName}</Link>
+                               </h1>
+                        ))
+                        }
                         </MDBRow>
                     </MDBCol>
                 </MDBRow>

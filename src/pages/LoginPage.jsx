@@ -28,13 +28,13 @@ class LoginPage extends Component {
         this.setState({ customer:customer });
       }
 
-    //1. link button to this
+
     handleSubmit(){
         this.props.loginUser(this.state.customer, this.props.history)
         //3. display error - if user enters wrong login/pass the error state will be updated to
         //{error : general : "Wrong password"}
     }
-    
+
     render() {
         return (
             <MDBContainer >

@@ -3,11 +3,15 @@ import { Route, Switch } from 'react-router-dom';
 import Login from '../pages/LoginPage';
 import Search from '../pages/Search';
 import Listing from '../pages/Listing';
-import Admin from '../pages/Admin';
+import ApproveItems from '../pages/ApproveItems';
+import BallotItems from '../pages/BallotItems';
 import Donation from '../pages/Donation';
 import Main from '../pages/Main'
 import Signup from '../pages/Signup'
 import Profile from '../pages/Profile'
+import itemDetails from '../pages/ItemDetails'
+import DonationSummary from '../pages/DonationSummary'
+import RequestSummary from '../pages/RequestSummary'
 
 class Routes extends React.Component {
 
@@ -18,10 +22,14 @@ class Routes extends React.Component {
         <Route path='/login' component={Login} />
         <Route path='/search' component={Search} />
         <Route path='/listing' component={Listing} />
-        <Route path='/admin' component={Admin} />
+        <Route exact path='/admin/approveItems' component={ApproveItems} />
+        <Route exact path='/admin/ballotItems' component={BallotItems} />
         <Route path='/donation' component={Donation} />
         <Route path='/signup' component={Signup} />
-        <Route path='/profile' component={Profile} />
+        <Route exact path='/profile' component={Profile} />
+        <Route path = '/itemDetails/:itemId' component = {itemDetails}/>
+        <Route exact path = '/profile/donationSummary' component = {DonationSummary}/>
+        <Route exact path = '/profile/requestSummary' component = {RequestSummary}/>
         <Route
           render={function () {
             return <h1>Not Found</h1>;
