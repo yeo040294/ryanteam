@@ -18,7 +18,7 @@ class Search extends Component {
             //keyword
             //Values : string or ''
             //Description : '' if user entered no keywords
-            keyword : 'testing',
+            keyword : '',
             //allowBallotItems
             //Values : True or false
             //Description : True to display items that are waiting to be ballot / already donated
@@ -30,7 +30,7 @@ class Search extends Component {
             //itemCondition
             //Values : 'New | SlightlyUsed | WellUsed' or '' 
             //Description : '' if user entered nothing for itemCondition
-            itemCondition : 'well used'
+            itemCondition : 'WellUsed'
         }
 
         this.props.searchItems(searchData, this.props.history)
@@ -46,7 +46,7 @@ class Search extends Component {
                     <input type="button" onclick="myFunction()" value="Search"></input>
                 </form>
                 </MDBRow>
-                <button onClick = { () => {this.handleSearch()}}>click here to search</button>
+                <button onClick = { () => {this.handleSearch()}}>click here to search (hard coded in search.jsx)</button>
                  <h1>Searching for </h1>
                  {this.props.item.map(item => (
                            <h1 key = {item.itemId}>

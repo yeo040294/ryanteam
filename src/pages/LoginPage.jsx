@@ -14,6 +14,7 @@ class LoginPage extends Component {
             password : props.password
             }
         }
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     emailChanged(event) {
@@ -35,6 +36,15 @@ class LoginPage extends Component {
         //{error : general : "Wrong password"}
     }
 
+    componentDidMount() {
+        //For testing 
+        const userData = {
+            email : "lovecode@email.com",
+            password : "123456"
+        }
+        this.props.loginUser(userData, this.props.history)
+    }
+
     render() {
         return (
             <MDBContainer >
@@ -50,7 +60,7 @@ class LoginPage extends Component {
                             <MDBInput label="Password" icon="lock" group type="password" validate  value={this.state.customer.password} onChange={this.passwordChanged.bind(this)}/>
                             </div>
                             <div className="text-center">
-                            <MDBBtn onlick={this.handleSubmit(this)} color = "red" size = "lg" href= "http://localhost:3000">Login</MDBBtn>
+                            <MDBBtn onClick={() => {this.handleSubmit(this)}} color = "red" size = "lg" href= "http://localhost:3000">Login</MDBBtn>
                             <p></p>
                             <p> <a href="http://localhost:3000/signup" >Click here to sign up if don't have an account</a></p>
                             </div>

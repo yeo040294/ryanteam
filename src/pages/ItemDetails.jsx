@@ -23,17 +23,19 @@ class ItemDetails extends Component {
     }
 
     handleRequestItem(){
+        console.log("button is clicked")
         //can only request when user is login, <- enforce this in front-end
         const { match } = this.props;
         const matchUrl = match.url;
+        console.log("this is my match url: "+matchUrl)
         this.props.requestItem(matchUrl)
-        console.log(this.props.ui.message)
-        console.log(this.props.ui.errors)
+
         //look at dev tools
         //if successful, new message state
         //if unsuccessful new error state
-    }   
-
+    }
+    
+   
     render() {
         return (
             <div>
@@ -44,7 +46,7 @@ class ItemDetails extends Component {
                 <h3>{this.props.selectedItem.ballotTime}</h3>
                 <h3>{this.props.selectedItem.itemCondition}</h3>
                 <h3>{this.props.selectedItem.imageUrl}</h3>
-                <button onClick = {() => {this.handleRequestItem}}>Request for item</button>
+                <button onClick = {() => {this.handleRequestItem()}}>Request for item!</button>
             
             </div>
         )
@@ -53,8 +55,6 @@ class ItemDetails extends Component {
 
 const mapStateToProps = state => {
     return {
-        // Assigning the state properties into our propname
-        // propname  :  state.somefield
         user : state.user.user,
         selectedItem : state.item.selectedItem,
         ui : state.ui
