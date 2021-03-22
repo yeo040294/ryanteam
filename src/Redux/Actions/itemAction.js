@@ -237,3 +237,12 @@ export const donateItem = (itemData,history) => dispatch => {
             })
         });
 }
+
+export const getCollectionPoint = () => dispatch => {
+    fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/collectionPoint')
+    .then(res => res.json())
+    .then(data => dispatch({
+        type : 'GET_COLLECTION_POINTS',
+        payload : data 
+    }))
+}

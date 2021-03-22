@@ -12,6 +12,7 @@ import Profile from '../pages/Profile'
 import itemDetails from '../pages/ItemDetails'
 import DonationSummary from '../pages/DonationSummary'
 import RequestSummary from '../pages/RequestSummary'
+import Map from '../pages/Map'
 
 class Routes extends React.Component {
 
@@ -30,6 +31,7 @@ class Routes extends React.Component {
         <Route path = '/itemDetails/:itemId' component = {itemDetails}/>
         <Route exact path = '/profile/donationSummary' component = {DonationSummary}/>
         <Route exact path = '/profile/requestSummary' component = {RequestSummary}/>
+        <Route exact path = '/map' component = {Map}/>
         <Route
           render={function () {
             return <h1>Not Found</h1>;

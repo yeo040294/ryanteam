@@ -15,6 +15,7 @@ class LoginPage extends Component {
             }
         }
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleSignInImmediate = this.handleSignInImmediate.bind(this)
     }
 
     emailChanged(event) {
@@ -36,7 +37,7 @@ class LoginPage extends Component {
         //{error : general : "Wrong password"}
     }
 
-    componentDidMount() {
+    handleSignInImmediate() {
         //For testing 
         const userData = {
             email : "lovecode@email.com",
@@ -61,6 +62,7 @@ class LoginPage extends Component {
                             </div>
                             <div className="text-center">
                             <MDBBtn onClick={() => {this.handleSubmit(this)}} color = "red" size = "lg" href= "http://localhost:3000">Login</MDBBtn>
+                            <MDBBtn onClick={() => {this.handleSignInImmediate()}} color = "red" size = "lg">Sign in immediate with lovecode account</MDBBtn>
                             <p></p>
                             <p> <a href="http://localhost:3000/signup" >Click here to sign up if don't have an account</a></p>
                             </div>

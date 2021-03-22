@@ -119,6 +119,16 @@ class App extends Component {
                       <strong>Donation</strong>
                     </MDBNavLink>
                   </MDBNavItem>
+
+                  <MDBNavItem>
+                    <MDBNavLink
+                      onClick={this.closeCollapse('mainNavbarCollapse')}
+                      to='/map'
+                    >
+                      <strong>Map</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+
                 </MDBNavbarNav>
               </MDBCollapse>
             </MDBNavbar>
