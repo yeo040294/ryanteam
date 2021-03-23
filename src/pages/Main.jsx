@@ -20,12 +20,12 @@ class Main extends Component {
             console.log(element)
         });
         
-        console.log(this.props.Posts);
+        console.log(this.props.item);
     }
 
     FilterPosts = (id) => {
         //console.log(id);
-        let newPosts = this.props.Posts;
+        let newPosts = this.props.item;
         const result = newPosts.filter(x => x.category == id)
         this.setState(state => ({
             ...state,
@@ -56,21 +56,13 @@ class Main extends Component {
                     <MDBCol>
                         <h3>Popular Listings</h3>
                         <MDBRow>
-                        {this.props.Posts && this.props.Posts.map(x => {
+                        {this.props.item && this.props.item.map(x => {
                                 return (
                                     <MDBCol lg="4">
                                         <Card post={x} />
                                     </MDBCol>
                                 )
                             })}
-                        </MDBRow>
-                        <MDBRow>
-                        {this.props.item.map(item => (
-                           <h1 key = {item.itemId}>
-                               <Link to = {`/itemDetails/${item.itemId}`}>{item.itemName}</Link>
-                               </h1>
-                        ))
-                        }
                         </MDBRow>
                     </MDBCol>
                 </MDBRow>

@@ -44,6 +44,8 @@ class LoginPage extends Component {
             password : "123456"
         }
         this.props.loginUser(userData, this.props.history)
+        localStorage.setItem("userAuth", true);
+        console.log(localStorage.getItem("userAuth"));
     }
 
     render() {
