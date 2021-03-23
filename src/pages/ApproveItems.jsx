@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import { getAllUnapprovedItems, approveItem } from '../Redux/Actions/itemAction'
 import { getUserData } from '../Redux/Actions/userAction';
 import { bindActionCreators } from 'redux'
-import { Link } from 'react-router-dom';
 
 class ApproveItems extends Component {
 
@@ -17,16 +16,16 @@ class ApproveItems extends Component {
             loading: false}
     }
 
-    isLoading() {
-        document.getElementById("demo").style.cursor = "wait";
-    }
+    // isLoading() {
+    //     document.getElementById("demo").style.cursor = "wait";
+    // }
 
     componentDidMount() {
         this.props.getUserData()
-        console.log(this.props.user.credentials)
+        console.log("userData:", this.props.user.credentials)
         this.props.getAllUnapprovedItems()
-        localStorage.setItem('unapprovedItem', JSON.stringify(this.props.item));
-        console.log(this.props.item)
+        localStorage.setItem('unapprovedItem', JSON.stringify(this.props.unapproveditem));
+        console.log("approval items: ",this.props.unapproveditem)
         // this.props.item.forEach(element => {
         //     console.log(element)
         // });
@@ -50,9 +49,10 @@ class ApproveItems extends Component {
                 <MDBRow>
                     <MDBCol>
                         {this.state.loading && 
-                            <div > Loading...
-                            </div>}
-                        {!this.state.loading && <PendingItems item={this.props.item} approve={this.handleApproveItem} />}
+                            <div className="spinner-border text-danger" role="status">
+                            <span className="sr-only"></span>
+                          </div>}
+                        {!this.state.loading && <PendingItems item={this.props.unapproveditem} approve={this.handleApproveItem} />}
 
                     </MDBCol>
                 </MDBRow>
@@ -63,7 +63,7 @@ class ApproveItems extends Component {
 }
 const mapStateToProps = state => {
     return {
-        item: state.item.items,
+        unapproveditem: state.item.items,
         ui: state.ui,
         user: state.user
     }

@@ -20,7 +20,7 @@ const Card = ({ post }) => {
             Item condition: {post.itemCondition}
             <br />
             Item ballot status: {post.itemStatus}
-            Item id: {post.itemId}
+            {/* Item id: {post.itemId} */}
           </MDBCardText>
           <MDBBtn outline color="pink" href={`/itemDetails/${post.itemId}`} >View</MDBBtn>
         </MDBCardBody>
