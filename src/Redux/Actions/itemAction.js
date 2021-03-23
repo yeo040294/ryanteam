@@ -129,7 +129,7 @@ export const approveItem = (itemId) => dispatch => {
     })
     .then(data => {
         dispatch ({
-            type : 'SET_MESSAGE',
+            type : 'GET_ITEMS',
             payload : data
         })
         dispatch({type : 'CLEAR_ERRORS'})
@@ -161,7 +161,7 @@ export const ballotItem = (itemId) => dispatch => {
     })
     .then(data => {
         dispatch ({
-            type : 'SET_MESSAGE',
+            type : 'GET_ITEMS',
             payload : data
         })
         dispatch({type : 'CLEAR_ERRORS'})
