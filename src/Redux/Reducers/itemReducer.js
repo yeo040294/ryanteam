@@ -24,6 +24,12 @@ const itemReducers = (state = initState, action) => {
                 ...state,
                 searchlist: action.payload
             }
+        case 'ADD_ITEM':
+            return {
+                ...state,
+                addlist: action.payload
+            }
+
         case 'FETCH_POST':
             return {
                 ...state,

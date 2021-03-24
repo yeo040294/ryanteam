@@ -41,6 +41,14 @@ export const updateItem = (id, data) => dispatch => {
     })
 }
 
+export const addItem = (formdata) => dispatch => {
+    const db = firebase.firestore()
+    db.collection("items").doc(id).set({...formdata })
+    dispatch({
+        type: "ADD_ITEM",
+        payload: data
+    })
+}
 export const deleteItem = id => dispatch => {
     const db = firebase.firestore()
     db.collection("items").doc(id).delete()
