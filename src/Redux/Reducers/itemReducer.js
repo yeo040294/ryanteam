@@ -1,28 +1,38 @@
 const initState = {
-    items : [],
-    selectedItem : [],
-    collectionPoints : []
+    items: [],
+    selectedItem: [],
+    collectionPoints: [],
+    itemList: [],
+    searchlist: []
 }
 
 const itemReducers = (state = initState, action) => {
 
-    switch(action.type){
+    switch (action.type) {
         case 'GET_ITEMS':
-            return{
+            return {
                 ...state,
                 items: action.payload
             }
-
         case 'GET_ITEM':
-            return{
+            return {
                 ...state,
-                selectedItem : action.payload
+                selectedItem: action.payload
             }
-        
-        case 'GET_COLLECTION_POINTS':
-            return{
+        case 'SEARCH_ITEM':
+            return {
                 ...state,
-                collectionPoints : action.payload
+                selectedItem: action.payload
+            }
+        case 'FETCH_POST':
+            return {
+                ...state,
+                searchlist: action.payload
+            }
+        case 'GET_COLLECTION_POINTS':
+            return {
+                ...state,
+                collectionPoints: action.payload
             }
         default:
             return state;

@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBIcon } from 'mdbreact'
+import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBIcon, MDBInput } from 'mdbreact'
 import CarouselPage from '../components/CarouselPage'
 import Card from '../components/Card'
 import CategoriesBtn from '../components/CategoriesBtn'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { getAvailableItems } from '../Redux/Actions/itemAction'
+import { getAvailableItems, getAllItems, searchItem } from '../Redux/Actions/itemAction'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
@@ -13,35 +13,35 @@ class Main extends Component {
     state = {
         FilteredPosts: '',
         username: localStorage.getItem("username"),
-        usertype: localStorage.getItem("usertype")
+        usertype: localStorage.getItem("usertype"),
+        itemList: [],
+        search: '',
+        searchDisplay: false
     }
-
+    handleChange = (e) => {
+        this.setState({ [e.target.id]: e.target.value })
+    }
     componentDidMount() {
-        this.props.getAvailableItems()
-        this.props.item.forEach(element => {
-            console.log(element)
-        });
+        this.props.getAllItems()
     }
     validateLogin = () => {
         this.props.history.push('/logout')
     }
-
-    FilterPosts = (id) => {
-        //console.log(id);
-        let newPosts = this.props.item;
-        const result = newPosts.filter(x => x.category == id)
-        this.setState(state => ({
-            ...state,
-            FilteredPosts: result,
-        }));
+    searchitem = () =>{
+        this.props.searchItem(this.state.search)
     }
+    componentDidUpdate(){
+        if(this.state.search === ''){
 
-    render() {
-
+        }
+    }
+    render() { 
+        let PopularListing = this.props.itemlist.map(x => <MDBCol size="4"> <Card post={x} /> </MDBCol>)
+        
         return (
             <div>
                 <Navbar navigate={this.validateLogin} />
-                <br/>
+                <br />
                 <MDBContainer>
                     <MDBRow >
                         <MDBCol size>
@@ -61,14 +61,11 @@ class Main extends Component {
                     <MDBRow>
                         <MDBCol>
                             <h3>Popular Listings</h3>
+                            <MDBInput id="search" onChange={this.handleChange} value={this.state.search} label="Search" />
+                            <MDBBtn className='red-text pr-4 pl-4' onClick={this.searchitem} floating size="lg" color='white'>Search
+                            </MDBBtn>
                             <MDBRow>
-                                {this.props.item && this.props.item.map(x => {
-                                    return (
-                                        <MDBCol lg="4">
-                                            <Card post={x} />
-                                        </MDBCol>
-                                    )
-                                })}
+                                {!this.state.searchDisplay && PopularListing}
                             </MDBRow>
                         </MDBCol>
                     </MDBRow>
@@ -79,15 +76,9 @@ class Main extends Component {
                     <MDBRow>
                         <MDBCol>
                             <h3> Categories </h3>
-                            <CategoriesBtn posts={this.FilterPosts}></CategoriesBtn>
+
                             <MDBRow>
-                                {this.state.FilteredPosts && this.state.FilteredPosts.map(x => {
-                                    return (
-                                        <MDBCol lg="4">
-                                            <Card post={x} />
-                                        </MDBCol>
-                                    )
-                                })}
+
                             </MDBRow>
                         </MDBCol>
                     </MDBRow>
@@ -106,11 +97,13 @@ const mapStateToProps = state => {
     return {
         // Assigning the state properties into our propname
         // propname  :  state.somefield
-        item: state.item.items
+        item: state.item.items,
+        itemlist: state.item.itemList,
+        searchList: state.item.searchlist
     }
 }
 
 
 //connect is a function, returns a higher order component
 //higher order component is wrapping the home component
-export default connect(mapStateToProps, { getAvailableItems })(Main)
+export default connect(mapStateToProps, { getAvailableItems, getAllItems, searchItem })(Main)
