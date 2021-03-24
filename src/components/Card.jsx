@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 
 const Card = ({ post }) => {
+  console.log(post)
   return (
     <MDBCol>
       <MDBCard style={{ width: "22rem" }}>

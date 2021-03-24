@@ -13,6 +13,7 @@ import itemDetails from '../pages/ItemDetails'
 import DonationSummary from '../pages/DonationSummary'
 import RequestSummary from '../pages/RequestSummary'
 import Map from '../pages/Map'
+import Logout from '../pages/Logout'
 
 class Routes extends React.Component {
 
@@ -32,6 +33,7 @@ class Routes extends React.Component {
         <Route exact path = '/profile/donationSummary' component = {DonationSummary}/>
         <Route exact path = '/profile/requestSummary' component = {RequestSummary}/>
         <Route exact path = '/map' component = {Map}/>
+        <Route path = '/logout' component = {Logout}/>
         <Route
           render={function () {
             return <h1>Not Found</h1>;

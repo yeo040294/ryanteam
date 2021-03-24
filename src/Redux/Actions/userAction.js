@@ -1,5 +1,5 @@
 
-export const loginUser = (userData, history) => dispatch => {
+export const loginUser = (userData) => dispatch => {
     
      fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/login',{
         method: 'POST',
@@ -12,22 +12,14 @@ export const loginUser = (userData, history) => dispatch => {
             if(!res.ok) throw res;
             return res.json();
         })
-        .then((data) => {  
-            //console.log("data is" + data.general)
-
-            const FBIdToken = `Bearer ${data.token}`
-            localStorage.setItem('FBIdToken', `Bearer ${data.token}`)
-            dispatch(getUserData());
-            dispatch({type : 'CLEAR_ERRORS'})
-            history.push('/')
-            
-        })
+        .then(data => dispatch({
+            type: 'SET_AUTHENTICATED',
+            payload: data
+        }))
         .catch((err) => {
-            console.log(err)
             err.json().then((body)=>{
-                //console.log(body)
                 dispatch({
-                    type : 'SET_ERRORS',
+                    type : 'SET_AUTHENTICATED',
                     payload : body
                 })
             })
@@ -53,7 +45,7 @@ export const getUserData = () => (dispatch) => {
       .catch((err) => console.log(err));
   }
   
-export const registerUser = (userData, history) => dispatch => {
+export const registerUser = (userData) => dispatch => {
     fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/signup',{
         method: 'POST',
         headers : {
@@ -66,13 +58,10 @@ export const registerUser = (userData, history) => dispatch => {
             if(!res.ok) throw res;
             return res.json();
         })
-        .then((data) => {  
-            const FBIdToken = `Bearer ${data.token}`
-            localStorage.setItem('FBIdToken', `Bearer ${data.token}`)
-            dispatch({type : 'CLEAR_ERRORS'})
-            history.push('/')
-            
-        })
+        .then(data => dispatch({
+            type: 'USER_REGISTERED',
+            payload: data
+        }))
         .catch((err) => {
             console.log(err)
             err.json().then((body)=>{

@@ -1,27 +1,31 @@
 const initState = {
-    authenticated : false,
-    loading:false,
-    credentials : {},
-    requests : [],
-    notifications : []
+    loading: false,
+    credentials: {},
+    requests: [],
+    notifications: [],
+    response: []
 }
 
 const userReducer = (state = initState, action) => {
-    switch(action.type){
-        case 'SET_AUTHENTICATED': 
-            return{
+    switch (action.type) {
+        case 'SET_AUTHENTICATED':
+            return {
                 ...state,
-                authenticated : true
+                response: action.payload
             }
-
         case 'SET_UNAUTHENTICATED':
             return initState
 
         case 'SET_USER':
-            return{
-                authenticated : true,
-                loading : false,
+            return {
+                authenticated: true,
+                loading: false,
                 ...action.payload
+            }
+        case 'USER_REGISTERED':
+            return {
+                ...state,
+                response: action.payload
             }
 
         case 'LOADING_USER':

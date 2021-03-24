@@ -2,87 +2,89 @@ import React, { Component, useEffect } from 'react'
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdbreact';
 import { loginUser } from '../Redux/Actions/userAction'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import GuestNavbar from '../components/GuestNavBar';
+import Footer from '../components/Footer';
 
 class LoginPage extends Component {
 
-    constructor(props){
-        super(props)
-        this.state = {
-            customer:{
-            email : props.email,
-            password : props.password
-            }
-        }
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleSignInImmediate = this.handleSignInImmediate.bind(this)
+    // You don't have to this way, its long winded 
+    // constructor(props) {
+    //     super(props)
+    //     this.state = {
+    //         customer: {
+    //             email: props.email,
+    //             password: props.password
+    //         }
+    //     }
+    //     this.handleSubmit = this.handleSubmit.bind(this)
+    //     this.handleSignInImmediate = this.handleSignInImmediate.bind(this)
+    // }
+
+    //This way works the same
+    state = {
+        email: '',
+        password: ''
+    }
+    // Use functionName = () => {} instead of function(){} so dun have to write this.function.bind(this) syntax
+    handleChange = (e) => {
+        this.setState({ [e.target.id]: e.target.value })
     }
 
-    emailChanged(event) {
-        var customer        = this.state.customer;
-        customer.email  = event.target.value;
-        this.setState({ customer:customer });
-      }
-
-      passwordChanged(event) {
-        var customer        = this.state.customer;
-        customer.password  = event.target.value;
-        this.setState({ customer:customer });
-      }
-
-
-    handleSubmit(){
-        this.props.loginUser(this.state.customer, this.props.history)
-        //3. display error - if user enters wrong login/pass the error state will be updated to
-        //{error : general : "Wrong password"}
-    }
-
-    handleSignInImmediate() {
-        //For testing 
-        const userData = {
-            email : "lovecode@email.com",
-            password : "123456"
+    handleSubmit = () => {
+        // email: "lovecode@email.com",
+        // password: "123456"
+        const form = {
+            email: this.state.email,
+            password: this.state.password
         }
-        this.props.loginUser(userData, this.props.history)
-        localStorage.setItem("userAuth", true);
-        console.log(localStorage.getItem("userAuth"));
+        this.props.loginUser(form)
+    }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.logintoken.token) {
+            localStorage.setItem("token", nextProps.logintoken.token)
+            localStorage.setItem("username", this.state.email)
+            localStorage.setItem("usertype", "Normal User")
+            this.props.history.push('/')
+        }
+        else if (nextProps.logintoken.error) {
+            this.setState({ email: '', password: '' })
+            alert(nextProps.logintoken.error)
+        }
     }
 
     render() {
         return (
-            <MDBContainer >
-                <MDBRow >
-                    <MDBCol size= '12' >
-                        <h1>Welcome, User!</h1>
-                    </MDBCol>
-                    <MDBCol md="6">
-                        <form>
-                            <div className="grey-text">
-                            <MDBInput label="Email Address" icon="envelope" group type="email" validate error="wrong"
-                            success="right"  value={this.state.customer.email} onChange={this.emailChanged.bind(this)}/>
-                            <MDBInput label="Password" icon="lock" group type="password" validate  value={this.state.customer.password} onChange={this.passwordChanged.bind(this)}/>
-                            </div>
-                            <div className="text-center">
-                            <MDBBtn onClick={() => {this.handleSubmit(this)}} color = "red" size = "lg" href= "http://localhost:3000">Login</MDBBtn>
-                            <MDBBtn onClick={() => {this.handleSignInImmediate()}} color = "red" size = "lg">Sign in immediate with lovecode account</MDBBtn>
-                            <p></p>
-                            <p> <a href="http://localhost:3000/signup" >Click here to sign up if don't have an account</a></p>
-                            </div>
-                        </form>
+            <div>
+                <GuestNavbar />
+                <MDBContainer >
+                    <br/>
+                    <MDBRow>
+                        <MDBCol md="12">
+                            <h3 className="pink-text">Welcome to SecondLove</h3>
+                            <hr />
+                            <form>
+                                <div className="grey-text">
+                                    <MDBInput label="Email Address" id="email" icon="envelope" onChange={this.handleChange} group type="email" validate error="wrong" success="right" value={this.state.email} />
+                                    <MDBInput label="Password" icon="lock" group type="password" onChange={this.handleChange} id="password" validate value={this.state.password} />
+                                </div>
+                                <div className="text-center">
+                                    <MDBBtn onClick={this.handleSubmit} color="red" size="lg">Login</MDBBtn>
+                                    <p></p>
+                                    <p> <a href="http://localhost:3000/signup" >Click here to sign up if don't have an account</a></p>
+                                </div>
+                            </form>
                         </MDBCol>
-
-                </MDBRow>
-            </MDBContainer>
+                    </MDBRow>
+                </MDBContainer>
+                <br/>
+                <Footer />
+            </div>
         )
     }
 }
-const mapStateToProps = state => {
-    return {
-        user : state.user
-    }
-}
-
-const mapDispatchToProps = dispatch => bindActionCreators({loginUser} , dispatch);
+const mapStateToProps = state => ({
+    logintoken: state.user.response
+});
 
 //export default LoginPage
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)
+export default connect(mapStateToProps, { loginUser })(LoginPage)
