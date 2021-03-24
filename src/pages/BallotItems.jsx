@@ -12,16 +12,24 @@ class BallotItems extends Component {
     constructor(props) {
         super(props)
         this.handleBallotItem = this.handleBallotItem.bind(this)
-        state= {
+        this.state= {
+            //ballot: [],
             isLoading: false
         }
-    }
+    };
 
     componentDidMount() {
         this.props.getAllBallotItems()
-        console.log(this.props.items)
+        console.log("ballot items:", this.props.ballotItems)
         this.props.getUserData()
-        console.log(this.props.user.credentials)
+        console.log("userData:", this.props.user.credentials)
+        // this.setState(() => ({
+        //     ...state,
+        //     item: {
+        //       ...this.state.ballot,
+        //       ballot:this.props.ballotItems
+        //     }
+        //   }));
         // this.props.item.forEach(element => {
         //     console.log(element)
         // });
@@ -36,15 +44,14 @@ class BallotItems extends Component {
             alert("Unauthorised. Please login as admin first.");
             this.props.history.push('/login');
         }
-
-
     }
-    display = this.props.item.map((eachItem) => {
-        console.log(this.props.item)
+
+    display = this.props.ballotItems.length? this.props.ballotItems.map((eachItem) => {
+        console.log(this.props.ballotItems)
         return (
             <tr>
                 <td><img src={eachItem.imageUrl}
-                    width='200' height='200' className="img-fluid" alt="item image"></img></td>
+                    width='200' height='200' className="img-fluid" alt="ballotItem image"></img></td>
                 <td><div>Item name: {eachItem.itemName}</div>
                     <div>Item condition: {eachItem.itemCondition}</div></td>
                 <td>{eachItem.location}</td>
@@ -55,7 +62,7 @@ class BallotItems extends Component {
                 </td>
             </tr>
         )
-    })
+    }) : "Empty";
 
     render() {
         return (
@@ -63,14 +70,6 @@ class BallotItems extends Component {
                 <MDBRow>
                     <MDBCol>
                         <div>
-                            {/* 
-                            {this.props.item.map(item => (
-                                <h1 key={item.itemId}>
-                                    {item.itemName}
-                                    <button onClick={() => { this.handleBallotItem(item.itemId) }}>ballot item</button>
-                                </h1>
-                            ))
-                            } */}
                             <h3>Ballot Items</h3>
                             <hr />
                             <MDBTable striped>
@@ -96,7 +95,7 @@ class BallotItems extends Component {
 }
 const mapStateToProps = state => {
     return {
-        item: state.item.items,
+        ballotItems: state.item.items,
         ui: state.ui,
         user: state.user
     }

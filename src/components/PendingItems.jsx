@@ -12,7 +12,7 @@ export default class PendingItems extends Component {
     }
 
     display = this.state.item.map((eachItem) => {
-        console.log(this.props.item.filter(x => x.approved === false).length)
+        console.log("no. of unapproved items",this.props.item.filter(x => x.approved === false).length)
         return (
             <tr>
                 <td><img src={eachItem.imageUrl}
