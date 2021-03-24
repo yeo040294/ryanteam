@@ -44,12 +44,6 @@ class Navbar extends Component {
                         onClick={this.toggleCollapse('mainNavbarCollapse')}
                     />
                     <MDBCollapse id='mainNavbarCollapse' isOpen={collapseID} navbar>
-                        <MDBNavbar middle>
-                            <form id="searchQuery" action="/action_page.php">
-                                <input type="text" name="query" placeholder="search SecondLove"></input>
-                                <input type="button" onclick={this.closeCollapse('mainNavbarCollapse')} to='/search' value="Search"></input>
-                            </form>
-                        </MDBNavbar>
                         <MDBNavbarNav right>
                             <MDBNavItem>
                                 <MDBNavLink
@@ -66,14 +60,6 @@ class Navbar extends Component {
                                     to='/profile'
                                 >
                                     <strong>Profile</strong>
-                                </MDBNavLink>
-                            </MDBNavItem>
-                            <MDBNavItem>
-                                <MDBNavLink
-                                    onClick={this.closeCollapse('mainNavbarCollapse')}
-                                    to='/search'
-                                >
-                                    <strong>Search</strong>
                                 </MDBNavLink>
                             </MDBNavItem>
                             <MDBNavItem>

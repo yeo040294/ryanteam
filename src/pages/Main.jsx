@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBIcon, MDBInput } from 'mdbreact'
 import CarouselPage from '../components/CarouselPage'
 import Card from '../components/Card'
@@ -20,6 +20,10 @@ class Main extends Component {
     }
     handleChange = (e) => {
         this.setState({ [e.target.id]: e.target.value })
+        if (this.state.search !== '')
+            this.setState({ searchDisplay: true })
+        else
+            this.setState({ searchDisplay: false })
     }
     componentDidMount() {
         this.props.getAllItems()
@@ -27,17 +31,18 @@ class Main extends Component {
     validateLogin = () => {
         this.props.history.push('/logout')
     }
-    searchitem = () =>{
+    onKeyPress = (e) => {
+        if (e.key === 'Enter')
+            this.searchitem()
+    }
+    searchitem = () => {
         this.props.searchItem(this.state.search)
     }
-    componentDidUpdate(){
-        if(this.state.search === ''){
 
-        }
-    }
-    render() { 
+    render() {
         let PopularListing = this.props.itemlist.map(x => <MDBCol size="4"> <Card post={x} /> </MDBCol>)
-        
+        let SearchListing = this.props.searchList.map(x => <MDBCol size="4"> <Card post={x} /> </MDBCol>)
+        let searchResult = (this.props.searchList.length !== 0) ? <MDBRow> <MDBCol size="12"><h3>Search Results</h3> <br />{SearchListing}</MDBCol></MDBRow> : <React.Fragment></React.Fragment>
         return (
             <div>
                 <Navbar navigate={this.validateLogin} />
@@ -58,14 +63,13 @@ class Main extends Component {
                     <br />
                     <br />
 
+                    {searchResult}
                     <MDBRow>
                         <MDBCol>
                             <h3>Popular Listings</h3>
-                            <MDBInput id="search" onChange={this.handleChange} value={this.state.search} label="Search" />
-                            <MDBBtn className='red-text pr-4 pl-4' onClick={this.searchitem} floating size="lg" color='white'>Search
-                            </MDBBtn>
+                            <MDBInput id="search" onChange={this.handleChange} onKeyDown={this.onKeyPress} value={this.state.search} label="Search" />
                             <MDBRow>
-                                {!this.state.searchDisplay && PopularListing}
+                                {PopularListing}
                             </MDBRow>
                         </MDBCol>
                     </MDBRow>

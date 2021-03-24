@@ -22,12 +22,12 @@ const itemReducers = (state = initState, action) => {
         case 'SEARCH_ITEM':
             return {
                 ...state,
-                selectedItem: action.payload
+                searchlist: action.payload
             }
         case 'FETCH_POST':
             return {
                 ...state,
-                searchlist: action.payload
+                itemList: action.payload
             }
         case 'GET_COLLECTION_POINTS':
             return {

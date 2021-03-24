@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Login from '../pages/LoginPage';
-import Search from '../pages/Search';
 import Listing from '../pages/Listing';
 import ApproveItems from '../pages/ApproveItems';
 import BallotItems from '../pages/BallotItems';
@@ -22,7 +21,6 @@ class Routes extends React.Component {
       <Switch>
         <Route exact path='/' component={Main} />
         <Route path='/login' component={Login} />
-        <Route path='/search' component={Search} />
         <Route path='/listing' component={Listing} />
         <Route exact path='/admin/approveItems' component={ApproveItems} />
         <Route exact path='/admin/ballotItems' component={BallotItems} />
