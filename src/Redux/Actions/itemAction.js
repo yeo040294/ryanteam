@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export const getAvailableItems = () => dispatch => {
     fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/items')
     .then(res => res.json())
@@ -238,15 +240,14 @@ export const searchItems = (searchData, history) => dispatch => {
         });
 }
 
-export const donateItem = (itemData,history) => dispatch => {
-    let itemResults = {}
-    fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item/donate',{
+export const donateItem = (itemData, history) => dispatch => {
+    fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item',{
         method: 'POST',
         headers : {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization' : localStorage.FBIdToken
         },
         body: JSON.stringify(itemData)
-
     })
         .then((res) => {
             if(!res.ok) throw res;
@@ -254,7 +255,7 @@ export const donateItem = (itemData,history) => dispatch => {
         })
         .then((data) => {  
             dispatch ({
-                type: 'GET_ITEMS',
+                type: 'GET_ITEM',
                 payload:data
             })
         })
@@ -269,6 +270,7 @@ export const donateItem = (itemData,history) => dispatch => {
         });
 }
 
+
 export const getCollectionPoint = () => dispatch => {
     fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/collectionPoint')
     .then(res => res.json())
@@ -277,3 +279,21 @@ export const getCollectionPoint = () => dispatch => {
         payload : data 
     }))
 }
+
+export const uploadItemImage = (formData) => (dispatch) => {
+    dispatch({ type: 'LOADING_USER' });
+    axios
+      .post(`https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item/image`, formData,
+      {
+          headers : {
+            Authorization : localStorage.FBIdToken
+            }
+      })
+      .then((res) => {
+        dispatch({
+            type : 'SET_MESSAGE',
+            payload : res.data
+        })
+      })
+      .catch((err) => console.log(err));
+  };

@@ -1,7 +1,9 @@
 import { MDBCol, MDBContainer, MDBRow, MDBInput, MDBBtn} from 'mdbreact'
-import React, { Component } from 'react'
-import { donateItem } from '../Redux/Actions/itemAction'
-//import GoogleMap from '../components/GoogleMap'
+import React, { Component, useState } from 'react'
+import { donateItem, uploadItemImage } from '../Redux/Actions/itemAction'
+import {connect} from 'react-redux'
+import { bindActionCreators } from 'redux'
+
 
  class Donation extends Component {
     constructor(props){
@@ -10,6 +12,7 @@ import { donateItem } from '../Redux/Actions/itemAction'
           file: null
         }
         this.previewImage = this.previewImage.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
     previewImage(event) {
         this.setState({
@@ -29,12 +32,31 @@ import { donateItem } from '../Redux/Actions/itemAction'
       }
 
     handleSubmit() {
-        this.props.donateItem(this.state.file, this.props.history) // componentDidMount
+      console.log("handle sumbit button is clicked clacked")
+      console.log(this.props.ui)
+      const itemData =  {
+        itemName : "dolphindddd collection",
+        description : "bruhtesting007",
+        category : "toys",
+        itemCondition : "WellUsed",
+        imageUrl :this.props.ui
+      }
+      this.props.donateItem(itemData, this.props.history) // componentDidMount
     }
 
+    handleImageChange = (event) => {
+      
+      const image = event.target.files[0];
+      const formData = new FormData();
+      formData.append('image', image, image.name);
+      this.props.uploadItemImage(formData);
+    };
 
+    handleEditPicture = () => {
+      const fileInput = document.getElementById('imageInput');
+      fileInput.click();
+    };
     render() {
-        
         return (
             <MDBContainer>
                 <MDBRow>
@@ -53,7 +75,10 @@ import { donateItem } from '../Redux/Actions/itemAction'
                         <option value={3}>Electronics</option>
                         </select>
                         
-                        <p></p>
+                        <p>
+                        <input type = "file" id = "imageInput" onChange = {this.handleImageChange} />
+                        <button onClick={this.handleEditPicture}>Upload</button>
+                        </p>
 
                         <h6>Upload Image</h6>
                         <MDBInput type="file"  id="inputGroupFile01" onChange={this.previewImage} /> 
@@ -67,10 +92,24 @@ import { donateItem } from '../Redux/Actions/itemAction'
                         {/* <GoogleMap /> */}
                     </MDBCol>
                 </MDBRow>
-                <MDBBtn color="mdb-color" outline onPress={this.handleSubmit}>Upload </MDBBtn>
+                {/**<MDBBtn color="mdb-color" outline onPress={this.handleSubmit}>Upload </MDBBtn> */}
+                <button onClick = {() => {this.handleSubmit()}}>Donate item</button>
+
             </MDBContainer>
 
         )
     }
 }
-export default Donation
+const mapStateToProps = state => {
+  return {
+      item : state.item.items,
+      ui : state.ui.message
+  }
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators(
+      {uploadItemImage, donateItem}
+  , dispatch);
+
+
+  export default connect(mapStateToProps, mapDispatchToProps)(Donation)
