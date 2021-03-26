@@ -6,8 +6,19 @@ import Routes from '../router/Routes';
 import {connect} from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { logoutUser } from '../Redux/Actions/userAction'
+import History from './History';
 
 class UserNavbar extends Component {
+
+  constructor(props){
+    super(props)
+    this.state = {
+        input : ''
+    }
+    this.submitAction = this.submitAction.bind(this)
+    this.setNewInputValue = this.setNewInputValue.bind(this)
+}
+
   state = {
     collapseID: ''
   };
@@ -22,6 +33,37 @@ class UserNavbar extends Component {
     window.scrollTo(0, 0);
     collapseID === collID && this.setState({ collapseID: '' });
   };
+
+  componentDidMount(){
+    // get all the URLParams
+    const params = new URLSearchParams(location.search);
+    // get the q param
+    const q = params.get('q');
+
+    //eslint-disable-next-line
+  }
+
+  submitAction = (e) => {
+      console.log("the stuff you submitted is here: " + this.state.input)
+      
+    // prevents default, so page won't reload on form submit
+    e.preventDefault();
+
+    // add query string to URL
+    History.push('/search?keyword=' + this.state.input);
+    // clear the input
+    this.setState({
+        input : ''
+    })
+    
+  }
+
+  setNewInputValue = (e) => {
+      this.setState({
+          input : e.target.value
+      })
+      console.log(e.target.value)
+  }
 
   render() {
     const overlay = (
@@ -47,9 +89,22 @@ class UserNavbar extends Component {
               />
               <MDBCollapse id='mainNavbarCollapse' isOpen={collapseID} height = '30' navbar>
                 
-                <form id="searchQuery">
-                    <input type="text" name="query" placeholder="search SecondLove"></input>
-                    <input type="button" onclick={this.closeCollapse('mainNavbarCollapse')}to='/search' value="Search"></input>
+              <form id="searchQuery" onSubmit = {this.submitAction}>
+                    <div className='input-group'>
+                        <input 
+                        type="text"
+                        className='form-control'
+                        placeholder="Find your second love"
+                        value = { this.state.input }
+                        onChange = {this.setNewInputValue}/>
+                        {/** <input type="button" onclick={this.closeCollapse('mainNavbarCollapse')}to='/search' value="Search"></input>*/}
+                
+                        <div className='input-group-append'>
+                            <button type='submit'>
+                            Search
+                            </button>
+                        </div>
+                    </div>
                 </form>
                 
                 <MDBNavbarNav right>

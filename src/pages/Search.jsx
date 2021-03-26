@@ -4,13 +4,25 @@ import { MDBContainer, MDBRow, MDBCol } from "mdbreact"
 import { searchItems } from '../Redux/Actions/itemAction'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 class Search extends Component {
 
     constructor(props){
         super(props)
+        this.state = {
+            keyword : ''
+        }
+        //only need to bind when you changing current state
         this.handleSearch = this.handleSearch.bind(this)
+    }
+
+    componentDidMount(){
+        const searchParams = new URLSearchParams(this.props.location.search)
+        const fatKeyword = searchParams.get('keyword')
+        this.setState({
+            keyword : fatKeyword
+        })
     }
 
     handleSearch(){
@@ -40,14 +52,9 @@ class Search extends Component {
     render() {
         return (
             <MDBContainer>
-                <MDBRow>
-                <form id="searchQuery" action="/action_page.php">
-                    <input type="text" name="query" placeholder="search SecondLove"></input>
-                    <input type="button" onclick="myFunction()" value="Search"></input>
-                </form>
-                </MDBRow>
+            
                 <button onClick = { () => {this.handleSearch()}}>click here to search (hard coded in search.jsx)</button>
-                 <h1>Searching for </h1>
+                 <h1>Searching for {this.state.keyword}</h1>
                  {this.props.item.map(item => (
                            <h1 key = {item.itemId}>
                                <Link to = {`/itemDetails/${item.itemId}`}>{item.itemName}</Link>

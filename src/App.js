@@ -10,13 +10,14 @@ import AdminNavbar from './components/AdminNavbar'
 import UserNavbar from './components/UserNavbar'
 import GuestNavbar from './components/GuestNavbar'
 import {connect} from 'react-redux'
+import History from './components/History'
 
 class App extends Component {
 
   render() {
     return (
       <Provider store={Store}>
-        <Router>
+        <Router history = {History}>
         {/**< Navbar />  :=D */}
           {this.props.user.authenticated &&
            this.props.user.isAdmin && <AdminNavbar/>}
