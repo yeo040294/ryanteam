@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { MDBContainer, MDBRow, MDBCol, MDBTable, MDBTableBody, MDBTableHead, MDBBtn, MDBIcon } from "mdbreact";
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux'
@@ -15,24 +16,46 @@ class DonationSummary extends Component {
     this.props.getUserData()
   }
 
+  display = this.props.user.items.map((item) => {
+    console.log(this.props.user.items)
+    return (
+      <tr>
+        <td><img src={item.img}
+        width = '200' height= '200' className="img-fluid"></img></td>
+        <td><div>{item.itemName} </div></td>
+        <td><div>{item.itemStatus} </div></td>
+      </tr>
+    )
+  })
+
     render() {
-      return <div>
-        <h1>donation summary page</h1>
-        {
-            this.props.user.items.map(item => (
-                <h2 key = {item.itemId}>
-                {item.itemName}
-                {item.itemStatus}
-                </h2>
-            ))
-        }
-        
-        <Link to = "/profile">
-        <button>go back</button>
-        </Link>
-      </div>
+      return (
+        <MDBContainer>
+                <MDBRow>
+                    <MDBCol>
+                        <div>
+                            <h3>Donation summary</h3>
+                            <hr />
+                            <MDBTable striped>
+                                <MDBTableHead>
+                                    <tr>
+                                        <th>Picture</th>
+                                        <th>Item name</th>
+                                        <th>Item status</th>
+                                    </tr>
+                                </MDBTableHead>
+                                <MDBTableBody>
+                                    {this.display}
+                                </MDBTableBody>
+                            </MDBTable>
+                        </div>
+                    </MDBCol>
+                </MDBRow>
+            </MDBContainer>
+      )
     }
 }
+
 const mapStateToProps = (state) => ({
     user: state.user
   });
