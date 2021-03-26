@@ -29,6 +29,12 @@ const initialState = {
             ...state,
             message : action.payload
           }
+        case 'CLEAR_MESSAGE' :
+          return {
+            ...state,
+            message : ""
+          }
+          
       default:
         return state;
     }

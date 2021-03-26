@@ -32,6 +32,7 @@ class LoginPage extends Component {
 
 
     handleSubmit(){
+        console.log(this.state.customer)
         this.props.loginUser(this.state.customer, this.props.history)
         //3. display error - if user enters wrong login/pass the error state will be updated to
         //{error : general : "Wrong password"}
@@ -63,7 +64,7 @@ class LoginPage extends Component {
                             <MDBInput label="Password" icon="lock" group type="password" validate  value={this.state.customer.password} onChange={this.passwordChanged.bind(this)}/>
                             </div>
                             <div className="text-center">
-                            <MDBBtn onClick={() => {this.handleSubmit(this)}} color = "red" size = "lg" href= "http://localhost:3000">Login</MDBBtn>
+                            <MDBBtn onClick={() => {this.handleSubmit(this)}} color = "red" size = "lg">Login</MDBBtn>
                             <MDBBtn onClick={() => {this.handleSignInImmediate()}} color = "red" size = "lg">Sign in immediate with lovecode account</MDBBtn>
                             <p></p>
                             <p> <a href="http://localhost:3000/signup" >Click here to sign up if don't have an account</a></p>

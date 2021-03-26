@@ -1,6 +1,7 @@
 const initState = {
     authenticated : false,
     loading:false,
+    isAdmin:false,
     credentials : {},
     requests : [],
     notifications : []
@@ -19,16 +20,30 @@ const userReducer = (state = initState, action) => {
 
         case 'SET_USER':
             return{
+                isAdmin:false,
                 authenticated : true,
                 loading : false,
                 ...action.payload
             }
+
+        case 'SET_ADMIN':
+        return{
+            authenticated : true,
+            loading : false,
+            isAdmin : true,
+            ...action.payload
+        }
 
         case 'LOADING_USER':
             return {
                 ...state,
                 loading: true
             };
+
+        case 'LOG_OUT' :
+            return {
+                ...initState
+            }
         default:
             return state;
     }

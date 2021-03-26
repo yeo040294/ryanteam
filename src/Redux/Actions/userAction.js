@@ -45,10 +45,19 @@ export const getUserData = () => (dispatch) => {
     })
     .then((res) => res.json())
     .then((data) => {
-        dispatch({
-          type: 'SET_USER',
-          payload: data
-        });
+        if(data.credentials.isAdmin){
+            dispatch({
+                type: 'SET_ADMIN',
+                payload: data
+              });
+        }
+        else{
+            dispatch({
+                type: 'SET_USER',
+                payload: data
+              });
+        }
+        
       })
       .catch((err) => console.log(err));
   }
@@ -83,4 +92,8 @@ export const registerUser = (userData, history) => dispatch => {
                 })
             })
         });
+}
+
+export const logoutUser = () => dispatch => {
+    dispatch({type : 'LOG_OUT'})
 }
