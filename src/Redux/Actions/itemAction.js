@@ -45,10 +45,13 @@ export const getItem = (matchUrl) => dispatch => {
     let url = `https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item/${arr[2]}`
     fetch(url)
     .then((res) => res.json())
-    .then(data => dispatch ({
-        type : 'GET_ITEM',
-        payload : data
-    }))
+    .then(data => {
+        dispatch({type : 'CLEAR_SELECTED_ITEM'})
+        dispatch ({
+            type : 'GET_ITEM',
+            payload : data
+        })
+    })
 }
 
 export const requestItem = (matchUrl) => dispatch => {
@@ -66,6 +69,7 @@ export const requestItem = (matchUrl) => dispatch => {
         return res.json();
     })
     .then(data => {
+        dispatch({ type : 'CLEAR_MESSAGE'})
         dispatch ({
             type : 'SET_MESSAGE',
             payload : data
@@ -84,7 +88,7 @@ export const requestItem = (matchUrl) => dispatch => {
 
 }
 
-export const unrequestItem = (itemId) => dispatch => {
+export const unrequestItem = (itemId, history) => dispatch => {
     fetch(`https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item/${itemId}/unrequest`,
     {
         method: 'GET',
@@ -103,6 +107,8 @@ export const unrequestItem = (itemId) => dispatch => {
             payload : data
         })
         dispatch({type : 'CLEAR_ERRORS'})
+        dispatch(getRequestByUser());
+        history.push('/profile/requestSummary')
     })
     .catch((err) => {
         console.log(err)
@@ -300,6 +306,35 @@ export const uploadItemImage = (formData) => (dispatch) => {
       .catch((err) => console.log(err));
   };
 
-  export const clearSelectedItem = () => dispatch => {
+export const clearSelectedItem = () => dispatch => {
     dispatch({type : 'CLEAR_SELECTED_ITEM'})
+}
+
+export const getRequestByUser = () => dispatch => {
+    fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/user/requests',{
+        method: 'GET',
+        headers : {
+            'Content-Type': 'application/json',
+            'Authorization' : localStorage.FBIdToken
+        }
+    })
+        .then((res) => {
+            if(!res.ok) throw res;
+            return res.json();
+        })
+        .then((data) => {  
+            dispatch ({
+                type: 'SET_REQUEST_LIST',
+                payload:data
+            })
+        })
+        .catch((err) => {
+            console.log(err)
+            err.json().then((body)=>{
+                dispatch({
+                    type : 'SET_ERRORS',
+                    payload : body
+                })
+            })
+        });
 }

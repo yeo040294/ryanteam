@@ -20,6 +20,7 @@ const userReducer = (state = initState, action) => {
 
         case 'SET_USER':
             return{
+                ...state,
                 isAdmin:false,
                 authenticated : true,
                 loading : false,
@@ -28,6 +29,7 @@ const userReducer = (state = initState, action) => {
 
         case 'SET_ADMIN':
         return{
+            ...state,
             authenticated : true,
             loading : false,
             isAdmin : true,

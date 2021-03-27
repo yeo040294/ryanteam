@@ -7,9 +7,9 @@ import { bindActionCreators } from 'redux'
 
 //Redux
 import { connect } from 'react-redux';
-import { getUserData } from '../Redux/Actions/userAction';
-import { unrequestItem } from '../Redux/Actions/itemAction'
-import GoogleMap from '../components/GoogleMap';
+//import { getUserData } from '../Redux/Actions/userAction';
+import { unrequestItem, getRequestByUser } from '../Redux/Actions/itemAction'
+
 
 class RequestSummary extends Component {
 
@@ -17,48 +17,69 @@ class RequestSummary extends Component {
         super(props)
         this.handleUnrequest = this.handleUnrequest.bind(this)
     }
-
+    //only ran after refresh ah
     componentDidMount(){
-        this.props.getUserData()
+        this.props.getRequestByUser()
     }
 
     handleUnrequest(itemId){
-        this.props.unrequestItem(itemId)
+        this.props.unrequestItem(itemId, this.props.history)
     }
 
-    display = this.props.user.requests.map((request) => {
-      console.log(this.props.user.request)
-      return (
-        <tr>
-          <td><img src={request.imageUrl}
-          width = '200' height= '200' className="img-fluid"></img></td>
-          <td><div>{request.itemName} </div></td>
-          <td><div>{request.requestStatus} </div></td>
-          <MDBBtn color="success" onClick={() => this.handleUnrequest(request.itemId)}>
-                        <MDBIcon icon="check" className="mr-1" /> Cancel request
-                                            </MDBBtn>
-        </tr>
-      )
-    })
+    // display = this.props.user.requests.map((request) => {
+    //   console.log(this.props.user.request)
+    //   return (
+    //     <tr>
+    //       <td><img src={request.imageUrl}
+    //       width = '200' height= '200' className="img-fluid"></img></td>
+    //       <td><div>{request.itemName} </div></td>
+    //       <td><div>{request.requestStatus} </div></td>
+    //       <MDBBtn color="red" onClick={() => this.handleUnrequest(request.itemId)}>
+    //                     <MDBIcon icon="ban" className="mr-1" /> Cancel request
+    //                                         </MDBBtn>
+    //     </tr>
+    //   )
+    // })
   
       render() {
+        console.log("re-rendering ...")
         return (
           <MDBContainer>
                   <MDBRow>
                       <MDBCol>
                           <div>
-                              <h3>Request summary</h3>
+                              <h3>Requests summary</h3>
                               <hr />
                               <MDBTable striped>
                                   <MDBTableHead>
                                       <tr>
-                                          <th>Picture</th>
-                                          <th>Item name</th>
+                                          <th>RequestId</th>
+                                          <th>RequestDate</th>
+                                          <th>View item</th>
                                           <th>Request status</th>
                                       </tr>
                                   </MDBTableHead>
                                   <MDBTableBody>
-                                      {this.display}
+                                      {this.props.requests.map((request) => {
+                                        {console.log('hey this is the request name = ' + request.requestId)}
+                                        return (
+                                          <tr>
+                                          <td>{request.requestId}</td>
+                                          <td><div>{request.createdAt} </div></td>
+                                          <td>
+                                            <Link to = {`/itemDetails/${request.itemId}`}>
+                                                {request.itemName}
+                                            </Link>  
+                                          </td>
+                                          <td>{request.requestStatus}</td>
+                                          <MDBBtn color="red" onClick={() => this.handleUnrequest(request.itemId)}>
+                                                        <MDBIcon icon="ban" className="mr-1" /> Cancel request
+                                                                            </MDBBtn>
+                                                                            
+                                        </tr>
+                                        )
+                                      })}
+                                      {/*this.display*/}
                                   </MDBTableBody>
                               </MDBTable>
                           </div>
@@ -70,7 +91,7 @@ class RequestSummary extends Component {
   }
 
 const mapStateToProps = (state) => ({
-    user: state.user
+    requests : state.item.requestList
   });
   
   RequestSummary.propTypes = {
@@ -78,7 +99,7 @@ const mapStateToProps = (state) => ({
   };
 
   const mapDispatchToProps = dispatch => bindActionCreators(
-    { getUserData, unrequestItem }
+    { getRequestByUser, unrequestItem }
 , dispatch);
 
   
