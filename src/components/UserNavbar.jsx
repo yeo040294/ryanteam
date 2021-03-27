@@ -15,7 +15,7 @@ class UserNavbar extends Component {
     this.state = {
         input : ''
     }
-    this.submitAction = this.submitAction.bind(this)
+    this.submitSearch = this.submitSearch.bind(this)
     this.setNewInputValue = this.setNewInputValue.bind(this)
 }
 
@@ -43,7 +43,7 @@ class UserNavbar extends Component {
     //eslint-disable-next-line
   }
 
-  submitAction = (e) => {
+  submitSearch = (e) => {
       console.log("the stuff you submitted is here: " + this.state.input)
       
     // prevents default, so page won't reload on form submit
@@ -88,8 +88,8 @@ class UserNavbar extends Component {
                 onClick={this.toggleCollapse('mainNavbarCollapse')}
               />
               <MDBCollapse id='mainNavbarCollapse' isOpen={collapseID} height = '30' navbar>
-                
-              <form id="searchQuery" onSubmit = {this.submitAction}>
+              {/**<form id="searchQuery" onSubmit = {this.submitAction}> */}
+              <form id="searchQuery">
                     <div className='input-group'>
                         <input 
                         type="text"
@@ -100,7 +100,7 @@ class UserNavbar extends Component {
                         {/** <input type="button" onclick={this.closeCollapse('mainNavbarCollapse')}to='/search' value="Search"></input>*/}
                 
                         <div className='input-group-append'>
-                            <button type='submit'>
+                            <button type='submit' onClick = {this.submitSearch}>
                             Search
                             </button>
                         </div>

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { MDBCol, MDBContainer, MDBRow, MDBInput, MDBBtn, MDBCardImage} from 'mdbreact'
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux'
 
@@ -12,20 +12,42 @@ import GoogleMap from '../components/GoogleMap';
 class Profile extends Component {
 
   componentDidMount(){
-    this.props.getUserData()
-    console.log(this.props.user.credentials)
+    //this.props.getUserData()
+    //console.log(this.props.user.credentials)
   }
 
     render() {
-      return <div>
-        <h3>logged in as: {this.props.user.credentials.handle}</h3>
-        <Link to = "/profile/donationSummary">
-        <button>view donation summary</button>
-        </Link>
-        <Link to = "/profile/requestSummary">
-        <button>view requests summary</button>
-        </Link>
-      </div>
+      return (
+        <MDBContainer>
+          <MDBRow>
+
+              <MDBCol>
+                <h2>User information</h2>
+                <MDBCol col-md-1>
+                  <h3>logged in as: {this.props.user.credentials.handle}</h3>
+                  <MDBRow>
+                    <Link to = "/profile/donationSummary">
+                      <MDBBtn color="pink">View your donations</MDBBtn>
+                    </Link>
+                  </MDBRow>
+                  <MDBRow>
+                    <Link to = "/profile/requestSummary">
+                    <MDBBtn color="pink">View your request summary</MDBBtn>
+                    </Link>
+                  </MDBRow>
+                </MDBCol>
+              </MDBCol>
+
+              <MDBCol>
+                <h2></h2>
+                <h3></h3>
+                <MDBCardImage className="img-fluid" src={this.props.user.credentials.imageUrl} waves />
+              </MDBCol>
+                
+          </MDBRow>
+
+      </MDBContainer>
+      )
     }
 }
 const mapStateToProps = (state) => ({

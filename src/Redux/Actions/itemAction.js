@@ -258,6 +258,8 @@ export const donateItem = (itemData, history) => dispatch => {
                 type: 'GET_ITEM',
                 payload:data
             })
+            //TEMPORARY
+            history.push('/profile')
         })
         .catch((err) => {
             console.log(err)
@@ -297,3 +299,7 @@ export const uploadItemImage = (formData) => (dispatch) => {
       })
       .catch((err) => console.log(err));
   };
+
+  export const clearSelectedItem = () => dispatch => {
+    dispatch({type : 'CLEAR_SELECTED_ITEM'})
+}

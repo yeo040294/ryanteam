@@ -24,6 +24,11 @@ const itemReducers = (state = initState, action) => {
                 ...state,
                 collectionPoints : action.payload
             }
+        case 'CLEAR_SELECTED_ITEM':
+            return{
+                ...state,
+                selectedItem : []
+            }
         default:
             return state;
     }
