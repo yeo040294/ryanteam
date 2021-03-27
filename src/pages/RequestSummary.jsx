@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { MDBContainer, MDBRow, MDBCol, MDBTable, MDBTableBody, MDBTableHead, MDBBtn, MDBIcon } from "mdbreact";
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
@@ -25,25 +26,49 @@ class RequestSummary extends Component {
         this.props.unrequestItem(itemId)
     }
 
-    render() {
-      return <div>
-        <h1>request summary page</h1>
-        {
-            this.props.user.requests.map(request => (
-                //add a key identifier, request.requestId
-                <h2>
-                {request.itemId}
-                {request.requestStatus}
-                <button onClick = { () => {this.handleUnrequest(request.itemId)}}>cancel request</button>
-                </h2>
-            ))
-        }
-        <Link to = "/profile">
-        <button>go back</button>
-        </Link>
-      </div>
-    }
-}
+    display = this.props.user.requests.map((request) => {
+      console.log(this.props.user.request)
+      return (
+        <tr>
+          <td><img src={request.imageUrl}
+          width = '200' height= '200' className="img-fluid"></img></td>
+          <td><div>{request.itemName} </div></td>
+          <td><div>{request.requestStatus} </div></td>
+          <MDBBtn color="success" onClick={() => this.handleUnrequest(request.itemId)}>
+                        <MDBIcon icon="check" className="mr-1" /> Cancel request
+                                            </MDBBtn>
+        </tr>
+      )
+    })
+  
+      render() {
+        return (
+          <MDBContainer>
+                  <MDBRow>
+                      <MDBCol>
+                          <div>
+                              <h3>Request summary</h3>
+                              <hr />
+                              <MDBTable striped>
+                                  <MDBTableHead>
+                                      <tr>
+                                          <th>Picture</th>
+                                          <th>Item name</th>
+                                          <th>Request status</th>
+                                      </tr>
+                                  </MDBTableHead>
+                                  <MDBTableBody>
+                                      {this.display}
+                                  </MDBTableBody>
+                              </MDBTable>
+                          </div>
+                      </MDBCol>
+                  </MDBRow>
+              </MDBContainer>
+        )
+      }
+  }
+
 const mapStateToProps = (state) => ({
     user: state.user
   });

@@ -20,7 +20,7 @@ class DonationSummary extends Component {
     console.log(this.props.user.items)
     return (
       <tr>
-        <td><img src={item.img}
+        <td><img src={item.imageUrl}
         width = '200' height= '200' className="img-fluid"></img></td>
         <td><div>{item.itemName} </div></td>
         <td><div>{item.itemStatus} </div></td>
