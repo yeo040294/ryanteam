@@ -140,6 +140,7 @@ export const approveItem = (itemId) => dispatch => {
             type : 'GET_ITEMS',
             payload : data
         })
+        dispatch(getAllUnapprovedItems())
         dispatch({type : 'CLEAR_ERRORS'})
     })
     .catch((err) => {
@@ -171,6 +172,7 @@ export const disapproveItem = (itemId) => dispatch => {
             type : 'GET_ITEMS',
             payload : data
         })
+        dispatch(getAllUnapprovedItems())
         dispatch({type : 'CLEAR_ERRORS'})
     })
     .catch((err) => {
@@ -183,7 +185,6 @@ export const disapproveItem = (itemId) => dispatch => {
         })
     });
 }
-
 
 export const ballotItem = (itemId) => dispatch => {
     fetch(`https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item/${itemId}/ballotItem`,
@@ -203,6 +204,7 @@ export const ballotItem = (itemId) => dispatch => {
             type : 'GET_ITEMS',
             payload : data
         })
+        dispatch(getAllBallotItems());
         dispatch({type : 'CLEAR_ERRORS'})
     })
     .catch((err) => {

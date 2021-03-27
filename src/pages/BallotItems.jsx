@@ -82,7 +82,27 @@ class BallotItems extends Component {
                                     </tr>
                                 </MDBTableHead>
                                 <MDBTableBody>
-                                    {this.display}
+                                {this.props.ballotItems.map((eachItem) => {
+                                        return (
+                                          <tr>
+                                           <td><img src={eachItem.imageUrl}
+                                                    width='200' 
+                                                    height='200' 
+                                                    className="img-fluid" 
+                                                    alt="ballotItem image">
+                                                </img></td>
+                                            <td><div>Item name: {eachItem.itemName}</div>
+                                            <div>Item condition: {eachItem.itemCondition}</div></td>
+                                          <td>{eachItem.location}</td>
+                                            <MDBBtn color="success" onClick={() => this.handleBallotItem(eachItem.itemId)}>
+                                            <MDBIcon icon="check" className="mr-1" /> Ballot</MDBBtn>
+                                                                            
+                                        </tr>
+                                        )
+                                      })}
+                                    {/**{this.display} */}
+
+                                    
                                 </MDBTableBody>
                             </MDBTable>
                         </div>
