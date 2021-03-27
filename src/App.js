@@ -21,7 +21,8 @@ class App extends Component {
         {/**< Navbar />  :=D */}
           {this.props.user.authenticated &&
            this.props.user.isAdmin && <AdminNavbar/>}
-          {this.props.user.authenticated && <UserNavbar />}
+          {this.props.user.authenticated &&
+          !this.props.user.isAdmin && <UserNavbar />}
           {!this.props.user.authenticated && <GuestNavbar />}
         </Router>
       </Provider>
