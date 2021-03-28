@@ -11,8 +11,6 @@ To test, contribute or just see what we did follow few easy steps:
 - `yarn run remove-demo` (or `npm run remove-demo`) removes demo app pages
 - enjoy!
 
-## Bugs
-If you want to report a bug or submit your idea feel fre to open an issue
 # SecondLove
 SecondLove is a website with the purpose of providing the users with a way to give back to the community by donating their unused pre-loved items.
 
