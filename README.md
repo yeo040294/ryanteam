@@ -13,10 +13,56 @@ To test, contribute or just see what we did follow few easy steps:
 
 ## Bugs
 If you want to report a bug or submit your idea feel fre to open an issue
+# SecondLove
+SecondLove is a website with the purpose of providing the users with a way to give back to the community by donating their unused pre-loved items.
 
-Before you report a bug, please take your time to find if an issue hasn't been reported yet
+## Getting Started
+To test, contribute or just see what we did follow few easy steps:
+- clone the repository
+- cd to the directory with the repository
+- run `npm install`
+- run the app using `npm start`
+- to build project use `npm run build`
+- `npm run remove-demo` removes demo app pages
+- install `redux DevTools` on your browser
+- log in to website using account: `lovecode@email.com` and password: `123456`
 
-We're also open to pull requests
+## Components
+### Pending Status
+#### Pending.jsx
+Pending.jsx takes the list of requests that a user has made and filters them down to those that have the status `pending`
 
-## Something Missing?
-If you still have some questions do not hesitate to ask us. Open an issue or [visit our Slack](https://mdbbetatest.slack.com)
+```javascript
+myRequest.filter(x => x.requestStatus === "Pending").map
+```
+
+Component will return a table of all the items that the user has requested, but is still pending collection from the user.
+
+Table will include:
+1. Item name
+2. Time of request
+3. Pending status of item
+
+#### PendingApproval.jsx
+PendingApproval.jsx takes the list of donations that a user has made and filters them down to those that have the status `Pending Approval`
+
+```javascript
+myRequest.filter(x => x.requestStatus === "Pending Approval").map
+```
+
+Component will return a table of all the items that the user has donated, but is still pending approval from the admins.
+
+Table will include:
+1. Item name
+2. Time of request
+3. Pending approval status of item
+
+### Profile
+#### ProfileCard.jsx
+ProfileCard.jsx will provide the user's essential information in a clear and concise card.
+
+Card will contain:
+1. Profile picture (if user has a profile picture)
+2. Username
+3. User's email address
+4. User's location info
