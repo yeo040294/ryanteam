@@ -3,6 +3,7 @@ import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdbreact';
 import { loginUser } from '../Redux/Actions/userAction'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { withRouter } from 'react-router'; 
 
 class LoginPage extends Component {
 
@@ -34,24 +35,22 @@ class LoginPage extends Component {
     handleSubmit(){
         console.log(this.state.customer)
         this.props.loginUser(this.state.customer, this.props.history)
+        //this.props.history.push('/')
         //3. display error - if user enters wrong login/pass the error state will be updated to
         //{error : general : "Wrong password"}
     }
 
     handleSignInImmediate() {
         //For testing 
-        const userData = {
-            email : "lovecode@email.com",
-            password : "123456"
-        }
-        this.props.loginUser(userData, this.props.history)
         localStorage.setItem("userAuth", true);
         console.log(localStorage.getItem("userAuth"));
     }
 
     render() {
+        if(this.props.user.authenticated)this.props.history.push('/')
         return (
             <MDBContainer >
+            
                 <MDBRow >
                     <MDBCol size= '12' >
                         <h1>Welcome, User!</h1>
@@ -65,7 +64,6 @@ class LoginPage extends Component {
                             </div>
                             <div className="text-center">
                             <MDBBtn onClick={() => {this.handleSubmit(this)}} color = "red" size = "lg">Login</MDBBtn>
-                            <MDBBtn onClick={() => {this.handleSignInImmediate()}} color = "red" size = "lg">Sign in immediate with lovecode account</MDBBtn>
                             <p></p>
                             <p> <a href="http://localhost:3000/signup" >Click here to sign up if don't have an account</a></p>
                             </div>
@@ -74,6 +72,7 @@ class LoginPage extends Component {
 
                 </MDBRow>
             </MDBContainer>
+            
         )
     }
 }
@@ -86,4 +85,4 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => bindActionCreators({loginUser} , dispatch);
 
 //export default LoginPage
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoginPage))

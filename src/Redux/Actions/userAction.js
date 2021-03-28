@@ -19,6 +19,7 @@ export const loginUser = (userData, history) => dispatch => {
             localStorage.setItem('FBIdToken', `Bearer ${data.token}`)
             dispatch(getUserData());
             dispatch({type : 'CLEAR_ERRORS'})
+            console.log("this is the history = " + history)
             history.push('/')
             
         })
@@ -95,5 +96,7 @@ export const registerUser = (userData, history) => dispatch => {
 }
 
 export const logoutUser = () => dispatch => {
+    localStorage.removeItem('FBIdToken');
+    dispatch({ type: 'SET_UNAUTHENTICATED' });
     dispatch({type : 'LOG_OUT'})
 }

@@ -6,14 +6,17 @@ import CategoriesBtn from '../components/CategoriesBtn'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import { getItem, requestItem } from '../Redux/Actions/itemAction'
+import { clearMessage, clearError } from '../Redux/Actions/uiAction'
 import { bindActionCreators } from 'redux'
-import {Link} from 'react-router-dom';
+import Message from '../components/Message'
+import {Link, useHistory} from 'react-router-dom';
 
 class ItemDetails extends Component {
 
     constructor (props){
         super(props)
         this.handleRequestItem = this.handleRequestItem.bind(this)
+        this.togglePopup = this.togglePopup.bind(this)
     }
 
     componentDidMount(){
@@ -33,10 +36,52 @@ class ItemDetails extends Component {
         //if successful, new message state
         //if unsuccessful new error state
     }
+
+    togglePopup = () => {
+        console.log("tooglePopout is geting pressed")
+        this.props.clearMessage()
+        this.props.clearError()
+      }
     
    
     render() {
         return (
+            <div>
+            {this.props.ui.newMessage && 
+            <div>
+                <MDBCard>
+                    <MDBCardBody>
+                    <p>Message</p>
+                    <p>{this.props.ui.message.general}</p>
+                    <p><button onClick = {this.togglePopup}>Ok</button></p>
+                    </MDBCardBody>
+                </MDBCard>
+            </div>
+            }
+
+            {this.props.ui.newError && 
+            <div>
+                <MDBCard>
+                    <MDBCardBody>
+                    <p>Error</p>
+                    <p>{this.props.ui.errors.error}</p>
+                    <p><button onClick = {this.togglePopup}>Ok</button></p>
+                    </MDBCardBody>
+                </MDBCard>
+            </div>
+            }
+
+
+            {/**
+             * <Message 
+            content = {<>
+                <p><b>Message</b></p>
+                <p>{this.props.ui.message.general}</p>
+            </>}
+            handleClose = {this.togglePopup}
+            />}
+             */}
+                
             <MDBContainer>
                 <MDBRow>
                     <MDBCol>
@@ -72,8 +117,9 @@ class ItemDetails extends Component {
 
                         <MDBCard>
                             <MDBCardBody>
-                                <h4>Ballot time</h4>   
-                                    <p>{this.props.selectedItem.ballotTime}</p>
+                                <h4>Ballot Information</h4>  
+                                    <p>Request count : {this.props.selectedItem.requestCount}</p> 
+                                    <p>Ballot time : {this.props.selectedItem.ballotTime}</p>
                             </MDBCardBody>
                         </MDBCard>
 
@@ -96,13 +142,7 @@ class ItemDetails extends Component {
                 <h3>{this.props.selectedItem.imageUrl}</h3>
                 <button onClick = {() => {this.handleRequestItem()}}>Request for item!</button> </div>*/}
             </MDBContainer>
-            
-                 
-
-
-                
-            
-            
+            </div> 
         )
     }
 }
@@ -116,7 +156,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators(
-        {getItem, requestItem}
+        {getItem, requestItem, clearMessage, clearError}
     , dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItemDetails)

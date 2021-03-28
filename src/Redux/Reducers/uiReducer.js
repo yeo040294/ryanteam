@@ -1,8 +1,10 @@
 
 const initialState = {
     loading: false,
-    errors: null,
-    message : ''
+    errors: '',
+    message : '',
+    newMessage : false,
+    newError : false
   };
   
   export default function(state = initialState, action) {
@@ -11,13 +13,15 @@ const initialState = {
         return {
           ...state,
           loading: false,
-          errors: action.payload
+          errors: action.payload,
+          newError:true
         };
       case 'CLEAR_ERRORS':
         return {
           ...state,
           loading: false,
-          errors: null
+          errors: '',
+          newError:false
         };
       case 'LOADING_UI':
         return {
@@ -27,12 +31,14 @@ const initialState = {
         case 'SET_MESSAGE':
           return {
             ...state,
-            message : action.payload
+            message : action.payload,
+            newMessage : true
           }
         case 'CLEAR_MESSAGE' :
           return {
             ...state,
-            message : ""
+            message : "",
+            newMessage : false
           }
           
       default:

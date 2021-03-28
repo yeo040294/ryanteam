@@ -102,6 +102,7 @@ export const unrequestItem = (itemId, history) => dispatch => {
         return res.json();
     })
     .then(data => {
+        dispatch({ type : 'CLEAR_MESSAGE'})
         dispatch ({
             type : 'SET_MESSAGE',
             payload : data
@@ -300,6 +301,7 @@ export const uploadItemImage = (formData) => (dispatch) => {
             }
       })
       .then((res) => {
+        dispatch({ type : 'CLEAR_MESSAGE'})
         dispatch({
             type : 'SET_MESSAGE',
             payload : res.data
