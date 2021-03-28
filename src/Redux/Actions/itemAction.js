@@ -340,3 +340,11 @@ export const getRequestByUser = () => dispatch => {
             })
         });
 }
+
+export const setSearchKeyword = (keyword, history) => dispatch => {
+    dispatch({
+        type : 'SET_SEARCH_KEYWORD',
+        payload : keyword
+    })
+    history.push('/search')
+}

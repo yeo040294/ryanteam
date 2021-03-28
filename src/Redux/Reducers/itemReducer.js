@@ -2,7 +2,9 @@ const initState = {
     items : [],
     selectedItem : [],
     collectionPoints : [],
-    requestList : []
+    requestList : [],
+    searchKeyword : '',
+    searchList : []
 }
 
 const itemReducers = (state = initState, action) => {
@@ -42,6 +44,12 @@ const itemReducers = (state = initState, action) => {
                 selectedItem : [],
                 collectionPoints : [],
                 requestList : []
+            }
+
+        case 'SET_SEARCH_KEYWORD' : 
+            return {
+                ...state,
+                searchKeyword : action.payload
             }
         default:
             return state;

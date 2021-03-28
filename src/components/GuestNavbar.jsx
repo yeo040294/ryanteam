@@ -11,15 +11,6 @@ import { Link } from 'react-router-dom';
 
 class GuestNavbar extends Component {
 
-    constructor(props){
-        super(props)
-        this.state = {
-            input : ''
-        }
-        this.submitAction = this.submitAction.bind(this)
-        this.setNewInputValue = this.setNewInputValue.bind(this)
-    }
-
   state = {
     collapseID: ''
   };
@@ -35,16 +26,18 @@ class GuestNavbar extends Component {
     collapseID === collID && this.setState({ collapseID: '' });
   };
 
-  componentDidMount(){
+
+  /**
+   * RIP EVENT HANDLER GRAVEYARD
+   * @param {*} e 
+   *  componentDidMount(){
     // get all the URLParams
     const params = new URLSearchParams(location.search);
     // get the q param
     const q = params.get('q');
 
     //eslint-disable-next-line
-  }
-
-  submitAction = (e) => {
+    submitAction = (e) => {
       console.log("the stuff you submitted is here: " + this.state.input)
       
     // prevents default, so page won't reload on form submit
@@ -65,6 +58,10 @@ class GuestNavbar extends Component {
       })
       console.log(e.target.value)
   }
+  }
+   */
+
+  
 
   render() {
     const overlay = (
@@ -89,8 +86,9 @@ class GuestNavbar extends Component {
                 onClick={this.toggleCollapse('mainNavbarCollapse')}
               />
               <MDBCollapse id='mainNavbarCollapse' isOpen={collapseID} height = '30' navbar>
-                
-                <form id="searchQuery" onSubmit = {this.submitAction}>
+                {/**
+                 * RIP SEARCH BAR T_T
+                 * <form id="searchQuery" onSubmit = {this.submitAction}>
                     <div className='input-group'>
                         <input 
                         type="text"
@@ -98,8 +96,6 @@ class GuestNavbar extends Component {
                         placeholder="Find your second love"
                         value = { this.state.input }
                         onChange = {this.setNewInputValue}/>
-                        {/** <input type="button" onclick={this.closeCollapse('mainNavbarCollapse')}to='/search' value="Search"></input>*/}
-                
                         <div className='input-group-append'>
                             <button type='submit'>
                             Search
@@ -107,6 +103,8 @@ class GuestNavbar extends Component {
                         </div>
                     </div>
                 </form>
+                 */}
+                
                 
                 <MDBNavbarNav right>
                     <MDBNavItem>

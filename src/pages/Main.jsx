@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBIcon } from 'mdbreact'
+import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBIcon, MDBInput } from 'mdbreact'
 import CarouselPage from '../components/CarouselPage'
 import Card from '../components/Card'
 import CategoriesBtn from '../components/CategoriesBtn'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import { getAvailableItems } from '../Redux/Actions/itemAction'
+import { getAvailableItems, setSearchKeyword } from '../Redux/Actions/itemAction'
 import { bindActionCreators } from 'redux'
 import {Link} from 'react-router-dom';
 
@@ -14,13 +14,16 @@ class Main extends Component {
         FilteredPosts: '',
     }
 
-    componentDidMount() {
+    constructor(props){
+        super(props)
+        this.state = {
+          keyword : ''
+        }
+        this.handleInputChange = this.handleInputChange.bind(this)
+    }
+
+    componentDidMount(){
         this.props.getAvailableItems()
-        this.props.item.forEach(element => {
-            console.log(element)
-        });
-        
-        console.log(this.props.item);
     }
 
     FilterPosts = (id) => {
@@ -33,21 +36,43 @@ class Main extends Component {
         }));
     }
 
-    render() {
+    submitKeyword(){
+        console.log('I am pressed')
+        this.props.setSearchKeyword(this.state.keyword, this.props.history)
+    }
+
+    handleInputChange = (e) => {
+        const target = e.target;
+        const value = target.value
+        const name = target.name
         
+        this.setState({
+          [name] : value
+        })
+
+        e.preventDefault()
+      }
+
+    render() {
+
         return (
             <MDBContainer>
-                <MDBRow >
-                    <MDBCol size>
-                        <div>
-                            <MDBBtn className='red-text pr-4 pl-4' floating size="lg" color='white'>
-                                <MDBIcon icon="align-justify" />
-                            </MDBBtn>
-                        </div>
+                <MDBRow>
+                    <MDBCol md = '8'>
+                        <MDBInput 
+                        label='Find your second love here!' 
+                        name='keyword' 
+                        type='text' 
+                        size = "lg"
+                        value = {this.state.keyword}
+                        onChange = {this.handleInputChange}
+                        />
                     </MDBCol>
-                    <MDBCol>
-                        <CarouselPage />
+                    <MDBCol md = '2'>
+                    <MDBBtn color="green" onClick={()=>{this.submitKeyword()}}>
+                    <MDBIcon icon="search" className="mr-1" /> Search</MDBBtn>
                     </MDBCol>
+                    
                 </MDBRow>
                 <br />
                 <br />
@@ -103,7 +128,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators(
-        {getAvailableItems}
+        {getAvailableItems, setSearchKeyword}
     , dispatch);
 
 //connect is a function, returns a higher order component

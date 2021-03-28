@@ -10,15 +10,6 @@ import History from './History';
 
 class UserNavbar extends Component {
 
-  constructor(props){
-    super(props)
-    this.state = {
-        input : ''
-    }
-    this.submitSearch = this.submitSearch.bind(this)
-    this.setNewInputValue = this.setNewInputValue.bind(this)
-}
-
   state = {
     collapseID: ''
   };
@@ -34,16 +25,17 @@ class UserNavbar extends Component {
     collapseID === collID && this.setState({ collapseID: '' });
   };
 
-  componentDidMount(){
+   /**
+   * RIP EVENT HANDLER GRAVEYARD
+   * @param {*} e 
+   *  componentDidMount(){
     // get all the URLParams
     const params = new URLSearchParams(location.search);
     // get the q param
     const q = params.get('q');
 
     //eslint-disable-next-line
-  }
-
-  submitSearch = (e) => {
+    submitAction = (e) => {
       console.log("the stuff you submitted is here: " + this.state.input)
       
     // prevents default, so page won't reload on form submit
@@ -64,6 +56,8 @@ class UserNavbar extends Component {
       })
       console.log(e.target.value)
   }
+  }
+   */
 
   render() {
     const overlay = (
@@ -88,8 +82,10 @@ class UserNavbar extends Component {
                 onClick={this.toggleCollapse('mainNavbarCollapse')}
               />
               <MDBCollapse id='mainNavbarCollapse' isOpen={collapseID} height = '30' navbar>
-              {/**<form id="searchQuery" onSubmit = {this.submitAction}> */}
-              <form id="searchQuery">
+             
+               {/**
+                 * RIP SEARCH BAR T_T
+                 * <form id="searchQuery" onSubmit = {this.submitAction}>
                     <div className='input-group'>
                         <input 
                         type="text"
@@ -97,15 +93,14 @@ class UserNavbar extends Component {
                         placeholder="Find your second love"
                         value = { this.state.input }
                         onChange = {this.setNewInputValue}/>
-                        {/** <input type="button" onclick={this.closeCollapse('mainNavbarCollapse')}to='/search' value="Search"></input>*/}
-                
                         <div className='input-group-append'>
-                            <button type='submit' onClick = {this.submitSearch}>
+                            <button type='submit'>
                             Search
                             </button>
                         </div>
                     </div>
                 </form>
+                 */}
                 
                 <MDBNavbarNav right>
                   
