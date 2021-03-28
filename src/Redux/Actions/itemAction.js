@@ -267,7 +267,7 @@ export const donateItem = (itemData, history) => dispatch => {
                 type: 'GET_ITEM',
                 payload:data
             })
-            //TEMPORARY
+            //TEMPORARY suggestion: set a custom message 
             history.push('/profile')
         })
         .catch((err) => {
@@ -292,7 +292,7 @@ export const getCollectionPoint = () => dispatch => {
 }
 
 export const uploadItemImage = (formData) => (dispatch) => {
-    dispatch({ type: 'LOADING_USER' });
+    dispatch({ type: 'LOADING_ITEMS' });
     axios
       .post(`https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item/image`, formData,
       {
@@ -306,6 +306,7 @@ export const uploadItemImage = (formData) => (dispatch) => {
             type : 'SET_MESSAGE',
             payload : res.data
         })
+        dispatch({type : 'CLEAR_LOADING'})
       })
       .catch((err) => console.log(err));
   };
@@ -315,6 +316,7 @@ export const clearSelectedItem = () => dispatch => {
 }
 
 export const getRequestByUser = () => dispatch => {
+    dispatch({ type: 'LOADING_ITEMS' });
     fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/user/requests',{
         method: 'GET',
         headers : {
@@ -327,6 +329,7 @@ export const getRequestByUser = () => dispatch => {
             return res.json();
         })
         .then((data) => {  
+
             dispatch ({
                 type: 'SET_REQUEST_LIST',
                 payload:data

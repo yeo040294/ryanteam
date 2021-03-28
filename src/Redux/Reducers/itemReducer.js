@@ -4,7 +4,8 @@ const initState = {
     collectionPoints : [],
     requestList : [],
     searchKeyword : '',
-    searchList : []
+    searchList : [],
+    loading : false
 }
 
 const itemReducers = (state = initState, action) => {
@@ -35,6 +36,7 @@ const itemReducers = (state = initState, action) => {
         case 'SET_REQUEST_LIST':
             return{
                 ...state,
+                loading: false,
                 requestList : action.payload
             }
 
@@ -50,6 +52,17 @@ const itemReducers = (state = initState, action) => {
             return {
                 ...state,
                 searchKeyword : action.payload
+            }
+
+        case 'LOADING_ITEMS':
+            return {
+                ...state,
+                loading: true
+            };
+        case 'CLEAR_LOADING':
+            return {
+                ...state,
+                loading: false
             }
         default:
             return state;

@@ -19,7 +19,7 @@ export const loginUser = (userData, history) => dispatch => {
             localStorage.setItem('FBIdToken', `Bearer ${data.token}`)
             dispatch(getUserData());
             dispatch({type : 'CLEAR_ERRORS'})
-            console.log("this is the history = " + history)
+
             history.push('/')
             
         })

@@ -3,7 +3,9 @@ import React, { Component, useState } from 'react'
 import { donateItem, uploadItemImage, clearSelectedItem } from '../Redux/Actions/itemAction'
 import {connect} from 'react-redux'
 import { bindActionCreators } from 'redux'
-
+import { clearMessage, clearError } from '../Redux/Actions/uiAction'
+import { BounceLoader, BeatLoader } from 'react-spinners'
+import { css } from '@emotion/react'
 
  class Donation extends Component {
     constructor(props){
@@ -51,7 +53,7 @@ import { bindActionCreators } from 'redux'
         description : this.state.description,
         category : this.state.category,
         itemCondition : this.state.itemCondition,
-        imageUrl :this.props.ui.message,
+        imageUrl :this.props.message,
         location : this.state.location
       }
       this.props.donateItem(itemData, this.props.history) 
@@ -69,8 +71,47 @@ import { bindActionCreators } from 'redux'
       this.props.uploadItemImage(formData);
     };
 
+    togglePopup = () => {
+      console.log("tooglePopout is geting pressed")
+      this.props.clearError()
+    }
+
     render() {
+      let disabled
+      if(this.props.loading)disabled = true
+      else{disabled = false}
+
+      const loaderCSS = css`
+            margin-top : 25px;
+            margin-bottom : 25px;
+            margin-left : 550px;
+        `
         return (
+          <div>
+            {this.props.message.newMessage && 
+            <div>
+                <MDBCard>
+                    <MDBCardBody>
+                    <p>Message</p>
+                    <p>{this.props.message.message.general}</p>
+                    <p><button onClick = {this.togglePopup}>Ok</button></p>
+                    </MDBCardBody>
+                </MDBCard>
+            </div>
+            }
+
+            {this.props.ui.newError && 
+            <div>
+                <MDBCard>
+                    <MDBCardBody>
+                    <p>Error</p>
+                    <p>{this.props.ui.errors.error}</p>
+                    <p><button onClick = {this.togglePopup}>Ok</button></p>
+                    </MDBCardBody>
+                </MDBCard>
+            </div>
+            }
+            
             <MDBContainer>
               {/**
                * after successful upload -> response is the item data -> now have new selectedItem in state
@@ -170,12 +211,27 @@ import { bindActionCreators } from 'redux'
 
                           
 
+                          <div>
                           <h6>Upload Image</h6>
+                          {this.props.loading &&
+                            <div>
+                                <BounceLoader 
+                                    loading = {this.props.loading}
+                                    size = {12}
+                                    color = 'red'
+                                    css = {loaderCSS}
+                                    />
+                            </div>
+                            }
+                          </div>
+                          
                           <p>
                           <input type = "file" id = "imageInput" onChange = {this.handleImageChange} />
                           </p>
                           <p><img src={this.state.file} width='300' height='300'/>     </p>
-                          <MDBBtn color="pink" onClick = {() => {this.handleSubmit()}}>Donate item!</MDBBtn>
+                          <MDBBtn color="pink" 
+                          onClick = {() => {this.handleSubmit()}}
+                          disabled = {disabled}>Donate item!</MDBBtn>
                         </form>
                         </MDBCol>
                             
@@ -185,7 +241,7 @@ import { bindActionCreators } from 'redux'
                 {/**<button onClick = {() => {this.handleSubmit()}}>Donate item</button> */}
                 
             </MDBContainer>
-
+        </div>
         )
     }
 }
@@ -193,12 +249,15 @@ const mapStateToProps = state => {
   return {
       item : state.item.items,
       uploadedItem : state.item.selectedItem,
-      ui : state.ui.message
+      message : state.ui.message,
+      ui : state.ui,
+      loading : state.item.loading
+      
   }
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators(
-      {uploadItemImage, donateItem, clearSelectedItem}
+      {uploadItemImage, donateItem, clearSelectedItem, clearMessage, clearError}
   , dispatch);
 
 
