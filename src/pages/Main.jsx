@@ -8,6 +8,8 @@ import PropTypes from 'prop-types'
 import { getAvailableItems, setSearchKeyword } from '../Redux/Actions/itemAction'
 import { bindActionCreators } from 'redux'
 import {Link} from 'react-router-dom';
+import { BounceLoader, BeatLoader } from 'react-spinners'
+import { css } from '@emotion/react'
 
 class Main extends Component {
     state = {
@@ -55,7 +57,24 @@ class Main extends Component {
 
     render() {
 
+        const loaderCSS = css`
+            margin-top : 25px;
+            margin-bottom : 25px;
+            margin-left : 550px;
+        `
         return (
+            <div>
+            {this.props.loading &&
+            <div>
+                <BeatLoader 
+                    loading = {this.props.loading}
+                    size = {72}
+                    color = 'red'
+                    css = {loaderCSS}
+                    />
+            </div>
+            }
+            {!this.props.loading && 
             <MDBContainer>
                 <MDBRow>
                     <MDBCol md = '8'>
@@ -111,7 +130,8 @@ class Main extends Component {
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>
-
+        }
+        </div>
         )
     }
 }
@@ -123,7 +143,8 @@ const mapStateToProps = state => {
     return {
         // Assigning the state properties into our propname
         // propname  :  state.somefield
-        item : state.item.items
+        item : state.item.items,
+        loading : state.user.loading
     }
 }
 

@@ -96,5 +96,4 @@ export const registerUser = (userData, history) => dispatch => {
 
 export const logoutUser = () => dispatch => {
     dispatch({type : 'LOG_OUT'})
-    dispatch({type :' SET_ITEM_REDUCER_INIT'})
 }

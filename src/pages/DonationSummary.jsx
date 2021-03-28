@@ -34,7 +34,14 @@ class DonationSummary extends Component {
                 <MDBRow>
                     <MDBCol>
                         <div>
-                            <h3>Donation summary</h3>
+                            <MDBRow>
+                              <MDBCol md = '8'><h3>Donation summary</h3></MDBCol>
+                              <MDBCol md = '3'><Link to = "/profile">
+                              <MDBBtn color="pink">Back to profile</MDBBtn>
+                            </Link></MDBCol>
+                            
+                            </MDBRow>
+                            
                             <hr />
                             <MDBTable striped>
                                 <MDBTableHead>

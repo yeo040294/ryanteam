@@ -57,11 +57,16 @@ class RequestSummary extends Component {
                                           <th>RequestDate</th>
                                           <th>View item</th>
                                           <th>Request status</th>
+                                          <th>Cancel request</th>
                                       </tr>
                                   </MDBTableHead>
                                   <MDBTableBody>
                                       {this.props.requests.map((request) => {
                                         {console.log('hey this is the request name = ' + request.requestId)}
+                                        let disabled = false
+                                        if(request.requestStatus == "Success" || request.requestStatus == "Unsuccessful"){
+                                          disabled = true
+                                        }
                                         return (
                                           <tr>
                                           <td>{request.requestId}</td>
@@ -72,10 +77,13 @@ class RequestSummary extends Component {
                                             </Link>  
                                           </td>
                                           <td>{request.requestStatus}</td>
-                                          <MDBBtn color="red" onClick={() => this.handleUnrequest(request.itemId)}>
-                                                        <MDBIcon icon="ban" className="mr-1" /> Cancel request
-                                                                            </MDBBtn>
-                                                                            
+                                          <td><MDBBtn color="red" 
+                                                  onClick={() => this.handleUnrequest(request.itemId)}
+                                                  disabled = {disabled}>
+                                          <MDBIcon icon="ban" className="mr-1" /> Cancel request
+                                                              </MDBBtn></td>                                          
+                                          
+                                                                              
                                         </tr>
                                         )
                                       })}
