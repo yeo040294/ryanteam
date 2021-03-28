@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBIcon } from 'mdbreact'
+import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBIcon, MDBCardText, MDBCard, MDBCardImage, MDBCardBody } from 'mdbreact'
 import CarouselPage from '../components/CarouselPage'
 import Card from '../components/Card'
 import CategoriesBtn from '../components/CategoriesBtn'
@@ -24,7 +24,6 @@ class ItemDetails extends Component {
 
     handleRequestItem(){
         console.log("button is clicked")
-        //can only request when user is login, <- enforce this in front-end
         const { match } = this.props;
         const matchUrl = match.url;
         console.log("this is my match url: "+matchUrl)
@@ -38,17 +37,72 @@ class ItemDetails extends Component {
    
     render() {
         return (
-            <div>
-                <h1>Item Details</h1>
+            <MDBContainer>
+                <MDBRow>
+                    <MDBCol>
+                        <h1>{this.props.selectedItem.itemName}</h1>
+                    </MDBCol>
+                    <MDBCol md = '2'>
+                        <MDBBtn>
+                            <MDBIcon icon="success" className="mr-1" />
+                            Previous page
+                        </MDBBtn>
+                    </MDBCol>
+                    <MDBCol md = '2'>
+                        <MDBBtn onClick = {() => {this.handleRequestItem()}}>
+                            <MDBIcon icon="success" className="mr-1" />
+                            Request for item!
+                        </MDBBtn>
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol md = '6'>
+                        <MDBCardImage className="img-fluid" src={this.props.selectedItem.imageUrl} waves />
+                    </MDBCol>
+
+                    <MDBCol md = '6'>
+                        <MDBCard>
+                            <MDBCardBody>
+                                <h4>Description</h4>   
+                                   <p>Category : {this.props.selectedItem.category}</p> 
+                                   <p>Item condition : {this.props.selectedItem.itemCondition}</p>
+                                   <p>Location : {this.props.selectedItem.location}</p>
+                            </MDBCardBody>
+                        </MDBCard>
+
+                        <MDBCard>
+                            <MDBCardBody>
+                                <h4>Ballot time</h4>   
+                                    <p>{this.props.selectedItem.ballotTime}</p>
+                            </MDBCardBody>
+                        </MDBCard>
+
+                        <MDBCard>
+                            <MDBCardBody>
+                                <h4>Donated by</h4>   
+                                    <p>{this.props.selectedItem.userHandle}</p>
+                            </MDBCardBody>
+                        </MDBCard>
+                    </MDBCol>
+
+                </MDBRow>
+
+                {/**<div><h1>Item Details</h1>
                 <h3>{this.props.selectedItem.itemName}</h3>
                 <h3>{this.props.selectedItem.category}</h3>
                 <h3>{this.props.selectedItem.userHandle}</h3>
                 <h3>{this.props.selectedItem.ballotTime}</h3>
                 <h3>{this.props.selectedItem.itemCondition}</h3>
                 <h3>{this.props.selectedItem.imageUrl}</h3>
-                <button onClick = {() => {this.handleRequestItem()}}>Request for item!</button>
+                <button onClick = {() => {this.handleRequestItem()}}>Request for item!</button> </div>*/}
+            </MDBContainer>
             
-            </div>
+                 
+
+
+                
+            
+            
         )
     }
 }
