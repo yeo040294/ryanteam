@@ -22,7 +22,7 @@ To test, contribute or just see what we did follow few easy steps:
 - run the app using `npm start`
 - to build project use `npm run build`
 - `npm run remove-demo` removes demo app pages
-- install `redux DevTools` on your browser
+- install [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) on your browser
 - log in to website using account: `lovecode@email.com` and password: `123456`
 
 ## Components
