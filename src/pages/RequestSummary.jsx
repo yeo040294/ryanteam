@@ -27,33 +27,16 @@ class RequestSummary extends Component {
     handleUnrequest(itemId){
         this.props.unrequestItem(itemId, this.props.history)
     }
-
-    // display = this.props.user.requests.map((request) => {
-    //   console.log(this.props.user.request)
-    //   return (
-    //     <tr>
-    //       <td><img src={request.imageUrl}
-    //       width = '200' height= '200' className="img-fluid"></img></td>
-    //       <td><div>{request.itemName} </div></td>
-    //       <td><div>{request.requestStatus} </div></td>
-    //       <MDBBtn color="red" onClick={() => this.handleUnrequest(request.itemId)}>
-    //                     <MDBIcon icon="ban" className="mr-1" /> Cancel request
-    //                                         </MDBBtn>
-    //     </tr>
-    //   )
-    // })
-  
       render() {
-
         const loaderCSS = css`
             margin-top : 25px;
             margin-bottom : 25px;
-            margin-left : 550px;
+            margin-left : 430px;
         `
-
         return (
           <div>
-            {this.props.loading &&
+            <MDBContainer>
+            {this.props.loading ?
             <div>
                 <BeatLoader 
                     loading = {this.props.loading}
@@ -61,10 +44,8 @@ class RequestSummary extends Component {
                     color = 'red'
                     css = {loaderCSS}
                     />
-            </div>
-            }
-            {!this.props.loading &&
-              <MDBContainer>
+            </div> :
+
               <MDBRow>
                   <MDBCol>
                       <div>
@@ -107,9 +88,7 @@ class RequestSummary extends Component {
                                               onClick={() => this.handleUnrequest(request.itemId)}
                                               disabled = {disabled}>
                                       <MDBIcon icon="ban" className="mr-1" /> Cancel request
-                                                          </MDBBtn></td>                                          
-                                      
-                                                                          
+                                                          </MDBBtn></td>                                                                               
                                     </tr>
                                     )
                                   })}
@@ -119,8 +98,9 @@ class RequestSummary extends Component {
                       </div>
                   </MDBCol>
               </MDBRow>
+              }
           </MDBContainer>
-            }
+            
               </div>
         )
       }

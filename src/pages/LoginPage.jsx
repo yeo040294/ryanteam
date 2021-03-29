@@ -4,68 +4,103 @@ import { loginUser } from '../Redux/Actions/userAction'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router'; 
+import { PulseLoader } from 'react-spinners'
+import { Link } from 'react-router-dom'
 
 class LoginPage extends Component {
 
     constructor(props){
         super(props)
         this.state = {
-            customer:{
-            email : props.email,
-            password : props.password
-            }
+            email : '',
+            password : '',
+            errors: {}
         }
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleSignInImmediate = this.handleSignInImmediate.bind(this)
+    }
+    //When component receives new props
+    componentWillReceiveProps(nextProps){
+        if(nextProps.UI.errors){
+            this.setState({errors: nextProps.UI.errors})
+        }
     }
 
-    emailChanged(event) {
-        var customer        = this.state.customer;
-        customer.email  = event.target.value;
-        this.setState({ customer:customer });
-      }
-
-      passwordChanged(event) {
-        var customer        = this.state.customer;
-        customer.password  = event.target.value;
-        this.setState({ customer:customer });
-      }
-
-
-    handleSubmit(){
-        console.log(this.state.customer)
-        this.props.loginUser(this.state.customer, this.props.history)
-        //this.props.history.push('/')
-        //3. display error - if user enters wrong login/pass the error state will be updated to
-        //{error : general : "Wrong password"}
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+          });
     }
 
-    handleSignInImmediate() {
-        //For testing 
-        localStorage.setItem("userAuth", true);
-        console.log(localStorage.getItem("userAuth"));
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const userData = {
+            email : this.state.email,
+            password : this.state.password
+        }
+        this.props.loginUser(userData, this.props.history)
     }
 
     render() {
         if(this.props.user.authenticated)this.props.history.push('/')
+
+        const {
+            user : { loading }
+        } = this.props
+        const { errors } = this.state
+
         return (
+
             <MDBContainer >
-            
                 <MDBRow >
                     <MDBCol size= '12' >
                         <h1>Welcome, User!</h1>
                     </MDBCol>
                     <MDBCol md="6">
-                        <form>
+                        <form noValidate onSubmit = {this.handleSubmit}>
                             <div className="grey-text">
-                            <MDBInput label="Email Address" icon="envelope" group type="email" validate error="wrong"
-                            success="right"  value={this.state.customer.email} onChange={this.emailChanged.bind(this)}/>
-                            <MDBInput label="Password" icon="lock" group type="password" validate  value={this.state.customer.password} onChange={this.passwordChanged.bind(this)}/>
+                            
+                            {errors.email && <p>{errors.email}</p>}
+                            {errors.password && <p>{errors.password}</p>}
+                            {errors.general && <p>{errors.general}</p>}
+                            
+                            <MDBInput  
+                                label="Email Address" 
+                                name = "email"
+                                icon="envelope" 
+                                group type="email" 
+                                validate error="wrong"
+                                success="right"
+                                value={this.state.email} 
+                                onChange={this.handleChange}
+                                disabled = {loading}
+                                required/>
+                                
+                            <MDBInput 
+                                label="Password" 
+                                name = "password"
+                                icon="lock" 
+                                group type="password"  
+                                value={this.state.password} 
+                                onChange={this.handleChange}
+                                disbaled = {loading}
+                                required/>
+
                             </div>
                             <div className="text-center">
-                            <MDBBtn onClick={() => {this.handleSubmit(this)}} color = "red" size = "lg">Login</MDBBtn>
+                            <MDBBtn 
+                                color = "red" 
+                                size = "lg" 
+                                type = "submit"
+                                disabled = {loading}>
+                                Login
+                            </MDBBtn>
+                            <p><PulseLoader 
+                                    loading = {loading}
+                                    size = {12}
+                                    color = 'red'
+                                /></p>
+                            
                             <p></p>
-                            <p> <a href="http://localhost:3000/signup" >Click here to sign up if don't have an account</a></p>
+                            <p> Don't have an account ? sign up <Link to = "/signup">here</Link></p>
                             </div>
                         </form>
                         </MDBCol>
@@ -78,7 +113,8 @@ class LoginPage extends Component {
 }
 const mapStateToProps = state => {
     return {
-        user : state.user
+        user : state.user,
+        UI : state.ui
     }
 }
 

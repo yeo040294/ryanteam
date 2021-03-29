@@ -4,7 +4,8 @@ const initialState = {
     errors: '',
     message : '',
     newMessage : false,
-    newError : false
+    newError : false,
+    uploadImgLink : ''
   };
   
   export default function(state = initialState, action) {
@@ -28,6 +29,11 @@ const initialState = {
           ...state,
           loading: true
         };
+      case 'CLEAR_LOADING_UI':
+        return {
+          ...state,
+          loading:false
+        }
         case 'SET_MESSAGE':
           return {
             ...state,
@@ -40,6 +46,18 @@ const initialState = {
             message : "",
             newMessage : false
           }
+          case 'SET_UPLOAD_IMG_LINK':
+          return {
+            ...state,
+            uploadImgLink : action.payload
+          }
+
+          case 'CLEAR_UPLOAD_IMG_LINK' :
+          return {
+            ...state,
+            uploadImgLink : "",
+          }
+
           
       default:
         return state;

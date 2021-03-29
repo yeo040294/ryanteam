@@ -11,3 +11,9 @@ export const clearError = () => dispatch => {
     })
     
 }
+
+export const setLoadingUI = () => dispatch => {
+    dispatch({
+        type : 'LOADING_UI',
+    })
+}

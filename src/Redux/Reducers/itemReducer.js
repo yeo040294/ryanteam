@@ -3,6 +3,7 @@ const initState = {
     selectedItem : [],
     collectionPoints : [],
     requestList : [],
+    donationList : [],
     searchKeyword : '',
     searchList : [],
     loading : false
@@ -14,13 +15,15 @@ const itemReducers = (state = initState, action) => {
         case 'GET_ITEMS':
             return{
                 ...state,
-                items: action.payload
+                items: action.payload,
+                loading : false
             }
 
         case 'GET_ITEM':
             return{
                 ...state,
-                selectedItem : action.payload
+                selectedItem : action.payload,
+                loading : false
             }
         
         case 'GET_COLLECTION_POINTS':
@@ -40,12 +43,20 @@ const itemReducers = (state = initState, action) => {
                 requestList : action.payload
             }
 
+        case 'SET_DONATION_LIST':
+            return{
+                ...state,
+                loading: false,
+                donationList : action.payload
+            }
+
         case 'SET_ITEM_REDUCER_INIT' :
             return {
                 items : [],
                 selectedItem : [],
                 collectionPoints : [],
-                requestList : []
+                requestList : [],
+                donationList : []
             }
 
         case 'SET_SEARCH_KEYWORD' : 

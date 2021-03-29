@@ -1,16 +1,20 @@
 import React from "react";
 import { clearMessage } from '../Redux/Actions/uiAction'
 import {connect} from 'react-redux'
+import { MDBCol, MDBContainer, MDBRow, MDBInput, MDBBtn, MDBCard, MDBCardBody, MDBCardText} from 'mdbreact'
 
 const Message = props => {
 
   return (
-    <div className="popup-box">
-      <div className="box">          
-        {props.content}
-        <button onClick={props.handleClose}>Ok</button>
-      </div>
-    </div>
+    <MDBCard>
+      <MDBCardBody>
+        <MDBCardTitle>Message</MDBCardTitle>
+        <MDBCardText>
+          {props.content}
+        </MDBCardText>
+      <MDBBtn color = "grey" onClick = {props.handleClose}>{props.buttonText}</MDBBtn>
+      </MDBCardBody>
+    </MDBCard>
   );
 };
  

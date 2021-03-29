@@ -1,11 +1,12 @@
-import { MDBCol, MDBContainer, MDBRow, MDBInput, MDBBtn} from 'mdbreact'
+import { MDBCol, MDBContainer, MDBRow, MDBInput, MDBBtn, MDBCard, MDBCardBody} from 'mdbreact'
 import React, { Component, useState } from 'react'
 import { donateItem, uploadItemImage, clearSelectedItem } from '../Redux/Actions/itemAction'
 import {connect} from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { clearMessage, clearError } from '../Redux/Actions/uiAction'
-import { BounceLoader, BeatLoader } from 'react-spinners'
+import { BounceLoader, BeatLoader, PulseLoader } from 'react-spinners'
 import { css } from '@emotion/react'
+import Message from '../components/Message'
 
  class Donation extends Component {
     constructor(props){
@@ -17,43 +18,37 @@ import { css } from '@emotion/react'
           category : 'home and living',
           itemCondition : 'New',
           imageUrl : '',
-          location : 'Cash Converters@Ang Mo Kio'
+          location : 'Cash Converters@Ang Mo Kio',
+          errors : {}
         }
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-      handleChange=(e) => {
-        var options = e.target.options;
-        var value = [];
-        for (var i = 0, l = options.length; i < l; i++) {
-          if (options[i].selected) {
-            value.push(options[i].value);
-          }
-        }
-        this.props.someCallback(value);
+    //When component receives new props
+    componentWillReceiveProps(nextProps){
+      if(nextProps.ui.errors){
+          this.setState({errors: nextProps.ui.errors})
       }
+    }
 
-      handleInputChange = (e) => {
-        const target = e.target;
-        const value = target.type === 'checkbox' ? target.checked :  target.value
-        const name = target.name
-        
-        this.setState({
-          [name] : value
-        })
-
-        e.preventDefault()
-      }
+    handleInputChange = (e) => {
+      const target = e.target;
+      const value = target.type === 'checkbox' ? target.checked :  target.value
+      const name = target.name
+      this.setState({
+        [name] : value
+      })
+      e.preventDefault()
+    }
 
     handleSubmit() {
       console.log("handle sumbit button is clicked clacked")
-      console.log(this.props.ui)
       const itemData =  {
         itemName : this.state.itemName,
         description : this.state.description,
         category : this.state.category,
         itemCondition : this.state.itemCondition,
-        imageUrl :this.props.message,
+        imageUrl :this.props.ui.uploadImgLink.message,
         location : this.state.location
       }
       this.props.donateItem(itemData, this.props.history) 
@@ -72,53 +67,40 @@ import { css } from '@emotion/react'
     };
 
     togglePopup = () => {
-      console.log("tooglePopout is geting pressed")
       this.props.clearError()
     }
 
     render() {
-      let disabled
-      if(this.props.loading)disabled = true
-      else{disabled = false}
-
-      const loaderCSS = css`
-            margin-top : 25px;
-            margin-bottom : 25px;
-            margin-left : 550px;
+      const { errors } = this.state
+      const imgLoaderCSS = css`
+        margin-top : 25px;
+        margin-bottom : 25px;
+        margin-left : 150px;
         `
+      const donateLoaderCSS = css`
+        margin-top : 25px;
+        margin-bottom : 25px;
+        margin-left : 150px;
+      `
         return (
-          <div>
-            {this.props.message.newMessage && 
-            <div>
-                <MDBCard>
-                    <MDBCardBody>
-                    <p>Message</p>
-                    <p>{this.props.message.message.general}</p>
-                    <p><button onClick = {this.togglePopup}>Ok</button></p>
-                    </MDBCardBody>
-                </MDBCard>
-            </div>
-            }
-
-            {this.props.ui.newError && 
-            <div>
-                <MDBCard>
-                    <MDBCardBody>
-                    <p>Error</p>
-                    <p>{this.props.ui.errors.error}</p>
-                    <p><button onClick = {this.togglePopup}>Ok</button></p>
-                    </MDBCardBody>
-                </MDBCard>
-            </div>
-            }
-            
             <MDBContainer>
-              {/**
-               * after successful upload -> response is the item data -> now have new selectedItem in state
-               * TO-DO : show success message
-               * TO-DO : remove push(/profile) in itemAction
-               */}
+               {this.props.ui.newMessage && !this.props.donateLoading &&
+               <Link to = {`/itemDetails/${selectedItem.itemId}`}>
+                <Message content = {this.props.ui.message.message} handleClose = {this.togglePopup} buttonText = "View item" />
+                </Link>
+              }
               
+              {this.props.ui.newError && 
+                <Message content = {errors.error} handleClose = {this.togglePopup} buttonText = "Ok" />
+              }
+
+              {this.props.donateLoading ? 
+                <BounceLoader 
+                    loading = {this.props.loading}
+                    size = {40}
+                    color = 'red'
+                    css = {donateLoaderCSS}
+                    /> : 
                 <MDBRow>
                     <MDBCol>
                         <h3>Donate your item to SecondLove!</h3>
@@ -198,61 +180,49 @@ import { css } from '@emotion/react'
                             <h2>your item location is {this.state.location}</h2>*/
                             
                             }
-
-                          {/**<MDBInput label="Item name" type ="text" validate error="wrong" />
-                          <MDBInput label="Item category" type ="text" validate error="wrong" />
-                          <MDBInput type="textarea" label="Enter the item description here" rows="5" /> */}
-                          {/**<h6>Select Category (Press Ctrl to select multiple options)</h6>
-                          <select placeholder class="browser-default custom-select"  multiple={true} value={this.props.arrayOfOptionValues} onChange={this.multipleOptions}>
-                          <option value={1}>Home and Living</option>
-                          <option value={2}>Sports</option>
-                          <option value={3}>Electronics</option>
-                          </select> */}
-
-                          
-
-                          <div>
-                          <h6>Upload Image</h6>
-                          {this.props.loading &&
-                            <div>
-                                <BounceLoader 
-                                    loading = {this.props.loading}
-                                    size = {12}
-                                    color = 'red'
-                                    css = {loaderCSS}
-                                    />
-                            </div>
-                            }
-                          </div>
-                          
-                          <p>
-                          <input type = "file" id = "imageInput" onChange = {this.handleImageChange} />
-                          </p>
-                          <p><img src={this.state.file} width='300' height='300'/>     </p>
+                            <MDBRow>
+                            <h6>Upload Image</h6>
+                            <p>
+                            <input type = "file" id = "imageInput" onChange = {this.handleImageChange} />
+                            </p>
+                            </MDBRow>
+                            <MDBRow>
+                            {this.props.ui.loading &&
+                              <div>
+                                <p>Uploading image ...</p>
+                                <PulseLoader 
+                                        loading = {this.props.loading}
+                                        size = {12}
+                                        color = 'red'
+                                        css = {imgLoaderCSS}
+                                        />
+                              </div>     
+                                }
+                            </MDBRow>
+                            <MDBRow>
+                              <p><img src={this.state.file} width='300' height='300'/></p>
+                            </MDBRow>
                           <MDBBtn color="pink" 
                           onClick = {() => {this.handleSubmit()}}
-                          disabled = {disabled}>Donate item!</MDBBtn>
+                          disabled = {(this.props.ui.loading || this.props.donateLoading)}>Donate item!</MDBBtn>
                         </form>
                         </MDBCol>
                             
                     </MDBCol>
-                </MDBRow>
-                {/**<MDBBtn color="mdb-color" outline onPress={this.handleSubmit}>Upload </MDBBtn> */}
-                {/**<button onClick = {() => {this.handleSubmit()}}>Donate item</button> */}
-                
+                </MDBRow>  
+              }       
             </MDBContainer>
-        </div>
         )
     }
 }
+
 const mapStateToProps = state => {
   return {
       item : state.item.items,
       uploadedItem : state.item.selectedItem,
-      message : state.ui.message,
       ui : state.ui,
-      loading : state.item.loading
-      
+      donateLoading : state.item.loading,
+      selectedItem : state.item.selectedItem
   }
 }
 

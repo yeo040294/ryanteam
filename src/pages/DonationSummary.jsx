@@ -1,23 +1,23 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { MDBContainer, MDBRow, MDBCol, MDBTable, MDBTableBody, MDBTableHead, MDBBtn, MDBIcon } from "mdbreact";
-import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux'
+import { BounceLoader, BeatLoader } from 'react-spinners'
+import { css } from '@emotion/react'
 
 //Redux
 import { connect } from 'react-redux';
-import { getUserData } from '../Redux/Actions/userAction';
+import { getDonationByUser } from '../Redux/Actions/itemAction';
 import GoogleMap from '../components/GoogleMap';
 
 class DonationSummary extends Component {
 
   componentDidMount(){
-    this.props.getUserData()
+    this.props.getDonationByUser()
   }
 
-  display = this.props.user.items.map((item) => {
-    console.log(this.props.user.items)
+  display = this.props.donationList.map((item) => {
     return (
       <tr>
         <td><img src={item.imageUrl}
@@ -29,8 +29,22 @@ class DonationSummary extends Component {
   })
 
     render() {
+      //Loading bar CSS
+      const loaderCSS = css`
+            margin-top : 25px;
+            margin-bottom : 25px;
+            margin-left : 430px;
+        `
       return (
         <MDBContainer>
+          {this.props.loading ? 
+            <BeatLoader 
+              loading = {this.props.loading}
+              size = {72}
+              color = 'red'
+              css = {loaderCSS}
+            /> :
+          
                 <MDBRow>
                     <MDBCol>
                         <div>
@@ -58,22 +72,24 @@ class DonationSummary extends Component {
                         </div>
                     </MDBCol>
                 </MDBRow>
+            }
             </MDBContainer>
       )
     }
 }
 
 const mapStateToProps = (state) => ({
-    user: state.user
+    user: state.user,
+    donationList : state.item.donationList,
+    loading : state.item.loading
   });
   
   DonationSummary.propTypes = {
     user: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired
   };
 
   const mapDispatchToProps = dispatch => bindActionCreators(
-    { getUserData }
+    { getDonationByUser }
 , dispatch);
 
   

@@ -250,6 +250,7 @@ export const searchItems = (searchData, history) => dispatch => {
 }
 
 export const donateItem = (itemData, history) => dispatch => {
+    dispatch({ type: 'LOADING_ITEMS' });
     fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item',{
         method: 'POST',
         headers : {
@@ -267,8 +268,10 @@ export const donateItem = (itemData, history) => dispatch => {
                 type: 'GET_ITEM',
                 payload:data
             })
-            //TEMPORARY suggestion: set a custom message 
-            history.push('/profile')
+            // dispatch({
+            //     type : 'SET_MESSAGE',
+            //     payload : { message : 'Item has been successfully donated!'}
+            // })
         })
         .catch((err) => {
             console.log(err)
@@ -292,7 +295,7 @@ export const getCollectionPoint = () => dispatch => {
 }
 
 export const uploadItemImage = (formData) => (dispatch) => {
-    dispatch({ type: 'LOADING_ITEMS' });
+    dispatch({ type: 'LOADING_UI' });
     axios
       .post(`https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item/image`, formData,
       {
@@ -301,12 +304,11 @@ export const uploadItemImage = (formData) => (dispatch) => {
             }
       })
       .then((res) => {
-        dispatch({ type : 'CLEAR_MESSAGE'})
         dispatch({
-            type : 'SET_MESSAGE',
+            type : 'SET_UPLOAD_IMG_LINK',
             payload : res.data
         })
-        dispatch({type : 'CLEAR_LOADING'})
+        dispatch({type : 'CLEAR_LOADING_UI'})
       })
       .catch((err) => console.log(err));
   };
@@ -332,6 +334,37 @@ export const getRequestByUser = () => dispatch => {
 
             dispatch ({
                 type: 'SET_REQUEST_LIST',
+                payload:data
+            })
+        })
+        .catch((err) => {
+            console.log(err)
+            err.json().then((body)=>{
+                dispatch({
+                    type : 'SET_ERRORS',
+                    payload : body
+                })
+            })
+        });
+}
+
+export const getDonationByUser = () => dispatch => {
+    dispatch({ type: 'LOADING_ITEMS' });
+    fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/user/donations',{
+        method: 'GET',
+        headers : {
+            'Content-Type': 'application/json',
+            'Authorization' : localStorage.FBIdToken
+        }
+    })
+        .then((res) => {
+            if(!res.ok) throw res;
+            return res.json();
+        })
+        .then((data) => {  
+
+            dispatch ({
+                type: 'SET_DONATION_LIST',
                 payload:data
             })
         })
