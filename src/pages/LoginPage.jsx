@@ -4,28 +4,14 @@ import { loginUser } from '../Redux/Actions/userAction'
 import { connect } from 'react-redux'
 import GuestNavbar from '../components/GuestNavBar';
 import Footer from '../components/Footer';
+import { compose } from 'redux'
+import { firestoreConnect } from 'react-redux-firebase'
 
 class LoginPage extends Component {
-
-    // You don't have to this way, its long winded 
-    // constructor(props) {
-    //     super(props)
-    //     this.state = {
-    //         customer: {
-    //             email: props.email,
-    //             password: props.password
-    //         }
-    //     }
-    //     this.handleSubmit = this.handleSubmit.bind(this)
-    //     this.handleSignInImmediate = this.handleSignInImmediate.bind(this)
-    // }
-
-    //This way works the same
     state = {
         email: '',
         password: ''
     }
-    // Use functionName = () => {} instead of function(){} so dun have to write this.function.bind(this) syntax
     handleChange = (e) => {
         this.setState({ [e.target.id]: e.target.value })
     }
@@ -43,6 +29,12 @@ class LoginPage extends Component {
         if (nextProps.logintoken.token) {
             localStorage.setItem("token", nextProps.logintoken.token)
             localStorage.setItem("username", this.state.email)
+            let user = this.props.userlist.filter((user) => user.email == this.state.email)
+            if (localStorage.getItem("username")) {
+                localStorage.setItem("userhandle", user[0].handle);
+                localStorage.setItem("userid", user[0].userId);
+                localStorage.setItem("image", user[0].imageUrl);
+            }
             localStorage.setItem("usertype", "Normal User")
             this.props.history.push('/')
         }
@@ -57,7 +49,7 @@ class LoginPage extends Component {
             <div>
                 <GuestNavbar />
                 <MDBContainer >
-                    <br/>
+                    <br />
                     <MDBRow>
                         <MDBCol md="12">
                             <h3 className="pink-text">Welcome to SecondLove</h3>
@@ -76,15 +68,16 @@ class LoginPage extends Component {
                         </MDBCol>
                     </MDBRow>
                 </MDBContainer>
-                <br/>
+                <br />
                 <Footer />
             </div>
         )
     }
 }
 const mapStateToProps = state => ({
-    logintoken: state.user.response
+    logintoken: state.user.response,
+    userlist: state.firestore.ordered.users
 });
 
 //export default LoginPage
-export default connect(mapStateToProps, { loginUser })(LoginPage)
+export default compose(connect(mapStateToProps, { loginUser }), firestoreConnect([{ collection: 'users' }]))(LoginPage)
