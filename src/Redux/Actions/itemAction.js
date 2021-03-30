@@ -268,14 +268,15 @@ export const donateItem = (itemData, history) => dispatch => {
                 type: 'GET_ITEM',
                 payload:data
             })
-            // dispatch({
-            //     type : 'SET_MESSAGE',
-            //     payload : { message : 'Item has been successfully donated!'}
-            // })
+            dispatch({
+                type : 'SET_MESSAGE',
+                payload : ({ message : 'Item has been successfully donated!'})
+            })
         })
         .catch((err) => {
             console.log(err)
-            err.json().then((body)=>{
+            err.json()
+            .then((body)=>{
                 dispatch({
                     type : 'SET_ERRORS',
                     payload : body

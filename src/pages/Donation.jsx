@@ -7,6 +7,7 @@ import { clearMessage, clearError } from '../Redux/Actions/uiAction'
 import { BounceLoader, BeatLoader, PulseLoader } from 'react-spinners'
 import { css } from '@emotion/react'
 import Message from '../components/Message'
+import {Link} from 'react-router-dom';
 
  class Donation extends Component {
     constructor(props){
@@ -68,6 +69,8 @@ import Message from '../components/Message'
 
     togglePopup = () => {
       this.props.clearError()
+      this.props.clearMessage()
+      this.props.history.push(`/itemDetails/${this.props.selectedItem.itemId}`)
     }
 
     render() {
@@ -80,14 +83,12 @@ import Message from '../components/Message'
       const donateLoaderCSS = css`
         margin-top : 25px;
         margin-bottom : 25px;
-        margin-left : 150px;
+        margin-left : 450px;
       `
         return (
             <MDBContainer>
                {this.props.ui.newMessage && !this.props.donateLoading &&
-               <Link to = {`/itemDetails/${selectedItem.itemId}`}>
-                <Message content = {this.props.ui.message.message} handleClose = {this.togglePopup} buttonText = "View item" />
-                </Link>
+                <Message content = {this.props.ui.message.message} handleClose = {this.togglePopup} buttonText = "View item" />  
               }
               
               {this.props.ui.newError && 
@@ -95,9 +96,9 @@ import Message from '../components/Message'
               }
 
               {this.props.donateLoading ? 
-                <BounceLoader 
+                <BeatLoader 
                     loading = {this.props.loading}
-                    size = {40}
+                    size = {72}
                     color = 'red'
                     css = {donateLoaderCSS}
                     /> : 
@@ -219,7 +220,6 @@ import Message from '../components/Message'
 const mapStateToProps = state => {
   return {
       item : state.item.items,
-      uploadedItem : state.item.selectedItem,
       ui : state.ui,
       donateLoading : state.item.loading,
       selectedItem : state.item.selectedItem

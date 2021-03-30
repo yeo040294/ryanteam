@@ -53,7 +53,6 @@ export const getUserData = () => (dispatch) => {
                 payload: data
               });
         }
-        
       })
       .catch((err) => console.log(err));
   }
@@ -67,7 +66,6 @@ export const registerUser = (userData, history) => dispatch => {
         body: JSON.stringify(userData)
     })
         .then((res) => {
-            console.log("bro register user response coming in")
             if(!res.ok) throw res;
             return res.json();
         })
@@ -75,13 +73,11 @@ export const registerUser = (userData, history) => dispatch => {
             const FBIdToken = `Bearer ${data.token}`
             localStorage.setItem('FBIdToken', `Bearer ${data.token}`)
             dispatch({type : 'CLEAR_ERRORS'})
-            history.push('/')
-            
+            history.push('/')    
         })
         .catch((err) => {
             console.log(err)
             err.json().then((body)=>{
-                //console.log(body)
                 dispatch({
                     type : 'SET_ERRORS',
                     payload : body

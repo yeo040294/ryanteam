@@ -100,7 +100,7 @@ class LoginPage extends Component {
                                 /></p>
                             
                             <p></p>
-                            <p> Don't have an account ? sign up <Link to = "/signup">here</Link></p>
+                            <p> Don't have an account ? Sign up <Link to = "/signup">here</Link></p>
                             </div>
                         </form>
                         </MDBCol>

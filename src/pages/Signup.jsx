@@ -9,46 +9,46 @@ class Signup extends Component {
     constructor(props){
         super(props)
         this.state = {
-            customer:{
-            email : props.email,
-            password : props.password,
-            confirmPassword : props.confirmPassword,
-            handle : props.handle
+            email : '',
+            password : '',
+            confirmPassword : '',
+            handle : '',
+            errors: {}
         }
+    }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.ui.errors){
+            this.setState({errors : nextProps.ui.errors})
         }
     }
 
-// The gamechanger: extract the inputs from the form
-    handleChanged(event) {
-        var customer        = this.state.customer;
-        customer.handle  = event.target.value;
-        this.setState({ customer:customer });
-      }
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+          });
+    }
 
-      emailChanged(event) {
-        var customer        = this.state.customer;
-        customer.email  = event.target.value;
-        this.setState({ customer:customer });
-      }
-
-      passwordChanged(event) {
-        var customer        = this.state.customer;
-        customer.password  = event.target.value;
-        this.setState({ customer:customer });
-      }
-
-      confirmPasswordChanged(event) {
-        var customer        = this.state.customer;
-        customer.confirmPassword  = event.target.value;
-        this.setState({ customer:customer });
-      }
-
-      handleSubmit() {
-        console.log(this.state.customer);
-        this.props.registerUser(this.state.customer, this.props.history) // componentDidMount
-      }
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.setState({
+            loading : true
+        })
+        const userData = {
+            email : this.state.email,
+            password : this.state.password,
+            confirmPassword : this.state.confirmPassword,
+            handle : this.state.handle
+        }
+        this.props.registerUser(userData, this.props.history)
+    }
 
     render() {
+
+        const {
+            ui : {loading}
+        } = this.props
+        const { errors } = this.state
+
         return (
             <MDBContainer >
                 <MDBRow >
@@ -58,15 +58,54 @@ class Signup extends Component {
                     <MDBCol md="6">
                         { <form>
                         <div className="grey-text">
-                            <MDBInput label="Username" icon="user-alt" group type ="text" validate error="wrong" 
-                            success="right" value={this.state.customer.handle} onChange={this.handleChanged.bind(this)} />
-                            <MDBInput label="Email Address" icon="envelope" group type="email" validate error="wrong"
-                            success="right"   value={this.state.customer.email} onChange={this.emailChanged.bind(this)}/>
-                            <MDBInput label="Password" icon="lock" group type="password" validate  value={this.state.customer.password} onChange={this.passwordChanged.bind(this)}/>
-                            <MDBInput label="Confirmed Password" icon="lock" group type="password" validate  value={this.state.customer.confirmPassword} onChange={this.confirmPasswordChanged.bind(this)}/>
+                            {errors.handle && <p>{errors.handle}</p>}
+                            {errors.email && <p>{errors.email}</p>}
+                            {errors.password && <p>{errors.password}</p>}
+                            {errors.general && <p>{errors.general}</p>}
+                            {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+                            <MDBInput 
+                                label="Username" 
+                                icon="user-alt" 
+                                group type ="text" 
+                                validate 
+                                name = "handle"
+                                value={this.state.handle} 
+                                onChange={this.handleChange} />
+
+                            <MDBInput 
+                                label="Email Address" 
+                                icon="envelope" 
+                                group type="email" 
+                                name = "email"
+                                validate  
+                                value={this.state.email} 
+                                onChange={this.handleChange}/>
+
+                            <MDBInput 
+                                label="Password" 
+                                icon="lock" 
+                                group type="password" 
+                                name = "password"
+                                validate  
+                                value={this.state.password} 
+                                onChange={this.handleChange}/>
+
+                            <MDBInput 
+                                label="Confirmed Password" 
+                                icon="lock" 
+                                group type="password" 
+                                name = "confirmPassword"
+                                validate  
+                                value={this.state.confirmPassword} 
+                                onChange={this.handleChange}/>
                         </div>
                         <div className="text-center">
-                            <MDBBtn onlick={this.handleSubmit(this)} color = "red" size = "lg" href= "http://localhost:3000/login">Sign Up</MDBBtn>
+                            <MDBBtn 
+                                onClick={this.handleSubmit} 
+                                color = "red" 
+                                size = "lg">
+                                    Sign Up
+                            </MDBBtn>
                         </div>
                         </form> }
                     </MDBCol>
@@ -78,7 +117,8 @@ class Signup extends Component {
 }
 const mapStateToProps = state => {
     return {
-        user : state.user
+        user : state.user,
+        ui : state.ui
     }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({registerUser} , dispatch);
