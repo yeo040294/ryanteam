@@ -6,6 +6,8 @@ const initState = {
     donationList : [],
     searchKeyword : '',
     searchList : [],
+    unApprovedItemList : [],
+    ballotItemList : [],
     loading : false
 }
 
@@ -30,6 +32,28 @@ const itemReducers = (state = initState, action) => {
             return{
                 ...state,
                 collectionPoints : action.payload
+            }
+        case 'GET_UNAPPROVED_ITEM_LIST':
+            return{
+                ...state,
+                unApprovedItemList : action.payload,
+                loading : false
+            }
+        case 'REMOVE_FROM_UNAPPROVED_ITEM_LIST':
+            return {
+                ...state,
+                unApprovedItemList : state.unApprovedItemList.filter(item => item.itemId !== action.payload)
+            }
+        case 'GET_BALLOT_ITEM_LIST':
+            return{
+                ...state,
+                ballotItemList : action.payload,
+                loading : false
+            }
+        case 'REMOVE_FROM_BALLOT_ITEM_LIST':
+            return {
+                ...state,
+                ballotItemList : state.ballotItemList.filter(item => item.itemId !== action.payload)
             }
         case 'CLEAR_SELECTED_ITEM':
             return{

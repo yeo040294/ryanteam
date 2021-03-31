@@ -68,6 +68,7 @@ import {Link} from 'react-router-dom';
     };
 
     togglePopup = () => {
+      //TO-DO add another togglePopup for error handling in the future
       this.props.clearError()
       this.props.clearMessage()
       this.props.history.push(`/itemDetails/${this.props.selectedItem.itemId}`)

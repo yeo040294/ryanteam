@@ -41,7 +41,7 @@ class RequestSummary extends Component {
                 <BeatLoader 
                     loading = {this.props.loading}
                     size = {72}
-                    color = 'red'
+                    color = 'pink'
                     css = {loaderCSS}
                     />
             </div> :

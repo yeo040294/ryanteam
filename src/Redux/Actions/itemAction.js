@@ -21,20 +21,22 @@ export const getAllItems = () => dispatch => {
 }
 
 export const getAllUnapprovedItems = () => dispatch => {
+    dispatch({ type: 'LOADING_ITEMS' });
     fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/unapprovedItems')
         .then((res) => res.json())
         .then(data => dispatch ({
-            type: 'GET_ITEMS',
+            type: 'GET_UNAPPROVED_ITEM_LIST',
             payload:data
         })
         );
 }
 
 export const getAllBallotItems = () => dispatch => {
+    dispatch({ type: 'LOADING_ITEMS' });
     fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/ballotItems')
         .then((res) => res.json())
         .then(data => dispatch ({
-            type: 'GET_ITEMS',
+            type: 'GET_BALLOT_ITEM_LIST',
             payload:data
         })
         );
@@ -124,6 +126,45 @@ export const unrequestItem = (itemId, history) => dispatch => {
 }
 
 export const approveItem = (itemId) => dispatch => {
+    dispatch({ type: 'LOADING_UI' });
+    fetch(`https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item/${itemId}/approve`,
+    {
+        method : 'GET',
+        headers : {
+            'Content-Type': 'application/json',
+            'Authorization' : localStorage.FBIdToken
+        }
+    })
+    .then((res) => {
+        if(!res.ok) throw res;
+        return res.json();
+    })
+    .then(data => {
+        dispatch ({
+            type : 'SET_MESSAGE',
+            payload : data
+        })
+        dispatch({
+            type : 'REMOVE_FROM_UNAPPROVED_ITEM_LIST',
+            payload : itemId
+        })
+        dispatch({type : 'CLEAR_LOADING_UI'})
+        dispatch({type : 'CLEAR_ERRORS'})
+    })
+    .catch((err) => {
+        console.log(err)
+        err.json().then((body)=>{
+            dispatch({
+                type : 'SET_ERRORS',
+                payload : body
+            })
+        })
+    });
+}
+
+/**
+ * 
+ * @param {export const approveItem = (itemId) => dispatch => {
     fetch(`https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item/${itemId}/approve`,
     {
         method : 'GET',
@@ -153,7 +194,9 @@ export const approveItem = (itemId) => dispatch => {
             })
         })
     });
-}
+}} itemId 
+ * @returns 
+ */
 
 export const disapproveItem = (itemId) => dispatch => {
     fetch(`https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item/${itemId}/disapprove`,
@@ -188,6 +231,7 @@ export const disapproveItem = (itemId) => dispatch => {
 }
 
 export const ballotItem = (itemId) => dispatch => {
+    dispatch({ type: 'LOADING_UI' });
     fetch(`https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item/${itemId}/ballotItem`,
     {
         method : 'GET',
@@ -202,11 +246,15 @@ export const ballotItem = (itemId) => dispatch => {
     })
     .then(data => {
         dispatch ({
-            type : 'GET_ITEMS',
-            payload : data
+            type : 'SET_MESSAGE',
+            payload : ({ message : `ItemId ${itemId} has been successfully balloted!`})
         })
-        dispatch(getAllBallotItems());
+        dispatch({
+            type : 'REMOVE_FROM_BALLOT_ITEM_LIST',
+            payload : itemId
+        })
         dispatch({type : 'CLEAR_ERRORS'})
+        dispatch({type : 'CLEAR_LOADING_UI'})
     })
     .catch((err) => {
         console.log(err)
@@ -284,7 +332,6 @@ export const donateItem = (itemData, history) => dispatch => {
             })
         });
 }
-
 
 export const getCollectionPoint = () => dispatch => {
     fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/collectionPoint')

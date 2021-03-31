@@ -1,6 +1,4 @@
-
 export const loginUser = (userData, history) => dispatch => {
-    
      fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/login',{
         method: 'POST',
         headers : {

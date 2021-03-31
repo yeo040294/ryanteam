@@ -1,24 +1,21 @@
 import React, { Component } from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBTable, MDBTableBody, MDBTableHead, MDBBtn, MDBIcon } from "mdbreact";
 import PendingItems from '../components/PendingItems';
-
 import { connect } from 'react-redux'
 import { getAllUnapprovedItems, approveItem, disapproveItem } from '../Redux/Actions/itemAction'
 import { getUserData } from '../Redux/Actions/userAction';
 import { bindActionCreators } from 'redux'
+import { BounceLoader, BeatLoader, PulseLoader } from 'react-spinners'
+import { css } from '@emotion/react'
+import Message from '../components/Message'
+import { clearMessage, clearError } from '../Redux/Actions/uiAction'
 
 class ApproveItems extends Component {
 
     constructor(props) {
         super(props)
         this.handleApproveItem = this.handleApproveItem.bind(this)
-        this.state = {
-            loading: false}
     }
-
-    // isLoading() {
-    //     document.getElementById("demo").style.cursor = "wait";
-    // }
 
     componentDidMount() {
         this.props.getUserData()
@@ -26,9 +23,7 @@ class ApproveItems extends Component {
         this.props.getAllUnapprovedItems()
         localStorage.setItem('unapprovedItem', JSON.stringify(this.props.unapproveditem));
         console.log("approval items: ",this.props.unapproveditem)
-        // this.props.item.forEach(element => {
-        //     console.log(element)
-        // });
+        this.props.clearMessage()
     }
 
     handleApproveItem(itemId) {
@@ -51,11 +46,40 @@ class ApproveItems extends Component {
         this.props.disapproveItem(itemId)
     }
 
+    togglePopup = () => {
+        this.props.clearMessage()
+      }
+
     render() {
+        //Loading bar CSS
+        const loaderCSS = css`
+            margin-top : 25px;
+            margin-bottom : 25px;
+            margin-left : 430px;
+        `
+        const {
+            item : { loading },
+            ui : { message, newMessage }
+        } = this.props
+        
         return (
             <MDBContainer>
+                {loading ? 
+                    <BeatLoader 
+                    loading = {this.props.loading}
+                    size = {72}
+                    color = 'pink'
+                    css = {loaderCSS}
+                    /> :
                 <MDBRow>
                     <MDBCol>
+                    {newMessage && 
+                    <Message content = {message.general} handleClose = {this.togglePopup} buttonText = "Ok" />}
+                    {this.props.ballotLoading ? 
+                        <div>
+                            <PulseLoader loading = "true" size = {15} color = 'pink' css = {loaderCSS}/>
+                            Approving item... please wait
+                        </div> : null}
                     <div>
                         <h3>Pending Approval</h3>
                         <hr/>
@@ -105,6 +129,7 @@ class ApproveItems extends Component {
 
                     </MDBCol>
                 </MDBRow>
+                }
             </MDBContainer>
         )
     }
@@ -112,14 +137,16 @@ class ApproveItems extends Component {
 }
 const mapStateToProps = state => {
     return {
-        unapproveditem: state.item.items,
+        unapproveditem: state.item.unApprovedItemList,
+        item : state.item,
         ui: state.ui,
-        user: state.user
+        user: state.user,
+        requestLoading : state.ui.loading
     }
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators(
-    { getAllUnapprovedItems, approveItem, getUserData, disapproveItem }
+    { getAllUnapprovedItems, approveItem, getUserData, disapproveItem, clearMessage }
     , dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApproveItems)
