@@ -32,6 +32,10 @@ import {Link} from 'react-router-dom';
       }
     }
 
+    componentDidMount(){
+      this.props.clearMessage()
+    }
+
     handleInputChange = (e) => {
       const target = e.target;
       const value = target.type === 'checkbox' ? target.checked :  target.value
@@ -100,7 +104,7 @@ import {Link} from 'react-router-dom';
                 <BeatLoader 
                     loading = {this.props.loading}
                     size = {72}
-                    color = 'red'
+                    color = 'pink'
                     css = {donateLoaderCSS}
                     /> : 
                 <MDBRow>
@@ -195,7 +199,7 @@ import {Link} from 'react-router-dom';
                                 <PulseLoader 
                                         loading = {this.props.loading}
                                         size = {12}
-                                        color = 'red'
+                                        color = 'pink'
                                         css = {imgLoaderCSS}
                                         />
                               </div>     

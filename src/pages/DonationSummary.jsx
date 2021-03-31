@@ -17,17 +17,6 @@ class DonationSummary extends Component {
     this.props.getDonationByUser()
   }
 
-  display = this.props.donationList.map((item) => {
-    return (
-      <tr>
-        <td><img src={item.imageUrl}
-        width = '200' height= '200' className="img-fluid"></img></td>
-        <td><div>{item.itemName} </div></td>
-        <td><div>{item.itemStatus} </div></td>
-      </tr>
-    )
-  })
-
     render() {
       //Loading bar CSS
       const loaderCSS = css`
@@ -66,7 +55,17 @@ class DonationSummary extends Component {
                                     </tr>
                                 </MDBTableHead>
                                 <MDBTableBody>
-                                    {this.display}
+                                {this.props.donationList.map((donation) => {
+                                    return (
+                                      <tr>
+                                        <td><img src={donation.imageUrl}
+                                        width = '200' height= '200' className="img-fluid"></img></td>
+                                        <td><div>{donation.itemName} </div></td>
+                                        <td><div>{donation.itemStatus} </div></td>
+                                      </tr>
+                                    )
+                                  })}
+                                    
                                 </MDBTableBody>
                             </MDBTable>
                         </div>

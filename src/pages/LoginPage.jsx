@@ -81,7 +81,6 @@ class LoginPage extends Component {
                                 group type="password"  
                                 value={this.state.password} 
                                 onChange={this.handleChange}
-                                disbaled = {loading}
                                 required/>
 
                             </div>
@@ -90,14 +89,18 @@ class LoginPage extends Component {
                                 color = "red" 
                                 size = "lg" 
                                 type = "submit"
-                                disabled = {loading}>
+                            >
                                 Login
                             </MDBBtn>
-                            <p><PulseLoader 
-                                    loading = {loading}
+                            {loading ?
+                            <p>Logging in and setting up user data...
+                                <PulseLoader 
+                                    loading = "true"
                                     size = {12}
-                                    color = 'red'
-                                /></p>
+                                    color = 'pink'
+                                />
+                            </p>
+                            : null}
                             
                             <p></p>
                             <p> Don't have an account ? Sign up <Link to = "/signup">here</Link></p>

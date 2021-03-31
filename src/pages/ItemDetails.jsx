@@ -94,7 +94,10 @@ class ItemDetails extends Component {
                         </MDBBtn>
                     </MDBCol>
                     <MDBCol md = '2'>
-                        <MDBBtn onClick = {() => {this.handleRequestItem()}}>
+                        <MDBBtn 
+                        onClick = {() => {this.handleRequestItem()}}
+                        disabled = {!this.props.selectedItem.approved}
+                        >
                             <MDBIcon icon="success" className="mr-1" />
                             Request for item!
                         </MDBBtn>
@@ -119,7 +122,10 @@ class ItemDetails extends Component {
                             <MDBCardBody>
                                 <h4>Ballot Information</h4>  
                                     <p>Request count : {this.props.selectedItem.requestCount}</p> 
-                                    <p>Ballot time : {this.props.selectedItem.ballotTime}</p>
+                                    <p>Ballot time : {this.props.selectedItem.approved ? 
+                                        <div>{this.props.selectedItem.ballotTime}</div> 
+                                        :<div> Still pending approval</div>}
+                                    </p>
                             </MDBCardBody>
                         </MDBCard>
 
