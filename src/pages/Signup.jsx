@@ -4,8 +4,9 @@ import { registerUser } from '../Redux/Actions/userAction'
 import { connect } from 'react-redux'
 import GuestNavBar from '../components/GuestNavBar'
 import Footer from '../components/Footer'
-import { compose } from 'redux'
+import { compose, bindActionCreators } from 'redux'
 import { firestoreConnect } from 'react-redux-firebase'
+import { clearError } from '../Redux/Actions/uiAction';
 
 class Signup extends Component {
     state = {
@@ -14,6 +15,10 @@ class Signup extends Component {
         password: '',
         confirmPassword: '',
         errors:{}
+    }
+
+    componentDidMount(){
+        this.props.clearError()
     }
 
     handleChange = (e) => {
@@ -145,7 +150,8 @@ const mapStateToProps = state => ({
     userlist: state.firestore.ordered.users,
     ui : state.ui
 })
+const mapDispatchToProps = dispatch => bindActionCreators({registerUser, clearError} , dispatch);
 
 //export default Signup
 //export default connect(mapStateToProps, { registerUser })(Signup)
-export default compose(connect(mapStateToProps, { registerUser }), firestoreConnect([{ collection: 'users' }]))(Signup)
+export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect([{ collection: 'users' }]))(Signup)

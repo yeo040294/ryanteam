@@ -12,14 +12,17 @@ export const loginUser = (userData) => dispatch => {
             if(!res.ok) throw res;
             return res.json();
         })
-        .then(data => dispatch({
-            type: 'SET_AUTHENTICATED',
-            payload: data
-        }))
+        .then(data => {
+            dispatch({
+                type: 'SET_AUTHENTICATED',
+                payload: data
+            })
+            dispatch({type : 'CLEAR_ERRORS'})
+        })
         .catch((err) => {
             err.json().then((body)=>{
                 dispatch({
-                    type : 'SET_AUTHENTICATED',
+                    type : 'SET_ERRORS',
                     payload : body
                 })
             })
@@ -62,6 +65,7 @@ export const registerUser = (userData, history) => dispatch => {
                 type: 'USER_REGISTERED',
                 payload: data
             })
+            dispatch({type : 'CLEAR_ERRORS'})
         })
         .catch((err) => {
             console.log(err)

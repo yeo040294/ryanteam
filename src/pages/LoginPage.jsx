@@ -4,25 +4,39 @@ import { loginUser } from '../Redux/Actions/userAction'
 import { connect } from 'react-redux'
 import GuestNavbar from '../components/GuestNavBar';
 import Footer from '../components/Footer';
-import { compose } from 'redux'
+import { compose, bindActionCreators } from 'redux'
 import { firestoreConnect } from 'react-redux-firebase'
+import { Link } from 'react-router-dom'
+import { clearError } from '../Redux/Actions/uiAction';
 
 class LoginPage extends Component {
-    state = {
-        email: '',
-        password: ''
+
+    constructor(props){
+        super(props)
+        this.state = {
+            email: '',
+            password: '',
+            errors: {}
+        }
     }
+
+    componentDidMount(){
+        this.props.clearError()
+    }
+
     handleChange = (e) => {
         this.setState({ [e.target.id]: e.target.value })
     }
 
-    handleSubmit = () => {
+    handleSubmit = (e) => {
+        e.preventDefault();
         const form = {
             email: this.state.email,
             password: this.state.password
         }
         this.props.loginUser(form)
     }
+    
     componentWillReceiveProps(nextProps) {
         if (nextProps.logintoken.token) {
             localStorage.setItem("token", nextProps.logintoken.token)
@@ -40,9 +54,14 @@ class LoginPage extends Component {
             this.setState({ email: '', password: '' })
             alert(nextProps.logintoken.error)
         }
+
+        if(nextProps.ui.errors){
+            this.setState({errors: nextProps.ui.errors})
+        }
     }
 
     render() {
+        const { errors } = this.state
         return (
             <div>
                 <GuestNavbar />
@@ -50,6 +69,11 @@ class LoginPage extends Component {
                     <br />
                     <MDBRow>
                         <MDBCol md="12">
+                            <div className = "red-text">
+                                {errors.email && <p>{errors.email}</p>}
+                                {errors.password && <p>{errors.password}</p>}
+                                {errors.general && <p>{errors.general}</p>}
+                            </div>
                             <h3 className="pink-text">Welcome to SecondLove</h3>
                             <hr />
                             <form>
@@ -60,7 +84,7 @@ class LoginPage extends Component {
                                 <div className="text-center">
                                     <MDBBtn onClick={this.handleSubmit} color="red" size="lg">Login</MDBBtn>
                                     <p></p>
-                                    <p> <a href="http://localhost:3000/signup" >Click here to sign up if don't have an account</a></p>
+                                    <p> Don't have an account ? Sign up <Link to = "/signup">here</Link></p>
                                 </div>
                             </form>
                         </MDBCol>
@@ -74,8 +98,11 @@ class LoginPage extends Component {
 }
 const mapStateToProps = state => ({
     logintoken: state.user.response,
-    userlist: state.firestore.ordered.users
+    userlist: state.firestore.ordered.users,
+    ui : state.ui
 });
 
+const mapDispatchToProps = dispatch => bindActionCreators({loginUser, clearError} , dispatch);
+
 //export default LoginPage
-export default compose(connect(mapStateToProps, { loginUser }), firestoreConnect([{ collection: 'users' }]))(LoginPage)
+export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect([{ collection: 'users' }]))(LoginPage)
