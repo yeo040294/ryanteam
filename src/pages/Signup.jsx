@@ -4,28 +4,60 @@ import { registerUser } from '../Redux/Actions/userAction'
 import { connect } from 'react-redux'
 import GuestNavBar from '../components/GuestNavBar'
 import Footer from '../components/Footer'
+import { compose } from 'redux'
+import { firestoreConnect } from 'react-redux-firebase'
 
 class Signup extends Component {
     state = {
-        username: '',
+        handle: '',
         email: '',
         password: '',
-        cfmpassword: ''
+        confirmPassword: '',
+        errors:{}
     }
+
     handleChange = (e) => {
-        this.setState({ [e.target.id]: e.target.value })
+        this.setState({
+            [e.target.name]: e.target.value
+          });
     }
-    handleSubmit() {
-        console.log(this.state.customer);
-        this.props.registerUser(this.state.customer)
+
+    handleSubmit = (e) => {
+        e.preventDefault()
+        const userData = {
+            email : this.state.email,
+            password : this.state.password,
+            confirmPassword : this.state.confirmPassword,
+            handle : this.state.handle
+        }
+        this.props.registerUser(userData, this.props.history)
     }
-    componentWillReceiveProps(nextProps) {
-        //When post is sent and received response
-        //move to login page
-        if(nextProps.register !== 0)
-            this.props.history.push('/login')
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps.ui.errors){
+            this.setState({errors : nextProps.ui.errors})
+        }
+        if (nextProps.logintoken.token) {
+            localStorage.setItem("token", nextProps.logintoken.token)
+            localStorage.setItem("username", this.state.email)
+            let user = this.props.userlist.filter((user) => user.email == this.state.email)
+            if (localStorage.getItem("username")) {
+                localStorage.setItem("userhandle", user[0].handle);
+                localStorage.setItem("userid", user[0].userId);
+                localStorage.setItem("image", user[0].imageUrl);
+            }
+            localStorage.setItem("usertype", "Normal User")
+            this.props.history.push('/')
+        }
+        else if (nextProps.logintoken.error) {
+            this.setState({ email: '', password: '' })
+            alert(nextProps.logintoken.error)
+        }
     }
+    
     render() {
+        const { errors } = this.state
+
         return (
             <React.Fragment>
                 <GuestNavBar />
@@ -36,17 +68,66 @@ class Signup extends Component {
                             <h1>Create a new account!</h1>
                         </MDBCol>
                         <MDBCol md="6">
+                            <div className = "red-text">
+                            {errors.handle && <p>! {errors.handle}</p>}
+                            {errors.email && <p>! {errors.email}</p>}
+                            {errors.password && <p>! {errors.password}</p>}
+                            {errors.general && <p>! {errors.general}</p>}
+                            {errors.confirmPassword && <p>! {errors.confirmPassword}</p>}
+                            </div>
+                            
                             {<form>
                                 <div className="grey-text">
-                                    <MDBInput label="Username" id="username" onChange={this.handleChange} icon="user-alt" group type="text" validate error="wrong"
-                                        success="right" value={this.state.username} />
-                                    <MDBInput label="Email Address" id="email" icon="envelope" onChange={this.handleChange} group type="email" validate error="wrong"
-                                        success="right" value={this.state.email} />
-                                    <MDBInput label="Password" id="password" icon="lock" group onChange={this.handleChange} type="password" validate value={this.state.password} />
-                                    <MDBInput label="Confirmed Password" id="cfmpassword" icon="lock" onChange={this.handleChange} group type="password" validate value={this.state.cfmpassword} />
+                                    <MDBInput 
+                                        label="Username" 
+                                        name = "handle"
+                                        onChange={this.handleChange} 
+                                        icon="user-alt" 
+                                        group type="text" 
+                                        validate 
+                                        error="wrong"
+                                        success="right" 
+                                        value={this.state.handle} />
+
+                                    <MDBInput 
+                                        label="Email Address" 
+                                        icon="envelope" 
+                                        name = "email"
+                                        onChange={this.handleChange} 
+                                        group 
+                                        type="email" 
+                                        validate 
+                                        error="wrong"
+                                        success="right" 
+                                        value={this.state.email} />
+
+                                    <MDBInput 
+                                        label="Password" 
+                                        name="password"
+                                        icon="lock" 
+                                        group 
+                                        onChange={this.handleChange} 
+                                        type="password" 
+                                        validate 
+                                        value={this.state.password} />
+
+                                    <MDBInput 
+                                        label="Confirmed Password" 
+                                        name = "confirmPassword"
+                                        icon="lock" 
+                                        onChange={this.handleChange} 
+                                        group 
+                                        type="password" 
+                                        validate 
+                                        value={this.state.confirmPassword} />
                                 </div>
                                 <div className="text-center">
-                                    <MDBBtn onlick={this.handleSubmit(this)} color="red" size="lg" href="http://localhost:3000/login">Sign Up</MDBBtn>
+                                    <MDBBtn 
+                                        onClick={this.handleSubmit} 
+                                        color = "red" 
+                                        size = "lg">
+                                        Sign Up
+                                    </MDBBtn>
                                 </div>
                             </form>}
                         </MDBCol>
@@ -60,8 +141,11 @@ class Signup extends Component {
     }
 }
 const mapStateToProps = state => ({
-    register: state.user.response
+    logintoken: state.user.response,
+    userlist: state.firestore.ordered.users,
+    ui : state.ui
 })
 
 //export default Signup
-export default connect(mapStateToProps, { registerUser })(Signup)
+//export default connect(mapStateToProps, { registerUser })(Signup)
+export default compose(connect(mapStateToProps, { registerUser }), firestoreConnect([{ collection: 'users' }]))(Signup)

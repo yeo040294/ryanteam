@@ -17,8 +17,6 @@ class LoginPage extends Component {
     }
 
     handleSubmit = () => {
-        // email: "lovecode@email.com",
-        // password: "123456"
         const form = {
             email: this.state.email,
             password: this.state.password

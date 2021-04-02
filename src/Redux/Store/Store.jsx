@@ -9,7 +9,9 @@ import { reduxFirestore, getFirestore } from 'redux-firestore';
 const initialState = {};
 const middleWare = [thunk.withExtraArgument({getFirebase, getFirestore})];
 const store = createStore(RootReducer, initialState,
-    compose(applyMiddleware(...middleWare) ,reduxFirestore(firebase)
+    compose(applyMiddleware(...middleWare) ,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    ,reduxFirestore(firebase)
     )
 );
 

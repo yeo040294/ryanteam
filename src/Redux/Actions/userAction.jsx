@@ -45,7 +45,7 @@ export const getUserData = () => (dispatch) => {
       .catch((err) => console.log(err));
   }
   
-export const registerUser = (userData) => dispatch => {
+export const registerUser = (userData, history) => dispatch => {
     fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/signup',{
         method: 'POST',
         headers : {
@@ -54,18 +54,18 @@ export const registerUser = (userData) => dispatch => {
         body: JSON.stringify(userData)
     })
         .then((res) => {
-            console.log("bro register user response coming in")
             if(!res.ok) throw res;
             return res.json();
         })
-        .then(data => dispatch({
-            type: 'USER_REGISTERED',
-            payload: data
-        }))
+        .then(data => {
+            dispatch({
+                type: 'USER_REGISTERED',
+                payload: data
+            })
+        })
         .catch((err) => {
             console.log(err)
             err.json().then((body)=>{
-                //console.log(body)
                 dispatch({
                     type : 'SET_ERRORS',
                     payload : body
