@@ -14,8 +14,6 @@ const Approve = ({ myRequest, navigate, toapprove, toreject }) => {
     toreject(itemid)
   }
 
-
-
   // console.log(myRequest)
   return (
 

@@ -42,7 +42,7 @@ class Approval extends Component {
                                 <br />
                                 <h2>Pending Approval</h2>
                                 <hr />
-                                <Approve navigate={this.Navigate} myRequest={this.props.itemlist} toapprove={this.approvalItem} toreject = {this.rejectItem} />
+                                <Approve navigate={this.Navigate} myRequest={this.props.itemlist} toapprove={this.approveItem} toreject = {this.rejectItem} />
                             </MDBAnimation>
                             <MDBBtn outline color="green" onClick={this.GoBack} > Back
                        </MDBBtn>

@@ -5,7 +5,6 @@ import Card from '../components/Main/Card'
 import CategoriesBtn from '../components/Main/CategoriesBtn'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { firestoreConnect } from 'react-redux-firebase'
