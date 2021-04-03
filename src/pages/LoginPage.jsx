@@ -49,11 +49,14 @@ class LoginPage extends Component {
                 localStorage.setItem("image", user[0].imageUrl);
                 isAdmin = user[0].isAdmin
             }
-            localStorage.setItem("usertype", "Normal User")
+            
             if(isAdmin){
+                localStorage.setItem("usertype", "Admin")
                 this.props.history.push('/approval')
+                //this.props.history.push('/')
             }
             else{
+                localStorage.setItem("usertype", "Normal User")
                 this.props.history.push('/')
             }
         }
