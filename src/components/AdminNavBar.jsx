@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem, MDBFooter, MDBNavLink, MDBIcon } from 'mdbreact';
 
 
-class Navbar extends Component {
+class AdminNavBar extends Component {
     state = {
         collapseID: '',
         username: localStorage.getItem("username")
@@ -47,37 +47,12 @@ class Navbar extends Component {
                         <MDBNavbarNav right>
                             <MDBNavItem>
                                 <MDBNavLink
-                                    exact
-                                    to='/'
                                     onClick={this.closeCollapse('mainNavbarCollapse')}
-                                >
-                                    <strong>Home</strong>
-                                </MDBNavLink>
-                            </MDBNavItem>
-                            <MDBNavItem>
-                                <MDBNavLink
-                                    onClick={this.closeCollapse('mainNavbarCollapse')}
-                                    to='/profile'
-                                >
-                                    <strong>Profile</strong>
-                                </MDBNavLink>
-                            </MDBNavItem>
-                            <MDBNavItem>
-                                <MDBNavLink
-                                    onClick={this.closeCollapse('mainNavbarCollapse')}
-                                    to='/status'
-                                >
-                                    <strong>My Orders</strong>
-                                </MDBNavLink>
-                            </MDBNavItem>
-                            <MDBNavItem>
-                                <MDBNavLink
-                                    onClick={this.closeCollapse('mainNavbarCollapse')}
-                                    to='/donation'
-                                >
-                                    <strong>Donation</strong>
-                                </MDBNavLink>
-                            </MDBNavItem>
+                                    to='/approval'
+                                    >
+                                        <strong>Approval</strong>
+                                    </MDBNavLink>
+                                </MDBNavItem>
     
                                 <MDBNavItem>
                                     <MDBNavLink
@@ -95,4 +70,4 @@ class Navbar extends Component {
         )
     }
 }
-export default Navbar
+export default AdminNavBar

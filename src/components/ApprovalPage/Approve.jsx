@@ -1,7 +1,7 @@
 import React from 'react';
 import { MDBTable, MDBTableBody, MDBTableHead, MDBBtn } from 'mdbreact';
 
-const Approve = ({ myRequest, navigate, toapprove }) => {
+const Approve = ({ myRequest, navigate, toapprove, toreject }) => {
   function viewItem(itemId) {
     navigate(itemId)
   };
@@ -9,6 +9,12 @@ const Approve = ({ myRequest, navigate, toapprove }) => {
   const approve = (itemid) => {
     toapprove(itemid)
   }
+
+  const reject = (itemid) => {
+    toreject(itemid)
+  }
+
+
 
   // console.log(myRequest)
   return (
@@ -23,6 +29,7 @@ const Approve = ({ myRequest, navigate, toapprove }) => {
           <th>Date Requested</th>
           <th>Status</th>
           <th>Approval</th>
+          <th>Rejection</th>
         </tr>
       </MDBTableHead>
       <MDBTableBody>
@@ -41,6 +48,7 @@ const Approve = ({ myRequest, navigate, toapprove }) => {
                 <td>{x.itemStatus}</td>
 
                 <td><MDBBtn size="sm" onClick={() => approve(x.id)} outline color="pink">Approve</MDBBtn></td>
+                <td><MDBBtn size="sm" onClick={() => reject(x.id)} outline color="pink">Reject</MDBBtn></td>
               </tr>
             )
           })}

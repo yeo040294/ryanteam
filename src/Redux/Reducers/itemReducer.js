@@ -4,7 +4,7 @@ const initState = {
 }
 
 const itemReducers = (state = initState, action) => {
-
+    //hyunatic can you tell him not to return state with 5 diff action types?
     switch (action.type) {
         case 'GET_ITEMS':
             return {

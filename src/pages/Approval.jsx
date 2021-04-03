@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import { MDBContainer, MDBRow, MDBCol, MDBAnimation ,MDBBtn} from "mdbreact";
 import Approve from '../components/ApprovalPage/Approve'
-
-import Navbar from '../components/Navbar'
+import AdminNavBar from '../components/AdminNavBar'
 import Footer from '../components/Footer'
 
 import { firestoreConnect } from 'react-redux-firebase'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { approveItem, addRequest } from '../Redux/Actions/itemAction'
+import { approveItem, addRequest, rejectItem } from '../Redux/Actions/itemAction'
 class Approval extends Component {
     //state havent put yet ( look at status page for information)
     state = {
@@ -19,17 +18,14 @@ class Approval extends Component {
     }
 
 
-
-    ApprovalItem = (itemid) => {
-        var today = new Date();
-        const form = {
-            createdAt: today.toJSON(),
-            itemId: itemid,
-            
-        }
+    approveItem = (itemid) => {
         this.props.approveItem(itemid);
-        //this.props.history.push('/approval')
     }
+
+    rejectItem = (itemid) => {
+        this.props.rejectItem(itemid)
+    }
+
     Navigate = (itemId) => {
         this.props.history.push("/itemDetails/" + itemId)
     }
@@ -38,7 +34,7 @@ class Approval extends Component {
     render() {
         return (
             <div>
-                <Navbar />
+                <AdminNavBar />
                 <MDBContainer>
                     <MDBRow>
                         <MDBCol>
@@ -46,7 +42,7 @@ class Approval extends Component {
                                 <br />
                                 <h2>Pending Approval</h2>
                                 <hr />
-                                <Approve navigate={this.Navigate} myRequest={this.props.itemlist} toapprove={this.ApprovalItem} />
+                                <Approve navigate={this.Navigate} myRequest={this.props.itemlist} toapprove={this.approvalItem} toreject = {this.rejectItem} />
                             </MDBAnimation>
                             <MDBBtn outline color="green" onClick={this.GoBack} > Back
                        </MDBBtn>
@@ -72,4 +68,4 @@ const mapStateToProps = state => {
         itemlist: state.firestore.ordered.items,
     }
 }
-export default compose(connect(mapStateToProps, { approveItem, addRequest }), firestoreConnect([{ collection: 'items' }]))(Approval)
+export default compose(connect(mapStateToProps, { approveItem, addRequest, rejectItem }), firestoreConnect([{ collection: 'items' }]))(Approval)
