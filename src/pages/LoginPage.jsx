@@ -39,6 +39,7 @@ class LoginPage extends Component {
     
     componentWillReceiveProps(nextProps) {
         if (nextProps.logintoken.token) {
+            let isAdmin = false
             localStorage.setItem("token", nextProps.logintoken.token)
             localStorage.setItem("username", this.state.email)
             let user = this.props.userlist.filter((user) => user.email == this.state.email)
@@ -46,9 +47,15 @@ class LoginPage extends Component {
                 localStorage.setItem("userhandle", user[0].handle);
                 localStorage.setItem("userid", user[0].userId);
                 localStorage.setItem("image", user[0].imageUrl);
+                isAdmin = user[0].isAdmin
             }
             localStorage.setItem("usertype", "Normal User")
-            this.props.history.push('/')
+            if(isAdmin){
+                this.props.history.push('/approval')
+            }
+            else{
+                this.props.history.push('/')
+            }
         }
         else if (nextProps.logintoken.error) {
             this.setState({ email: '', password: '' })
@@ -73,6 +80,7 @@ class LoginPage extends Component {
                                 {errors.email && <p>{errors.email}</p>}
                                 {errors.password && <p>{errors.password}</p>}
                                 {errors.general && <p>{errors.general}</p>}
+                                {errors.error && <p>{errors.error}</p>}
                             </div>
                             <h3 className="pink-text">Welcome to SecondLove</h3>
                             <hr />

@@ -5,6 +5,8 @@
   "homepage": "https://ssadweb.hyunatic.com/",
   "// If You want to install mdbreact from our GitLab repository, please replace '5.0.1' with gitURL provided here ->": "git+https://oauth2:<YOUR-TOKEN-GOES-HERE>@git.mdbootstrap.com/mdb/react/re-pro.git",
   "dependencies": {
+    "@emotion/react": "^11.1.5",
+    "axios": "^0.21.1",
     "firebase": "^8.3.1",
     "google-map-react": "^2.1.9",
     "jwt-decode": "^3.1.2",
@@ -16,6 +18,7 @@
     "react-redux-firebase": "^3.10.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "4.0.1",
+    "react-spinners": "^0.10.6",
     "redux": "^4.0.5",
     "redux-firestore": "^0.15.0",
     "redux-thunk": "^2.3.0"

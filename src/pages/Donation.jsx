@@ -4,12 +4,12 @@ import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 import DonationGoogleMap from '../components/Donation/DonationGoogleMap'
 import Uploadfile from '../components/Profile/Uploadfile'
-
 import { connect } from 'react-redux'
-import { compose } from 'redux'
+import { compose, bindActionCreators } from 'redux'
 import { firestoreConnect } from 'react-redux-firebase'
-import { donateItem } from '../Redux/Actions/itemAction'
-
+import { donateItem, uploadItemImage } from '../Redux/Actions/itemAction'
+import { PulseLoader } from 'react-spinners'
+import { css } from '@emotion/react'
 
 class Donation extends Component {
   state = {
@@ -29,13 +29,15 @@ class Donation extends Component {
     //console.log(this.props.collectionlist)
   }
 
-  PictureUploaded = (pic) => {
-    console.log(pic);
-    this.setState(state => ({
-      ...state,
-      file: pic
-    }))
-  };
+
+
+  // PictureUploaded = (pic) => {
+  //   console.log(pic);
+  //   this.setState(state => ({
+  //     ...state,
+  //     file: pic
+  //   }))
+  // };
 
   handleChange = (e) => {
     //console.log(this.state.name, this.state.description) // to change state everytime you type -- question: value
@@ -67,7 +69,8 @@ class Donation extends Component {
       category: this.state.category ? this.state.category : "home and living",
       createdAt: today.toJSON(),
       description: this.state.description,
-      imageUrl: this.state.file,
+      //imageUrl: this.state.file,
+      imageUrl: this.props.ui.uploadImgLink.message,
       itemCondition: this.state.itemCondition,
       itemName: this.state.name,
       itemStatus: "pendingApproval",
@@ -90,9 +93,27 @@ class Donation extends Component {
     })
   }
 
+  handleImageChange = (event) => {
+    console.log("handle image change is called")
+    this.setState({
+      file: URL.createObjectURL(event.target.files[0])
+    })
+
+    const image = event.target.files[0];
+    const formData = new FormData();
+    formData.append('image', image, image.name);
+    this.props.uploadItemImage(formData);
+  };
+
 
 
   render() {
+    const imgLoaderCSS = css`
+        margin-top : 25px;
+        margin-bottom : 25px;
+        margin-left : 150px;
+        `
+    
     return (
       <div>
         <Navbar />
@@ -127,7 +148,22 @@ class Donation extends Component {
                   <p></p>
 
                   <h6>Upload Image</h6>
-                  <Uploadfile id="image" picUpload={this.PictureUploaded} ></Uploadfile>
+                  {/**<Uploadfile id="image" picUpload={this.PictureUploaded} ></Uploadfile> */}
+                  <input type = "file" id = "imageInput" onChange = {this.handleImageChange} />
+                  <MDBRow>
+                    {this.props.ui.loading &&
+                      <div>
+                        <p>Uploading image to server...</p>
+                        <PulseLoader 
+                                loading = {this.props.loading}
+                                size = {12}
+                                color = 'pink'
+                                css = {imgLoaderCSS}
+                                />
+                      </div>     
+                        }
+                  </MDBRow>
+                  
                 </MDBCol>
                 <img src={this.state.file} width='500' height='500' />
 
@@ -161,7 +197,10 @@ class Donation extends Component {
               </MDBAnimation>
             </MDBCol>
           </MDBRow>
-          <MDBBtn outline color="pink" onClick={this.handleSubmit}>Upload </MDBBtn>
+          <MDBBtn 
+            outline color="pink" 
+            onClick={this.handleSubmit}
+            disabled = {this.props.ui.loading}>Upload </MDBBtn>
           <MDBBtn outline color="green" onClick={this.GoBack} > Back
                        </MDBBtn>
         </MDBContainer>
@@ -175,6 +214,12 @@ const mapStateToProps = state => {
   return {
     itemlist: state.firestore.ordered.items,
     collectionlist: state.firestore.ordered.collectionpoint,
+    ui : state.ui
   }
 }
-export default compose(connect(mapStateToProps, { donateItem }), firestoreConnect([{ collection: 'items' }, { collection: 'collectionpoint' }]))(Donation)
+
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {uploadItemImage, donateItem}
+, dispatch);
+
+export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect([{ collection: 'items' }, { collection: 'collectionpoint' }]))(Donation)

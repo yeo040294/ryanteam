@@ -1,4 +1,5 @@
 import firebase from '../Firebase/fbConfig'
+import axios from 'axios'
 
 export const getAvailableItems = () => dispatch => {
     fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/items')
@@ -75,34 +76,26 @@ export const deleteItem = id => dispatch => {
     })
 }
 
-export const ballotItem = (itemId) => dispatch => {
-    fetch(`https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item/${itemId}/ballotItem`,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': localStorage.FBIdToken
+export const uploadItemImage = (formData) => (dispatch) => {
+    dispatch({ type: 'LOADING_UI' });
+    axios
+      .post(`https://us-central1-secondlove-cc51b.cloudfunctions.net/api/item/image`, formData,
+      {
+          headers : {
+            //Authorization : localStorage.FBIdToken
+            Authorization : `Bearer ${localStorage.token}`
             }
+      })
+      .then((res) => {
+        dispatch({
+            type : 'SET_UPLOAD_IMG_LINK',
+            payload : res.data
         })
-        .then((res) => {
-            if (!res.ok) throw res;
-            return res.json();
-        })
-        .then(data => {
-            dispatch({
-                type: 'GET_ITEMS',
-                payload: data
-            })
-            dispatch({ type: 'CLEAR_ERRORS' })
-        })
-        .catch((err) => {
-            console.log(err)
-            err.json().then((body) => {
-                dispatch({
-                    type: 'SET_ERRORS',
-                    payload: body
-                })
-            })
-        });
-}
+        dispatch({type : 'CLEAR_LOADING_UI'})
+      })
+      .catch((err) => console.log(err));
+  };
+
+
+
 
