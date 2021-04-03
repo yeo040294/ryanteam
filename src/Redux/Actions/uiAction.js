@@ -17,3 +17,11 @@ export const setLoadingUI = () => dispatch => {
         type : 'LOADING_UI',
     })
 }
+
+export const clearImgLink = () => dispatch => {
+    dispatch({
+        type : 'CLEAR_UPLOAD_IMG_LINK'
+    })
+}
+
+

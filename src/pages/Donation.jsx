@@ -10,23 +10,31 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { donateItem, uploadItemImage } from '../Redux/Actions/itemAction'
 import { PulseLoader } from 'react-spinners'
 import { css } from '@emotion/react'
+import { clearError, clearImgLink } from '../Redux/Actions/uiAction';
+import { validateDonateItemData } from '../util/validators'
 
 class Donation extends Component {
-  state = {
-    file: '',
-    lat: '',
-    long: '',
-    categories: ["home and living", "sports", "electronic", "toys", "clothes", "luxury", "utomobile"],
-    category: '',
-    name: '',
-    description: '',
-    location: '',
-    itemCondition: ''
 
-  };
+  constructor(props){
+    super(props);
+    this.state = {
+      file: '',
+      lat: '',
+      long: '',
+      categories: ["home and living", "sports", "electronic", "toys", "clothes", "luxury", "utomobile"],
+      category: '',
+      name: '',
+      description: '',
+      location: '',
+      itemCondition: '',
+      formErrors : {}
+    }
+  }
+  
 
   componentDidMount() {
-    //console.log(this.props.collectionlist)
+    this.props.clearError()
+    this.props.clearImgLink()
   }
 
 
@@ -69,7 +77,6 @@ class Donation extends Component {
       category: this.state.category ? this.state.category : "home and living",
       createdAt: today.toJSON(),
       description: this.state.description,
-      //imageUrl: this.state.file,
       imageUrl: this.props.ui.uploadImgLink.message,
       itemCondition: this.state.itemCondition,
       itemName: this.state.name,
@@ -79,18 +86,28 @@ class Donation extends Component {
       userHandle: localStorage.getItem("username"),
       recipient: '',
     }
-    this.props.donateItem(form);
-    alert("Thank you for your donation!");
-    this.setState({
-      file: '',
-      lat: '',
-      long: '',
-      category: '',
-      name: '',
-      description: '',
-      location: '',
-      itemCondition: ''
-    })
+
+    const { errors, valid } = validateDonateItemData(form)
+    if(!valid){
+      this.setState({
+        formErrors : {...errors}
+      })
+    }
+    else{
+      this.props.donateItem(form);
+      alert("Thank you for your donation!");
+      this.setState({
+        file: '',
+        lat: '',
+        long: '',
+        category: '',
+        name: '',
+        description: '',
+        location: '',
+        itemCondition: ''
+      })
+    }
+    
   }
 
   handleImageChange = (event) => {
@@ -123,6 +140,11 @@ class Donation extends Component {
             <MDBCol>
               <MDBAnimation type = 'slideInLeft'>
               <div>
+                <div className = "red-text">
+                {this.state.formErrors.itemName && <div>{this.state.formErrors.itemName}</div>}
+                {this.state.formErrors.description && <div>{this.state.formErrors.description}</div>}
+                {this.state.formErrors.imageUrl && <div>{this.state.formErrors.imageUrl}</div>}
+                </div>
                 <h3>Donation</h3>
                 <hr />
                 <MDBCol col-md-1>
@@ -130,7 +152,7 @@ class Donation extends Component {
                   <MDBInput id='description' type="textarea" value={this.state.description} onChange={this.handleChange} label="Enter the item description here" rows="5" />
 
                   <h6>Item Condition</h6>
-                  <select placeholder class="browser-default custom-select" value={this.state.location} id="itemCondition" onChange={this.handleChange}>
+                  <select placeholder class="browser-default custom-select" value={this.state.itemCondition} id="itemCondition" onChange={this.handleChange}>
                     <option value='WellUsed'>Well Used</option>
                     <option value='SlightlyUsed'>Slightly Used</option>
                     <option value='New'>New</option>
@@ -219,7 +241,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators(
-  {uploadItemImage, donateItem}
+  {uploadItemImage, donateItem, clearError, clearImgLink}
 , dispatch);
 
 export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect([{ collection: 'items' }, { collection: 'collectionpoint' }]))(Donation)
