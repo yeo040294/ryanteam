@@ -9,14 +9,16 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { clearError } from '../Redux/Actions/uiAction';
 
 class Signup extends Component {
-    state = {
+    constructor(props){
+    super(props)
+    this.state = {
         handle: '',
         email: '',
         password: '',
         confirmPassword: '',
         errors:{}
     }
-
+    }
     componentDidMount(){
         this.props.clearError()
     }
