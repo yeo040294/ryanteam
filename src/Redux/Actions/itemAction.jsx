@@ -59,13 +59,14 @@ export const updateItem = (id) => dispatch => {
         type: "UPDATE_ITEM"
     })
 }
-
+//remove this shit
 export const collectItem = (id) => dispatch => {
     const db = firebase.firestore()
     db.collection("items").doc(id).update({ itemStatus: 'Collected' })
     dispatch({
         type: "COLLECT_ITEM"
     })
+    
 }
 
 export const addRequest = (formdata) => dispatch => {
@@ -104,6 +105,145 @@ export const uploadItemImage = (formData) => (dispatch) => {
       .catch((err) => console.log(err));
   };
 
+export const reserveItem = (itemId) => dispatch => {
+
+    const db = firebase.firestore()
+    db.collection('collectionReference').add({
+        userId : localStorage.userid,
+        itemId : itemId,
+        createdAt : new Date().toISOString(),
+        status : 'pendingCollection'
+    })
+    .then(() => {
+        return db.collection('items').doc(itemId)
+        .update({
+            itemStatus : 'pendingCollection'
+        })
+    })
+    .then(()=>{
+        console.log("Item has been requested")
+        dispatch({
+            type: 'SET_MESSAGE',
+            payload : ({message : 'Item has been successfully requested'})
+        })
+    })
+    .catch((error) => {
+        console.error("Error adding document: ", error);
+        dispatch({
+            type : 'SET_ERRORS', 
+            payload : error
+        })
+    });
+}
+
+export const confirmItemCollection = (itemId) => dispatch => {
+    const db = firebase.firestore()
+    const itemDocument = db.doc(`/items/${itemId}`)
+    let refId;
+    itemDocument
+        .update({
+            itemStatus : 'Donated'
+        })
+    .then(() => {
+        db.collection('collectionReference')
+        .get()
+        .then((querySnapshot)=>{
+            querySnapshot.forEach((doc) => {
+                if(doc.data().itemId == itemId && doc.data().status == "pendingCollection"){
+                    console.log("my doc id is = " + doc.id)
+                    refId = doc.id                
+                }
+            })
+            return db.collection('collectionReference').doc(refId)
+            .update({
+                status : 'Collected'
+            })
+            .then(()=>{
+                dispatch({
+                    type: 'SET_MESSAGE',
+                    payload : ({message : 'Item has been successfully confirmed for donation'})
+                })
+                console.log("this is my refId; " + refId)
+                dispatch({
+                    type : 'REMOVE_COLLECTION_REFERENCE_ITEM',
+                    payload : refId
+                })
+            })
+            
+        })
+    })
+    .catch((error) => {
+        console.error("Error adding document: ", error);
+    });
+}
 
 
+export const rejectItemCollection = (itemId) => dispatch => {
+    const db = firebase.firestore()
+    const itemDocument = db.doc(`/items/${itemId}`)
+    let refId;
+    itemDocument
+        .update({
+            itemStatus : 'Approved'
+        })
+    .then(() => {
+        db.collection('collectionReference')
+        .get()
+        .then((querySnapshot)=>{
+            querySnapshot.forEach((doc) => {
+                if(doc.data().itemId == itemId && doc.data().status == "pendingCollection"){
+                    console.log("my doc id is = " + doc.id)
+                    refId = doc.id                
+                }
+            })
+            return db.collection('collectionReference').doc(refId)
+            .update({
+                status : 'notCollected'
+            })
+            .then(()=>{
+                dispatch({
+                    type: 'SET_MESSAGE',
+                    payload : ({message : 'Reservation of item has been undone.'})
+                })
+                console.log("this is my refId; " + refId)
+                dispatch({
+                    type : 'REMOVE_COLLECTION_REFERENCE_ITEM',
+                    payload : refId
+                })
+            })
+            
+        })
+    })
+    .catch((error) => {
+        console.error("Error adding document: ", error);
+    });
+}
 
+export const getCollectionReference = () => dispatch => {
+    dispatch({ type: 'LOADING_UI' });
+    const collectionRefs = []
+    const db = firebase.firestore()
+    db.collection('collectionReference')
+    .where('status', '==', 'pendingCollection')
+    .get()
+    .then((data)=>{
+        data.forEach((doc) => {
+            collectionRefs.push({
+                refId : doc.id,
+                createdAt : doc.data().createdAt,
+                itemId : doc.data().itemId,
+                status : doc.data().status,
+                userId : doc.data().userId
+            })
+        })
+
+        dispatch({
+            type : 'SET_LIST_OF_COLLECTION_REF',
+            payload : collectionRefs
+        })
+        dispatch({type : 'CLEAR_LOADING_UI'})
+    })
+    .catch((error) => {
+        console.error("Encountered this error: ", error);
+    });
+}

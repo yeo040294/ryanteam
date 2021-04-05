@@ -7,25 +7,29 @@ import Footer from '../components/Footer'
 import { MDBContainer, MDBRow, MDBCol } from 'mdbreact'
 import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText } from 'mdbreact';
 import GoogleMap from '../components/GoogleMap'
-import { updateItem, addRequest } from '../Redux/Actions/itemAction'
+import { updateItem, addRequest, reserveItem} from '../Redux/Actions/itemAction'
 
 
 class ItemDetails extends Component {
     state = {
         itemid: this.props.match.params.itemId,
     };
-    ReserveItem = (item) => {
-        var today = new Date();
-        const form = {
-            createdAt: today.toJSON(),
-            itemId: item.id,
-            itemName: item.itemName,
-            recipient: localStorage.getItem("username"),
-            requestStatus: "Pending" //pending(request) == pendingcollection(item)
-        }
-        this.props.updateItem(item.id) //update itemstatus to pendingcollection
-        this.props.addRequest(form)
-        this.props.history.push('/status')
+    // ReserveItem = (item) => {
+    //     var today = new Date();
+    //     const form = {
+    //         createdAt: today.toJSON(),
+    //         itemId: item.id,
+    //         itemName: item.itemName,
+    //         recipient: localStorage.getItem("username"),
+    //         requestStatus: "Pending" //pending(request) == pendingcollection(item)
+    //     }
+    //     this.props.updateItem(item.id) //update itemstatus to pendingcollection
+    //     this.props.addRequest(form)
+    //     this.props.history.push('/status')
+    // }
+
+    reserveItem = (item) => {
+        this.props.reserveItem(item.id)
     }
 
     GoBack = () => { this.props.history.push("/") }
@@ -51,8 +55,8 @@ class ItemDetails extends Component {
                                                 {x.description} <br />
                                                 {x.location}
                                             </MDBCardText>
-                                            {((x.itemStatus == "Collected" || x.itemStatus == "PendingCollection") && <MDBBtn onClick={() => this.ReserveItem(x)} outline color="pink" disabled > Ordered </MDBBtn>)  }
-                                            {((x.itemStatus !== "Collected" && x.itemStatus !== "PendingCollection") && <MDBBtn onClick={() => this.ReserveItem(x)} outline color="pink" > Place Order </MDBBtn>)  }
+                                            {((x.itemStatus == "Collected" || x.itemStatus == "PendingCollection") && <MDBBtn onClick={() => this.reserveItem(x)} outline color="pink" disabled > Ordered </MDBBtn>)  }
+                                            {((x.itemStatus !== "Collected" && x.itemStatus !== "PendingCollection") && <MDBBtn onClick={() => this.reserveItem(x)} outline color="pink" >Reserve Item</MDBBtn>)  }
                                         </MDBCardBody>
                                     </MDBCard>
                                 </MDBCol>
@@ -99,7 +103,10 @@ const mapStateToProps = (state, ownProps) => {
             collectionpoint: collectpoint
         }
     }
+    return {
+        ui : state.ui
+    }
 
 }
 
-export default compose(connect(mapStateToProps, { updateItem, addRequest }), firestoreConnect([{ collection: 'items' }, { collection: 'collectionpoint' }]))(ItemDetails)
+export default compose(connect(mapStateToProps, { updateItem, addRequest, reserveItem }), firestoreConnect([{ collection: 'items' }, { collection: 'collectionpoint' }]))(ItemDetails)

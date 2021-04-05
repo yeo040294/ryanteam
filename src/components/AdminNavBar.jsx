@@ -53,6 +53,15 @@ class AdminNavBar extends Component {
                                         <strong>Approval</strong>
                                     </MDBNavLink>
                                 </MDBNavItem>
+
+                                <MDBNavItem>
+                                <MDBNavLink
+                                    onClick={this.closeCollapse('mainNavbarCollapse')}
+                                    to='/confirmItemDonation'
+                                    >
+                                        <strong>Confirm donation</strong>
+                                    </MDBNavLink>
+                                </MDBNavItem>
     
                                 <MDBNavItem>
                                     <MDBNavLink

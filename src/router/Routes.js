@@ -11,6 +11,7 @@ import itemDetails from '../pages/ItemDetails'
 import Logout from '../pages/Logout'
 import MyItemStatus from '../pages/MyItemStatus'
 import Approval from '../pages/Approval'
+import ConfirmItemDonation from '../pages/ConfirmItemDonation'
 import {AdminRoute} from './AdminRoute'
 
 class Routes extends React.Component {
@@ -29,6 +30,7 @@ class Routes extends React.Component {
         <Route path = '/logout' component = {Logout}/>
         <Route path='/status' component={MyItemStatus} />
         <AdminRoute path='/approval' component={Approval} />
+        <AdminRoute path='/confirmItemDonation' component={ConfirmItemDonation} />
         <Route
           render={function () {
             return <h1>Not Found</h1>;
