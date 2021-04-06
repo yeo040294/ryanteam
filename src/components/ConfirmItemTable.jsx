@@ -1,17 +1,19 @@
 import React from 'react';
 import { MDBTable, MDBTableBody, MDBTableHead, MDBBtn } from 'mdbreact';
 
-const ConfirmItemTable = ({ myRequest, toConfirm, toReject }) => {
+const ConfirmItemTable = ({ myRequest, toConfirm, toReject, refresh}) => {
  
   function viewItem(itemId) {
     navigate(itemId)
   };
   const confirmItem = (itemid) => {
     toConfirm(itemid)
+    refresh()
   }
 
   const rejectItem = (itemid) => {
     toReject(itemid)
+    refresh()
   }
 
   // console.log(myRequest)

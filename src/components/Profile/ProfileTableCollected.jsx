@@ -31,7 +31,8 @@ const ProfileTableCollected = ({ myRequest, navigate, userId}) => {
         </tr>
       </MDBTableHead>
       <MDBTableBody>
-        {(filteredData.length !== 0) ? display : <React.Fragment>No Data</React.Fragment>}
+        {(filteredData.length !== 0) ? display : 
+        <div><br /><React.Fragment>This user has yet to collect any item from SecondLove.</React.Fragment></div>}
       </MDBTableBody>
     </MDBTable>
   );

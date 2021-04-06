@@ -111,7 +111,7 @@ togglePopup = () => {
                       <h2>Donated Items</h2>
                       <ProfileTableDonated navigate={this.Navigate} 
                                     myRequest={this.props.itemlist } 
-                                    userHandle = {this.state.userHandle} />
+                                    userHandle = {localStorage.getItem('userhandle')} />
                   </MDBAnimation>
             </MDBCol>
           </MDBRow>

@@ -27,7 +27,7 @@ const Approved = ({ myRequest, navigate, collectItem }) => {
         </tr>
       </MDBTableHead>
       <MDBTableBody>
-        {(filteredData.length !== 0) ? display : <React.Fragment>No Data</React.Fragment>}
+        {(filteredData.length !== 0) ? display : <div><br /><React.Fragment>This user has yet to have any item approved at SecondLove.</React.Fragment></div>}
       </MDBTableBody>
     </MDBTable>
   );

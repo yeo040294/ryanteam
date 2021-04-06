@@ -24,15 +24,6 @@ componentDidMount(){
     this.props.clearMessage()
 }
 
-handleConfirmItemCollection(itemId){
-    this.props.confirmItemCollection(itemId)
-    this.searchitem()
-}
-handleRejectItemCollection(itemId){
-    this.props.rejectItemCollection(itemId)
-    this.searchitem()
-}
-
 togglePopup = () => {
     this.props.clearMessage()
     this.searchitem()
@@ -79,14 +70,14 @@ render(){
                             <MDBInput id="search" onChange={this.handleChange} onKeyDown={this.onKeyPress} value={this.state.search} label="Search" />
 
                                 {this.state.searchResult.length !== 0 &&
-                                <ConfirmItemTable myRequest={this.state.searchResult} toConfirm={this.state.handleConfirmItemCollection} toReject= {this.state.handleRejectItemCollection} />
+                                <ConfirmItemTable myRequest={this.state.searchResult} toConfirm={this.props.confirmItemCollection} toReject= {this.props.rejectItemCollection} refresh = {this.searchitem}/>
          
                                 
                                 }
                                 {this.state.searchResult.length == 0 &&
                                 <div>
                                     <h6>No results found</h6>
-                                    <ConfirmItemTable myRequest={this.props.item.listOfCollectionRefs} toConfirm={this.state.handleConfirmItemCollection} toReject= {this.state.handleRejectItemCollection} />
+                                    <ConfirmItemTable myRequest={this.props.item.listOfCollectionRefs} toConfirm={this.props.confirmItemCollection} toReject= {this.props.rejectItemCollection} refresh = {this.searchitem}/>
                                 </div>
                                  }
                         {/**

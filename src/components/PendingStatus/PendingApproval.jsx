@@ -6,6 +6,21 @@ const PendingApproval = ({ myRequest, navigate, currentUser }) => {
   function viewItem(itemId){
     navigate(itemId)
   };
+
+  let filteredData = myRequest.filter(x => x.itemStatus === "pendingApproval" && x.userHandle === localStorage.getItem("userhandle"))
+  let display = filteredData.map(x => { //need to call userhandle by account 
+    return (
+      <tr>
+        <td>{x.itemName}</td>
+        <td>{x.createdAt}</td>
+        <td>{x.itemStatus}</td>
+        <td><MDBBtn size="sm" onClick={() => viewItem(x.id)} outline color="pink">View Item</MDBBtn></td>
+       <td>{x.userHandle}</td>
+      </tr>
+
+    )})
+  
+
   //console.log(myRequest)
   return (
     
@@ -20,18 +35,8 @@ const PendingApproval = ({ myRequest, navigate, currentUser }) => {
         </tr>
       </MDBTableHead>
       <MDBTableBody>
-        {myRequest && myRequest.filter(x => x.itemStatus === "pendingApproval" && x.userHandle === localStorage.getItem("userhandle")).map(x => { //need to call userhandle by account 
-          return (
-            <tr>
-              <td>{x.itemName}</td>
-              <td>{x.createdAt}</td>
-              <td>{x.itemStatus}</td>
-              <td><MDBBtn size="sm" onClick={() => viewItem(x.id)} outline color="pink">View Item</MDBBtn></td>
-             <td>{x.userHandle}</td>
-            </tr>
-
-          )
-        })}
+      {(filteredData.length !== 0) ? display : 
+        <div><br /><React.Fragment>This user has yet to have any items pending approval from SecondLove.</React.Fragment></div>}
 
       </MDBTableBody>
     </MDBTable>
