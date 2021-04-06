@@ -1,6 +1,6 @@
 import React from 'react';
 import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBCardHeader, MDBBadge, MDBIcon, MDBRow } from 'mdbreact';
-
+import {Link} from 'react-router-dom'
 const Card = ({ post, viewItem }) => {
   return (
     <MDBCol>
@@ -8,7 +8,7 @@ const Card = ({ post, viewItem }) => {
         <MDBCardHeader>
           <MDBRow>
             <MDBIcon border='' icon="user" style={{ padding: '10px' }} />
-            <h5 style={{ padding: '5px' }}>{post.userHandle}</h5>
+            <h5 style={{ padding: '5px' }}><Link to = {`/profile/${post.userId}`}>{post.userHandle}</Link></h5>
           </MDBRow>
         </MDBCardHeader>
         <MDBCardImage className="img-fluid" src={post.imageUrl} waves />

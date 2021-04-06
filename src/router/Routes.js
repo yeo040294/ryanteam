@@ -13,6 +13,7 @@ import MyItemStatus from '../pages/MyItemStatus'
 import Approval from '../pages/Approval'
 import ConfirmItemDonation from '../pages/ConfirmItemDonation'
 import MyDonateItem from '../pages/MyDonateItem'
+import ProfileUpdate from '../pages/ProfileUpdate'
 import {AdminRoute} from './AdminRoute'
 
 class Routes extends React.Component {
@@ -26,7 +27,8 @@ class Routes extends React.Component {
         <Route path='/ballotItems' component={BallotItems} />
         <Route path='/donation' component={Donation} />
         <Route path='/signup' component={Signup} />
-        <Route path='/profile' component={Profile} />
+        <Route exact path='/profile/:userId' component={Profile} />
+        <Route exact path='/profileUpdate' component={ProfileUpdate} />
         <Route path = '/itemDetails/:itemId' component = {itemDetails}/>
         <Route path = '/logout' component = {Logout}/>
         <Route path='/status' component={MyItemStatus} />

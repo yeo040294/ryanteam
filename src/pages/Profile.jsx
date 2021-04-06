@@ -1,88 +1,131 @@
-import { MDBCol, MDBContainer, MDBRow, MDBBtn, MDBInput, MDBAnimation } from 'mdbreact'
+import { MDBCol, MDBContainer, MDBRow, MDBBtn, MDBInput, MDBAnimation, MDBCard, MDBCardImage, MDBTableHead, MDBTableBody, MDBCardBody, MDBCardHeader, MDBCardFooter } from 'mdbreact'
 import React, { Component } from 'react'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
-import ProfileCard from '../components/Profile/ProfileCard'
-import UploadFile from '../components/Profile/Uploadfile'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { updateProfile } from '../Redux/Actions/userAction'
+import { getUserData, updateProfile, uploadUserImage } from '../Redux/Actions/userAction'
+import { clearError, clearMessage} from '../Redux/Actions/uiAction';
 import { firestoreConnect } from 'react-redux-firebase'
+import ProfileTableDonated from '../components/Profile/ProfileTableDonated';
+import ProfileTableCollected from '../components/Profile/ProfileTableCollected'
+import {Link} from 'react-router-dom' 
+import { PulseLoader } from 'react-spinners'
+import { css } from '@emotion/react'
 
 class Profile extends Component {
-  state = {
-    bio: '',
-    name: localStorage.getItem("userhandle"),
-    email: localStorage.getItem("username"),
-    picture: localStorage.getItem("image"),
-    location: '',
+
+  constructor(props){
+    super(props);
+    const { match } = this.props;
+    const matchUrl = match.url;
+    let arr = matchUrl.split("/")
+
+    this.state = {
+      userId : arr[2],
+      userHandle : ''
+    }
   }
 
-  handleChange = (e) => { // to change state everytime you type -- question: value
+  componentDidMount(){
+    this.props.getUserData(this.state.userId)
+    this.props.clearMessage()
     this.setState({
-      [e.target.id]: e.target.value,
+      userHandle : this.props.user.credentials.handle
     })
+    console.log(this.props.collectRefList)
   }
-  PictureUploaded = (pic) => {
-    this.setState({ picture: pic });
-  }
-  onSubmitAll = () => {
-    const form = {
-      email: this.state.email,
-      handle: this.state.name,
-      imageUrl: this.state.picture,
-      bio: this.state.bio
-    }
-    //Need userId
-    this.props.updateProfile(form, localStorage.getItem("userid"))
-  }
+
+  handleImageChange = (event) => {
+    console.log("handle image change is called")
+    this.setState({
+      file : URL.createObjectURL(event.target.files[0])
+    })
+
+    const image = event.target.files[0];
+    const formData = new FormData();
+    formData.append('image', image, image.name);
+    this.props.uploadUserImage(formData);
+  };
+
+  Navigate = (itemId) => {
+    this.props.history.push("/itemDetails/" + itemId)
+}
+
+togglePopup = () => {
+  console.log("tooglePopout is geting pressed")
+  this.props.clearMessage()
+  this.props.clearError()
+  this.props.getUserData(localStorage.getItem('userid'))
+}
 
   GoBack = () => this.props.history.push('/')
+
   render() {
+
     return (
       <div>
         <Navbar />
         <MDBContainer>
+        {this.props.ui.newMessage && 
+            <div>
+                <MDBCard>
+                    <MDBCardBody>
+                    <p>Message</p>
+                    <p>{this.props.ui.message.message}</p>
+                    <p><button onClick = {this.togglePopup}>Ok</button></p>
+                    </MDBCardBody>
+                </MDBCard>
+            </div>
+        }
           <br />
           <MDBRow>
-            <MDBCol size="5">
-              <MDBAnimation type="slideInLeft">
-              <ProfileCard profile={this.state} />
-              </MDBAnimation>
+            <MDBCol md = '3'>
+            
+              <MDBCard>
+                <MDBCardImage className="img-fluid" src={this.props.user.credentials.imageUrl} waves />
+                {this.state.userId == localStorage.getItem('userid') ? <MDBCardFooter>Upload a new picture : 
+                <input type = "file" id = "imageInput" onChange = {this.handleImageChange} />
+                </MDBCardFooter> :  null }
+              </MDBCard>
+              
             </MDBCol>
-            <MDBCol size="7">
-            <MDBAnimation type="slideInRight">
-              <h3>Update Profile</h3>
-              <hr />
-              <MDBInput id='name' label="Name" value={this.state.name} icon="user" onChange={this.handleChange} >
-              </MDBInput>
-              <MDBInput id='bio' label="Biography" icon="user" value={this.state.bio} onChange={this.handleChange} >
-              </MDBInput>
-              <MDBInput id='email' label="E-mail address" icon="envelope" value={this.state.email} onChange={this.handleChange} >
-              </MDBInput>
-              <MDBInput id='location' label="Location" icon="map-marker" value={this.state.location} onChange={this.handleChange} >
-              </MDBInput>
-              <UploadFile picUpload={this.PictureUploaded} />
+            <MDBCol md = '9'>
+              <MDBCard>
+                <MDBCardHeader>
+                    {this.props.user.credentials.handle}'s profile 
 
-              <MDBRow>
-                <MDBCol size="6">
-                  <MDBBtn
-                    onClick={this.onSubmitAll}
-                    outline color="pink"
-                    className="m-0 px-3 py-2 z-depth-0">
-                    Update Profile
-                            </MDBBtn>
-                </MDBCol>
-                <MDBCol size="6">
-                  <MDBBtn
-                    onClick={this.GoBack}
-                    outline color="green"
-                    className="m-0 px-3 py-2 z-depth-0">
-                    Back
-                            </MDBBtn>
-                </MDBCol>
-              </MDBRow>
-              </MDBAnimation>
+                </MDBCardHeader>
+                <MDBCardBody>
+                  User biography : <p>{this.props.user.credentials.bio}</p>
+                </MDBCardBody>
+              </MDBCard>
+            </MDBCol>
+          </MDBRow>
+          {/*Display user donated items*/}
+          <br></br>
+          <MDBRow>
+            
+            <MDBCol size="12">
+                  <MDBAnimation type='slideInUp'>
+                      <h2>Donated Items</h2>
+                      <ProfileTableDonated navigate={this.Navigate} 
+                                    myRequest={this.props.itemlist } 
+                                    userHandle = {this.state.userHandle} />
+                  </MDBAnimation>
+            </MDBCol>
+          </MDBRow>
+
+          {/*Display user collected items*/}
+          <MDBRow>
+          <MDBCol size="12">
+                  <MDBAnimation type='slideInUp'>
+                  <h2>Collected Items</h2>
+                  <ProfileTableCollected navigate={this.Navigate} 
+                                    myRequest={this.props.collectRefList} 
+                                    userId = {this.state.userId} />
+
+                  </MDBAnimation>
             </MDBCol>
           </MDBRow>
         </MDBContainer>
@@ -94,7 +137,12 @@ class Profile extends Component {
 }
 const mapStateToProps = state => {
   return {
-    user: state.firestore.ordered.users,
+    user : state.user,
+    itemlist: state.firestore.ordered.items,
+    collectRefList  :state.firestore.ordered.collectionReference,
+    ui : state.ui
   }
 }
-export default compose(connect(mapStateToProps, { updateProfile }), firestoreConnect([{ collection: 'users' }]))(Profile)
+
+export default compose(connect(mapStateToProps, { updateProfile,getUserData, uploadUserImage, clearError,clearMessage}), 
+firestoreConnect([{ collection: 'items', collection: 'collectionReference' }]))(Profile)

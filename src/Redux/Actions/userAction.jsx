@@ -1,4 +1,6 @@
 import firebase from '../Firebase/fbConfig'
+import axios from 'axios'
+
 export const loginUser = (userData) => dispatch => {
     
      fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/login',{
@@ -29,23 +31,34 @@ export const loginUser = (userData) => dispatch => {
         });
 }
 
-export const getUserData = () => (dispatch) => {
+export const getUserData = (userId) => (dispatch) => {
     dispatch({ type: 'LOADING_USER' });
-    fetch('https://us-central1-secondlove-cc51b.cloudfunctions.net/api/user',{
-        method: 'GET',
-        headers : {
-            'Content-Type': 'application/json',
-            'Authorization' : localStorage.FBIdToken
-        },
-    })
-    .then((res) => res.json())
-    .then((data) => {
+    let userCredentials = {};
+    const db = firebase.firestore()
+    db.collection("users")
+    .get()
+    .then((querySnapshot)=>{
+        querySnapshot.forEach((doc) => {
+            if(doc.data().userId === userId){
+                userCredentials = {
+                    userId : userId,
+                    bio : doc.data().bio,
+                    email : doc.data().email,
+                    handle : doc.data().handle,
+                    imageUrl : doc.data().imageUrl
+                }
+            }
+        })
         dispatch({
-          type: 'SET_USER',
-          payload: data
-        });
-      })
-      .catch((err) => console.log(err));
+            type: 'GET_USER_DATA',
+            payload : userCredentials
+        })
+
+    })
+    .catch((err)=>{
+        console.error(err);
+    })
+    
   }
   
 export const registerUser = (userData, history) => dispatch => {
@@ -85,3 +98,23 @@ export const updateProfile = (data,id) => dispatch => {
         type: "UPDATE_PROFILE"
     })
 }
+
+export const uploadUserImage = (formData) => (dispatch) => {
+    dispatch({ type: 'LOADING_UI' });
+    axios
+      .post(`https://us-central1-secondlove-cc51b.cloudfunctions.net/api/user/image`, formData,
+      {
+          headers : {
+            //Authorization : localStorage.FBIdToken
+            Authorization : `Bearer ${localStorage.token}`
+            }
+      })
+      .then((res) => {
+        dispatch({
+            type : 'SET_MESSAGE',
+            payload : ({message : 'Profile picture has been successfully changed.'})
+        })
+        dispatch({type : 'CLEAR_LOADING_UI'})
+      })
+      .catch((err) => console.log(err));
+  };

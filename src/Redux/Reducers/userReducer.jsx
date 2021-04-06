@@ -22,6 +22,11 @@ const userReducer = (state = initState, action) => {
                 loading: false,
                 ...action.payload
             }
+        case 'GET_USER_DATA':
+            return{
+                ...state,
+                credentials : action.payload
+            }
         case 'USER_REGISTERED':
             return {
                 ...state,

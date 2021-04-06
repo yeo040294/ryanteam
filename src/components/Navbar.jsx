@@ -57,7 +57,7 @@ class Navbar extends Component {
                             <MDBNavItem>
                                 <MDBNavLink
                                     onClick={this.closeCollapse('mainNavbarCollapse')}
-                                    to='/profile'
+                                    to={`/profile/${localStorage.getItem("userid")}`}
                                 >
                                     <strong>Profile</strong>
                                 </MDBNavLink>
@@ -67,7 +67,7 @@ class Navbar extends Component {
                                     onClick={this.closeCollapse('mainNavbarCollapse')}
                                     to='/status'
                                 >
-                                    <strong>Reserved items</strong>
+                                    <strong>View Reserved items</strong>
                                 </MDBNavLink>
                             </MDBNavItem>
                             <MDBNavItem>
@@ -75,7 +75,7 @@ class Navbar extends Component {
                                     onClick={this.closeCollapse('mainNavbarCollapse')}
                                     to='/mydonate'
                                 >
-                                    <strong>Donated items</strong>
+                                    <strong>View Donated items</strong>
                                 </MDBNavLink>
                             </MDBNavItem>
                             <MDBNavItem>

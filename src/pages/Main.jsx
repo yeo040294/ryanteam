@@ -50,7 +50,10 @@ class Main extends Component {
     render() {
         let PopularListing;
         if (this.props.itemlist)
-            PopularListing = this.props.itemlist.filter(x => x.itemStatus !== "pendingApproval" && x.itemStatus !== 'PendingCollection' && x.itemStatus !== 'Collected').map(x => <MDBCol size="4"> <Card viewItem={this.Navigate} post={x} /> </MDBCol>)
+            PopularListing = this.props.itemlist.filter(x => x.itemStatus !== "pendingApproval" && x.itemStatus !== 'PendingCollection' && x.itemStatus !== 'Collected').map(x => 
+            <MDBCol size="4"> 
+            <Card viewItem={this.Navigate} post={x} />
+             </MDBCol>)
         return (
             <div>
                 <Navbar navigate={this.validateLogin} />
@@ -113,11 +116,11 @@ class Main extends Component {
 
 const mapStateToProps = state => {
     return {
-        itemlist: state.firestore.ordered.items,
+        itemlist: state.firestore.ordered.items
     }
 }
 
 
 //connect is a function, returns a higher order component
 //higher order component is wrapping the home component
-export default compose(connect(mapStateToProps), firestoreConnect([{ collection: 'items' }]))(Main)
+export default compose(connect(mapStateToProps), firestoreConnect([{ collection: 'items'}]))(Main)

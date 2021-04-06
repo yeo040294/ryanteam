@@ -38,15 +38,6 @@ class Donation extends Component {
   }
 
 
-
-  // PictureUploaded = (pic) => {
-  //   console.log(pic);
-  //   this.setState(state => ({
-  //     ...state,
-  //     file: pic
-  //   }))
-  // };
-
   handleChange = (e) => {
     //console.log(this.state.name, this.state.description) // to change state everytime you type -- question: value
     this.setState({
@@ -80,8 +71,9 @@ class Donation extends Component {
       itemStatus: "pendingApproval",
       location: this.state.location,
       requestCount: 0,
-      userHandle: localStorage.getItem("userhandle")
-  
+      userHandle: localStorage.getItem("userhandle"),
+      userId : localStorage.getItem("userid")
+
     }
 
     const { errors, valid } = validateDonateItemData(form)

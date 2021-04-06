@@ -87,6 +87,7 @@ class LoginPage extends Component {
                             </div>
                             <h3 className="pink-text">Welcome to SecondLove</h3>
                             <hr />
+                            <br />
                             <form>
                                 <div className="grey-text">
                                     <MDBInput label="Email Address" id="email" icon="envelope" onChange={this.handleChange} group type="email" validate error="wrong" success="right" value={this.state.email} />
