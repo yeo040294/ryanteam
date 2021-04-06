@@ -123,4 +123,4 @@ const mapStateToProps = state => {
 
 //connect is a function, returns a higher order component
 //higher order component is wrapping the home component
-export default compose(connect(mapStateToProps), firestoreConnect([{ collection: 'items'}]))(Main)
+export default compose(connect(mapStateToProps), firestoreConnect([{ collection: 'items', collection: 'collectionReference'}]))(Main)

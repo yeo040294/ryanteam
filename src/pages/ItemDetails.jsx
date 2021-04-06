@@ -45,12 +45,12 @@ class ItemDetails extends Component {
                                                 {x.description} <br />
                                                 {x.location}
                                             </MDBCardText>
-                                            {((x.itemStatus == "Collected" || x.itemStatus == "PendingCollection") && 
+                                            {((x.itemStatus == "Donated" || x.itemStatus == "PendingCollection") && 
                                             <MDBBtn 
                                             onClick={() => this.reserveItem(x)} 
                                             outline color="pink" 
                                             disabled = "true" > Not available </MDBBtn>)  }
-                                            {((x.itemStatus !== "Collected" && x.itemStatus !== "PendingCollection") && 
+                                            {((x.itemStatus !== "Donated" && x.itemStatus !== "PendingCollection") && 
                                             <MDBBtn 
                                             onClick={() => this.reserveItem(x)} 
                                             outline color="pink"
