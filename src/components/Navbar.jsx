@@ -67,7 +67,15 @@ class Navbar extends Component {
                                     onClick={this.closeCollapse('mainNavbarCollapse')}
                                     to='/status'
                                 >
-                                    <strong>My Orders</strong>
+                                    <strong>Reserved items</strong>
+                                </MDBNavLink>
+                            </MDBNavItem>
+                            <MDBNavItem>
+                                <MDBNavLink
+                                    onClick={this.closeCollapse('mainNavbarCollapse')}
+                                    to='/mydonate'
+                                >
+                                    <strong>Donated items</strong>
                                 </MDBNavLink>
                             </MDBNavItem>
                             <MDBNavItem>
@@ -75,7 +83,7 @@ class Navbar extends Component {
                                     onClick={this.closeCollapse('mainNavbarCollapse')}
                                     to='/donation'
                                 >
-                                    <strong>Donation</strong>
+                                    <strong>Donate items</strong>
                                 </MDBNavLink>
                             </MDBNavItem>
     

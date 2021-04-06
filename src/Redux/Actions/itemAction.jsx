@@ -39,7 +39,7 @@ export const donateItem = (record) => {
 
 export const approveItem = (id) => dispatch => {
     const db = firebase.firestore()
-    db.collection("items").doc(id).update({ itemStatus: 'Approved' })
+    db.collection("items").doc(id).update({ itemStatus: 'Approved', approved : true })
     dispatch({
         type: "APPROVE_ITEM"
     })

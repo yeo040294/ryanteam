@@ -68,14 +68,11 @@ class Donation extends Component {
   }
 
   handleSubmit = () => {
-    //this.props.donateItem(form) // componentDidMount
-    var today = new Date();
-
     const form = {
       approved: false,
       ballotTime: '',
       category: this.state.category ? this.state.category : "home and living",
-      createdAt: today.toJSON(),
+      createdAt: new Date().toISOString(),
       description: this.state.description,
       imageUrl: this.props.ui.uploadImgLink.message,
       itemCondition: this.state.itemCondition,
@@ -83,8 +80,8 @@ class Donation extends Component {
       itemStatus: "pendingApproval",
       location: this.state.location,
       requestCount: 0,
-      userHandle: localStorage.getItem("username"),
-      recipient: '',
+      userHandle: localStorage.getItem("userhandle")
+  
     }
 
     const { errors, valid } = validateDonateItemData(form)
@@ -95,7 +92,7 @@ class Donation extends Component {
     }
     else{
       this.props.donateItem(form);
-      alert("Thank you for your donation!");
+      //alert("Thank you for your donation!");
       this.setState({
         file: '',
         lat: '',
@@ -106,6 +103,7 @@ class Donation extends Component {
         location: '',
         itemCondition: ''
       })
+      this.props.history.push('/mydonate')
     }
     
   }

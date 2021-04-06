@@ -19,18 +19,22 @@ const Collected = ({ myRequest, navigate,collectItem }) => {
       </MDBTableHead>
       <MDBTableBody>
         
-        {myRequest && myRequest.filter(x => x.itemStatus === "Collected" && x.recipient === localStorage.getItem("userhandle")).map(x => {
+        {myRequest && myRequest.filter(x => x.status === 'Collected' && x.userId === localStorage.getItem("userid")).map(x => {
           return (
             <tr>
-              <td>{x.itemName}</td>
+              <td>{x.itemId}</td>
               <td>{x.createdAt}</td>
-              <td>{x.itemStatus}</td>
-              <td><MDBBtn size="sm" onClick={() => viewItem(x.id)} outline color="pink">View Item</MDBBtn></td>
+              <td>{x.status}</td>
+              <td><MDBBtn size="sm" onClick={() => viewItem(x.itemId)} outline color="pink">View Item</MDBBtn></td>
             </tr>
           )
         })}
 
       </MDBTableBody>
+      <MDBTableBody>
+        {/** {(filteredData.length !== 0) ? display : <React.Fragment>There are currently no items collected by user.</React.Fragment>}
+     */}
+         </MDBTableBody>
     </MDBTable>
   );
 }

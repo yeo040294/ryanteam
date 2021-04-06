@@ -1,7 +1,7 @@
 import React from 'react';
 import { MDBTable, MDBTableBody, MDBTableHead, MDBBtn } from 'mdbreact';
 
-const Pending = ({ myRequest, navigate,collectItem }) => {
+const Unreserved = ({ myRequest, navigate,collectItem }) => {
   function viewItem(itemId){
     navigate(itemId)
   };
@@ -23,7 +23,7 @@ const Pending = ({ myRequest, navigate,collectItem }) => {
       </MDBTableHead>
       <MDBTableBody>
         
-        {myRequest && myRequest.filter(x => x.status === 'pendingCollection' && x.userId === localStorage.getItem("userid")).map(x => {
+        {myRequest && myRequest.filter(x => x.status === 'notCollected' && x.userId === localStorage.getItem("userid")).map(x => {
           return (
             <tr>
               <td>{x.itemId}</td>
@@ -43,4 +43,4 @@ const Pending = ({ myRequest, navigate,collectItem }) => {
   );
 }
 
-export default Pending;
+export default Unreserved;
