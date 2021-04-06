@@ -110,6 +110,7 @@ export const reserveItem = (itemId) => dispatch => {
     const db = firebase.firestore()
     db.collection('collectionReference').add({
         userId : localStorage.userid,
+        userHandle : localStorage.getItem('userhandle'),
         itemId : itemId,
         createdAt : new Date().toISOString(),
         status : 'pendingCollection'
@@ -163,11 +164,13 @@ export const confirmItemCollection = (itemId) => dispatch => {
                     type: 'SET_MESSAGE',
                     payload : ({message : 'Item has been successfully confirmed for donation'})
                 })
-                console.log("this is my refId; " + refId)
+                
                 dispatch({
                     type : 'REMOVE_COLLECTION_REFERENCE_ITEM',
                     payload : refId
                 })
+
+                
             })
             
         })
@@ -233,7 +236,8 @@ export const getCollectionReference = () => dispatch => {
                 createdAt : doc.data().createdAt,
                 itemId : doc.data().itemId,
                 status : doc.data().status,
-                userId : doc.data().userId
+                userId : doc.data().userId,
+                userHandle : doc.data().userHandle
             })
         })
 

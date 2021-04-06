@@ -3,13 +3,22 @@ import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {getCollectionReference, rejectItemCollection, confirmItemCollection} from '../Redux/Actions/itemAction'
 import {clearMessage} from '../Redux/Actions/uiAction'
-import { MDBContainer, MDBRow, MDBCol, MDBTable, MDBTableBody, MDBTableHead, MDBBtn, MDBIcon } from "mdbreact";
+import { MDBContainer, MDBRow, MDBCol, MDBTable, MDBTableBody, MDBTableHead, MDBBtn, MDBIcon, MDBAnimation, MDBInput } from "mdbreact";
 import { firestoreConnect } from 'react-redux-firebase'
 import AdminNavBar from '../components/AdminNavBar'
 import Message from '../components/Message'
+import ConfirmItemTable from "../components/ConfirmItemTable";
 
 class ConfirmItemDonation extends Component {
 
+constructor(props){
+    super(props)
+    this.state = {
+        search: '',
+        searchResult: [],
+        searchDisplay: true
+    }
+}
 componentDidMount(){
     this.props.getCollectionReference()
     this.props.clearMessage()
@@ -24,7 +33,23 @@ handleRejectItemCollection(itemId){
 
 togglePopup = () => {
     this.props.clearMessage()
+    this.searchitem()
   }
+
+  handleChange = (e) => {
+    this.setState({ [e.target.id]: e.target.value })
+}
+
+onKeyPress = (e) => {
+    //add func to if search is '', show everything
+    this.searchitem()
+}
+
+searchitem = () => {
+   //var search = this.props.collectionRefList.filter(x => x.userHandle.toLowerCase().includes(this.state.search))
+   var search = this.props.item.listOfCollectionRefs.filter(x => x.userHandle.toLowerCase().includes(this.state.search))
+    this.setState({ searchResult: search, searchDisplay: false })
+}
 
 render(){
     {console.log(this.props.item.listOfCollectionRefs)}
@@ -32,6 +57,7 @@ render(){
         <div>
         <AdminNavBar />
         <MDBContainer>
+
             <MDBRow>
                 <MDBCol>
                     {this.props.ui.newMessage ? 
@@ -39,9 +65,31 @@ render(){
                                  handleClose = {this.togglePopup}
                                  buttonText = "Ok" /> : null}
                     <div>
+                        <br />
                         <h3>Confirm / Undo reservations</h3>
                         <hr />
-                        <MDBTable striped>
+
+                        <MDBAnimation type="slideInLeft" duration='1s'>
+                            {/**Search bar */}
+                            
+                            <h6>Enter a user handle to find their collection reference...</h6>
+                            
+                            <MDBInput id="search" onChange={this.handleChange} onKeyDown={this.onKeyPress} value={this.state.search} label="Search" />
+
+                                {this.state.searchResult.length !== 0 &&
+                                <ConfirmItemTable myRequest={this.state.searchResult} toConfirm={this.props.confirmItemCollection} toReject= {this.props.rejectItemCollection} />
+         
+                                
+                                }
+                                {this.state.searchResult.length == 0 &&
+                                <div>
+                                    <h6>No results found</h6>
+                                    <ConfirmItemTable myRequest={this.props.item.listOfCollectionRefs} toConfirm={this.props.confirmItemCollection} toReject= {this.props.rejectItemCollection} />
+                                </div>
+                                 }
+                        {/**
+                         * 
+                         * <MDBTable striped>
                             <MDBTableHead>
                                 <tr>
                                     <th>UserId</th>
@@ -67,6 +115,10 @@ render(){
                                     }))}
                             </MDBTableBody>
                         </MDBTable>
+                         * 
+                         */}
+                        
+                        </MDBAnimation>
                     </div>
                     </MDBCol>
                 </MDBRow>
@@ -81,7 +133,8 @@ render(){
 const mapStateToProps = state => {
     return {
         ui : state.ui,
-        item  :state.item
+        item  : state.item,
+        collectionRefList : state.firestore.ordered.collectionReference
     }
 }
 
@@ -89,4 +142,4 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     {getCollectionReference, rejectItemCollection, confirmItemCollection, clearMessage}
   , dispatch);
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect([{ collection: 'items' }]))(ConfirmItemDonation)
+export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect([{ collection: 'collectionReference' }]))(ConfirmItemDonation)

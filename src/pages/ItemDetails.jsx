@@ -14,19 +14,6 @@ class ItemDetails extends Component {
     state = {
         itemid: this.props.match.params.itemId,
     };
-    // ReserveItem = (item) => {
-    //     var today = new Date();
-    //     const form = {
-    //         createdAt: today.toJSON(),
-    //         itemId: item.id,
-    //         itemName: item.itemName,
-    //         recipient: localStorage.getItem("username"),
-    //         requestStatus: "Pending" //pending(request) == pendingcollection(item)
-    //     }
-    //     this.props.updateItem(item.id) //update itemstatus to pendingcollection
-    //     this.props.addRequest(form)
-    //     this.props.history.push('/status')
-    // }
 
     reserveItem = (item) => {
         this.props.reserveItem(item.id)
@@ -35,6 +22,7 @@ class ItemDetails extends Component {
     GoBack = () => { this.props.history.push("/") }
 
     render() {
+    
         return (
             <div>
                 <Navbar />
@@ -43,6 +31,8 @@ class ItemDetails extends Component {
 
                     <MDBRow>
                         {this.props.itemlist && this.props.itemlist.map(x => {
+                            let disabledBtn;
+                            x.userHandle == localStorage.getItem('userhandle') ? disabledBtn = true : disabledBtn = false
                             return (
                                 <MDBCol size="6">
                                     <h2>Item Details</h2>
@@ -55,8 +45,16 @@ class ItemDetails extends Component {
                                                 {x.description} <br />
                                                 {x.location}
                                             </MDBCardText>
-                                            {((x.itemStatus == "Collected" || x.itemStatus == "PendingCollection") && <MDBBtn onClick={() => this.reserveItem(x)} outline color="pink" disabled > Ordered </MDBBtn>)  }
-                                            {((x.itemStatus !== "Collected" && x.itemStatus !== "PendingCollection") && <MDBBtn onClick={() => this.reserveItem(x)} outline color="pink" >Reserve Item</MDBBtn>)  }
+                                            {((x.itemStatus == "Collected" || x.itemStatus == "PendingCollection") && 
+                                            <MDBBtn 
+                                            onClick={() => this.reserveItem(x)} 
+                                            outline color="pink" 
+                                            disabled = "true" > Not available </MDBBtn>)  }
+                                            {((x.itemStatus !== "Collected" && x.itemStatus !== "PendingCollection") && 
+                                            <MDBBtn 
+                                            onClick={() => this.reserveItem(x)} 
+                                            outline color="pink"
+                                            disabled = {disabledBtn}>Reserve Item</MDBBtn>)  }
                                         </MDBCardBody>
                                     </MDBCard>
                                 </MDBCol>
