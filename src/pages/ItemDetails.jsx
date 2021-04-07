@@ -19,7 +19,10 @@ class ItemDetails extends Component {
         this.props.reserveItem(item.id)
     }
 
-    GoBack = () => { this.props.history.push("/") }
+    GoBack = () => {
+        //this.props.history.push("/") 
+        this.props.history.goBack()
+    }
 
     render() {
     
