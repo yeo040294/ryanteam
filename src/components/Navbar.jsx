@@ -6,6 +6,7 @@ class Navbar extends Component {
     state = {
         collapseID: '',
         username: localStorage.getItem("username")
+        
     };
     componentDidMount(){
         if(!this.state.username)
@@ -81,10 +82,12 @@ class Navbar extends Component {
                             <MDBNavItem>
                                 <MDBDropdown>
                                     <MDBDropdownToggle nav caret>
-                                    <MDBIcon icon="user" />
+                                    <MDBIcon icon="user"> 
+                                    <strong>{ localStorage.getItem("username")}</strong>
+                                    </MDBIcon>
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu className="dropdown-default">                                        
-                                        <MDBNavLink
+                                        <MDBNavLink 
                                             onClick={this.closeCollapse('mainNavbarCollapse')}
                                             to={`/profile/${localStorage.getItem("userid")}`}>
                                         <MDBDropdownItem>Profile</MDBDropdownItem>
