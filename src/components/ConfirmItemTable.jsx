@@ -1,7 +1,7 @@
 import React from 'react';
 import { MDBTable, MDBTableBody, MDBTableHead, MDBBtn } from 'mdbreact';
 
-const ConfirmItemTable = ({ myRequest, toConfirm, toReject, refresh}) => {
+const ConfirmItemTable = ({ navigate, myRequest, toConfirm, toReject, refresh}) => {
  
   function viewItem(itemId) {
     navigate(itemId)
@@ -23,7 +23,7 @@ const ConfirmItemTable = ({ myRequest, toConfirm, toReject, refresh}) => {
       <MDBTableHead>
         <tr>
           <th>UserHandle</th>
-          <th>Item Id</th>
+          <th>Item details</th>
           <th>Created at</th>
           <th>Status</th>
           <th>Confirm donation</th>
@@ -37,7 +37,8 @@ const ConfirmItemTable = ({ myRequest, toConfirm, toReject, refresh}) => {
             return (
               <tr>
                 <td>{x.userHandle}</td>
-                <td>{x.itemId}</td>
+                {/**<td>{x.itemId}</td> */}
+                <td><MDBBtn size="sm" onClick={() => viewItem(x.itemId)} outline color="pink">View item</MDBBtn></td>
                 <td>{x.createdAt}</td>
                 <td>{x.status}</td>
                 <td><MDBBtn size="sm" onClick={() => confirmItem(x.itemId)} outline color="pink">Confirm donation</MDBBtn></td>

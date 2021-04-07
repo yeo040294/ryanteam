@@ -38,6 +38,11 @@ const userReducer = (state = initState, action) => {
                 ...state,
             };
 
+        case 'UPDATE_USER':
+            return {
+                ...state,
+            }
+
         case 'LOADING_USER':
             return {
                 ...state,

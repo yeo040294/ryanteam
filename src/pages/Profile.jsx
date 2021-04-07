@@ -4,7 +4,7 @@ import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { getUserData, updateProfile, uploadUserImage } from '../Redux/Actions/userAction'
+import { getUserData, uploadUserImage, updateBio } from '../Redux/Actions/userAction'
 import { clearError, clearMessage} from '../Redux/Actions/uiAction';
 import { firestoreConnect } from 'react-redux-firebase'
 import ProfileTableDonated from '../components/Profile/ProfileTableDonated';
@@ -23,7 +23,9 @@ class Profile extends Component {
 
     this.state = {
       userId : arr[2],
-      userHandle : ''
+      userHandle : '',
+      changeBio : false,
+      bio : this.props.user.credentials.bio
     }
   }
 
@@ -33,7 +35,12 @@ class Profile extends Component {
     this.setState({
       userHandle : this.props.user.credentials.handle
     })
-    console.log(this.props.collectRefList)
+  }
+
+  componentWillReceiveProps(nextProps){
+      this.setState({
+        bio : nextProps.user.credentials.bio
+      })
   }
 
   handleImageChange = (event) => {
@@ -59,9 +66,37 @@ togglePopup = () => {
   this.props.getUserData(localStorage.getItem('userid'))
 }
 
+toggleEditBio = () => {
+  this.setState((prevState) => ({
+    ...prevState,
+    changeBio : !prevState.changeBio,
+    bio : this.props.user.credentials.bio
+  }))
+  
+}
+
+handleChange = (e) => {
+  this.setState({ [e.target.name]: e.target.value })
+}
+
+updateProfile = () => {
+  let newBio = this.state.bio
+  this.props.updateBio(newBio)
+  this.setState({
+    changeBio : false,
+    bio : this.props.user.credentials.bio
+  })
+}
+
   GoBack = () => this.props.history.push('/')
 
   render() {
+
+    const imgLoaderCSS = css`
+        margin-top : 25px;
+        margin-bottom : 25px;
+        margin-left : 85px;
+        `
 
     return (
       <div>
@@ -88,7 +123,14 @@ togglePopup = () => {
               <MDBCard>
                 <MDBCardImage className="img-fluid" src={this.props.user.credentials.imageUrl} waves />
                 {this.state.userId == localStorage.getItem('userid') ? <MDBCardFooter>Upload a new picture : 
-                <input type = "file" id = "imageInput" onChange = {this.handleImageChange} />
+                <input type = "file" id = "imageInput" onChange = {this.handleImageChange} disabled = {this.props.ui.loading}/>
+                <br />
+                <PulseLoader          
+                  loading = {this.props.ui.loading}
+                  size = {12}
+                  color = 'pink'
+                  css = {imgLoaderCSS}
+                  />
                 </MDBCardFooter> :  null }
               </MDBCard>
               
@@ -97,15 +139,40 @@ togglePopup = () => {
               <MDBCard>
                 <MDBCardHeader>
                     {this.props.user.credentials.handle}'s profile 
-
                 </MDBCardHeader>
                 <MDBCardBody>
-                  User biography : <p>{this.props.user.credentials.bio}</p>
+                  User biography : 
+                  <MDBInput type = "textarea" 
+                            name = "bio"
+                            value = {this.state.bio} 
+                            disabled = {!this.state.changeBio}
+                            rows = "5"
+                            onChange = {this.handleChange}>
+                  </MDBInput>
+          
+                  <p>{this.state.userId == localStorage.getItem('userid') ? 
+                  <div>
+                  <MDBBtn 
+                    size="sm"
+                    outline color="pink" 
+                    onClick = {this.state.changeBio? this.updateProfile : this.toggleEditBio}>
+                      {this.state.changeBio? 'confirm' : 'edit'}
+                      </MDBBtn>
+                  {this.state.changeBio &&
+                  <MDBBtn 
+                    size="sm"
+                    outline color="pink" 
+                    onClick = {this.toggleEditBio}>cancel</MDBBtn>
+                  }
+                  </div>
+                   : null}</p>
+                  
+                  
                 </MDBCardBody>
               </MDBCard>
             </MDBCol>
           </MDBRow>
-          </MDBAnimation>
+          </MDBAnimation>     
           {/*Display user donated items*/}
           <br></br>
           <MDBRow>
@@ -149,5 +216,5 @@ const mapStateToProps = state => {
   }
 }
 
-export default compose(connect(mapStateToProps, { updateProfile,getUserData, uploadUserImage, clearError,clearMessage}), 
+export default compose(connect(mapStateToProps, {getUserData, uploadUserImage, clearError,clearMessage, updateBio}), 
 firestoreConnect([{ collection: 'items'}, {collection: 'collectionReference' }]))(Profile)

@@ -99,6 +99,37 @@ export const updateProfile = (data,id) => dispatch => {
     })
 }
 
+export const updateBio = (newBio) => dispatch => {
+    const db = firebase.firestore()
+    let userCredentials = {}
+    db.collection("users")
+    .doc(localStorage.getItem('userhandle'))
+    .update({
+        bio : newBio
+    })
+    .then(()=>{
+        return db.collection("users")
+        .doc(localStorage.getItem('userhandle'))
+        .get()
+    })
+    .then((doc)=> {
+        userCredentials = {
+            userId : doc.data().userId,
+            bio : newBio,
+            email : doc.data().email,
+            handle : doc.data().handle,
+            imageUrl : doc.data().imageUrl
+        }
+        dispatch({
+            type : 'GET_USER_DATA',
+            payload : userCredentials
+        })  
+    })
+    .catch((err)=>{
+        console.error(err)
+    })
+}
+
 export const uploadUserImage = (formData) => (dispatch) => {
     dispatch({ type: 'LOADING_UI' });
     axios
