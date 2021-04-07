@@ -8,13 +8,13 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { approveItem, addRequest, rejectItem } from '../Redux/Actions/itemAction'
+
 class Approval extends Component {
     //state havent put yet ( look at status page for information)
     state = {
         username: localStorage.getItem("username"),
         usertype: localStorage.getItem("usertype"),
         itemList: [],
-
     }
 
 

@@ -15,7 +15,7 @@ const ProfileTableCollected = ({ myRequest, navigate, userId}) => {
             <td>{x.itemId}</td>
             <td>{x.createdAt}</td>
             <td>{x.status}</td>
-            <td><MDBBtn size="sm" onClick={() => viewItem(x.id)} outline color="pink">View Item</MDBBtn></td>
+            <td><MDBBtn size="sm" onClick={() => viewItem(x.itemId)} outline color="pink">View Item</MDBBtn></td>
           </tr>
         )
       })

@@ -7,8 +7,9 @@ import Footer from '../components/Footer'
 import { MDBContainer, MDBRow, MDBCol } from 'mdbreact'
 import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText } from 'mdbreact';
 import GoogleMap from '../components/GoogleMap'
-import { updateItem, addRequest, reserveItem} from '../Redux/Actions/itemAction'
-
+import { updateItem, addRequest, reserveItem } from '../Redux/Actions/itemAction'
+import { clearError, clearMessage} from '../Redux/Actions/uiAction';
+import Message from '../components/Message'
 
 class ItemDetails extends Component {
     state = {
@@ -24,6 +25,10 @@ class ItemDetails extends Component {
         this.props.history.goBack()
     }
 
+    togglePopup = () => {
+        this.props.clearMessage()
+      }
+
     render() {
     
         return (
@@ -31,6 +36,10 @@ class ItemDetails extends Component {
                 <Navbar />
                 <MDBContainer>
                     <br />
+                    {this.props.ui.newMessage ? 
+                    <Message    content = {this.props.ui.message.message}
+                                 handleClose = {this.togglePopup}
+                                 buttonText = "Ok" /> : null}
 
                     <MDBRow>
                         {this.props.itemlist && this.props.itemlist.map(x => {
@@ -101,13 +110,12 @@ const mapStateToProps = (state, ownProps) => {
         let collectpoint = mappoint.filter(x => x.Name === location)
         return {
             itemlist: singleitem,
-            collectionpoint: collectpoint
+            collectionpoint: collectpoint,
+            ui : state.ui
         }
     }
-    return {
-        ui : state.ui
-    }
+    
 
 }
 
-export default compose(connect(mapStateToProps, { updateItem, addRequest, reserveItem }), firestoreConnect([{ collection: 'items' }, { collection: 'collectionpoint' }]))(ItemDetails)
+export default compose(connect(mapStateToProps, { updateItem, addRequest, reserveItem,clearMessage }), firestoreConnect([{ collection: 'items' }, { collection: 'collectionpoint' }]))(ItemDetails)
