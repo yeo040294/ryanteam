@@ -15,7 +15,6 @@ const PendingApproval = ({ myRequest, navigate, currentUser }) => {
         <td>{x.createdAt}</td>
         <td>{x.itemStatus}</td>
         <td><MDBBtn size="sm" onClick={() => viewItem(x.id)} outline color="pink">View Item</MDBBtn></td>
-       <td>{x.userHandle}</td>
       </tr>
 
     )})
@@ -31,7 +30,6 @@ const PendingApproval = ({ myRequest, navigate, currentUser }) => {
           <th>Date Requested</th>
           <th>Status</th>
           <th>View Item</th>
-          <th>Userhandler</th>
         </tr>
       </MDBTableHead>
       <MDBTableBody>

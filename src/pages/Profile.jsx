@@ -67,7 +67,7 @@ togglePopup = () => {
       <div>
         <Navbar />
         <MDBContainer>
-        <MDBAnimation type='slideInDown'>
+        
         {this.props.ui.newMessage && 
             <div>
                 <MDBCard>
@@ -80,7 +80,9 @@ togglePopup = () => {
             </div>
         }
           <br />
+          <MDBAnimation type='slideInDown'>
           <MDBRow>
+          
             <MDBCol md = '3'>
             
               <MDBCard>
@@ -103,6 +105,7 @@ togglePopup = () => {
               </MDBCard>
             </MDBCol>
           </MDBRow>
+          </MDBAnimation>
           {/*Display user donated items*/}
           <br></br>
           <MDBRow>
@@ -129,7 +132,7 @@ togglePopup = () => {
                   </MDBAnimation>
             </MDBCol>
           </MDBRow>
-          </MDBAnimation>
+          
         </MDBContainer>
         <br />
         <Footer />
