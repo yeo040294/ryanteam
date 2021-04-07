@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem, MDBFooter, MDBNavLink, MDBIcon } from 'mdbreact';
+import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem, MDBFooter, MDBNavLink, MDBIcon, MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem } from 'mdbreact';
 
 
 class AdminNavBar extends Component {
@@ -64,12 +64,18 @@ class AdminNavBar extends Component {
                                 </MDBNavItem>
     
                                 <MDBNavItem>
-                                    <MDBNavLink
-                                        onClick={this.closeCollapse('mainNavbarCollapse')}
-                                    to='/logout'
-                                >
-                                    <strong>Logout</strong>
-                                </MDBNavLink>
+                                <MDBDropdown>
+                                    <MDBDropdownToggle nav caret>
+                                    <strong>{ localStorage.getItem("userhandle")}</strong>
+                                    </MDBDropdownToggle>
+                                    <MDBDropdownMenu className="dropdown-default">                                        
+                                        <MDBNavLink 
+                                            onClick={this.closeCollapse('mainNavbarCollapse')}
+                                            to='/logout'>
+                                        <MDBDropdownItem>Log Out</MDBDropdownItem>
+                                        </MDBNavLink>
+                                    </MDBDropdownMenu>
+                                </MDBDropdown>
                             </MDBNavItem>
 
                         </MDBNavbarNav>
