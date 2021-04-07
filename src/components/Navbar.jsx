@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem, MDBFooter, MDBNavLink, MDBIcon } from 'mdbreact';
+import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem, MDBFooter, MDBNavLink, MDBIcon, MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem } from 'mdbreact';
 
 
 class Navbar extends Component {
@@ -57,14 +57,6 @@ class Navbar extends Component {
                             <MDBNavItem>
                                 <MDBNavLink
                                     onClick={this.closeCollapse('mainNavbarCollapse')}
-                                    to={`/profile/${localStorage.getItem("userid")}`}
-                                >
-                                    <strong>Profile</strong>
-                                </MDBNavLink>
-                            </MDBNavItem>
-                            <MDBNavItem>
-                                <MDBNavLink
-                                    onClick={this.closeCollapse('mainNavbarCollapse')}
                                     to='/status'
                                 >
                                     <strong>View Reserved items</strong>
@@ -86,14 +78,24 @@ class Navbar extends Component {
                                     <strong>Donate items</strong>
                                 </MDBNavLink>
                             </MDBNavItem>
-    
-                                <MDBNavItem>
-                                    <MDBNavLink
-                                        onClick={this.closeCollapse('mainNavbarCollapse')}
-                                    to='/logout'
-                                >
-                                    <strong>Logout</strong>
-                                </MDBNavLink>
+                            <MDBNavItem>
+                                <MDBDropdown>
+                                    <MDBDropdownToggle nav caret>
+                                    <MDBIcon icon="user" />
+                                    </MDBDropdownToggle>
+                                    <MDBDropdownMenu className="dropdown-default">                                        
+                                        <MDBNavLink
+                                            onClick={this.closeCollapse('mainNavbarCollapse')}
+                                            to={`/profile/${localStorage.getItem("userid")}`}>
+                                        <MDBDropdownItem>Profile</MDBDropdownItem>
+                                        </MDBNavLink>
+                                        <MDBNavLink 
+                                            onClick={this.closeCollapse('mainNavbarCollapse')}
+                                            to='/logout'>
+                                        <MDBDropdownItem>Log Out</MDBDropdownItem>
+                                        </MDBNavLink>
+                                    </MDBDropdownMenu>
+                                </MDBDropdown>
                             </MDBNavItem>
 
                         </MDBNavbarNav>
