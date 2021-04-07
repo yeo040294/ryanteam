@@ -37,7 +37,7 @@ class Navbar extends Component {
         return (
             <div>
                 <MDBNavbar color='rgba-pink-strong' dark expand='md' fixed='top' scrolling>
-                    <MDBNavbarBrand href='/' className='py-0 font-weight-bold'>
+                    <MDBNavbarBrand to ='/' className='py-0 font-weight-bold'>
                         <MDBIcon fab icon="gratipay" style={{ height: '1.5rem', width: '1.5rem' }} />
                         <strong className='align-middle'>SecondLove</strong>
                     </MDBNavbarBrand>
@@ -81,7 +81,13 @@ class Navbar extends Component {
                             </MDBNavItem>
                             <MDBNavItem>
                                 <MDBDropdown>
-                                    <MDBDropdownToggle nav caret>
+                        
+
+
+
+
+
+                                      <MDBDropdownToggle nav caret>
                                     
                                     <strong>{ localStorage.getItem("userhandle")}</strong>
                                     
@@ -92,12 +98,8 @@ class Navbar extends Component {
                                             to={`/profile/${localStorage.getItem("userid")}`}>
                                         <MDBDropdownItem>Profile</MDBDropdownItem>
                                         </MDBNavLink>
-                                        <MDBNavLink 
-                                            onClick={this.closeCollapse('mainNavbarCollapse')}
-                                            to='/logout'>
-                                        <MDBDropdownItem>Log Out</MDBDropdownItem>
-                                        </MDBNavLink>
-                                    </MDBDropdownMenu>
+                                        <MDBDropdownItem href='/logout'>Logout</MDBDropdownItem>
+                                    </MDBDropdownMenu> 
                                 </MDBDropdown>
                             </MDBNavItem>
 
