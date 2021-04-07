@@ -67,6 +67,7 @@ togglePopup = () => {
       <div>
         <Navbar />
         <MDBContainer>
+        <MDBAnimation type='slideInDown'>
         {this.props.ui.newMessage && 
             <div>
                 <MDBCard>
@@ -128,6 +129,7 @@ togglePopup = () => {
                   </MDBAnimation>
             </MDBCol>
           </MDBRow>
+          </MDBAnimation>
         </MDBContainer>
         <br />
         <Footer />
@@ -145,4 +147,4 @@ const mapStateToProps = state => {
 }
 
 export default compose(connect(mapStateToProps, { updateProfile,getUserData, uploadUserImage, clearError,clearMessage}), 
-firestoreConnect([{ collection: 'items', collection: 'collectionReference' }]))(Profile)
+firestoreConnect([{ collection: 'items'}, {collection: 'collectionReference' }]))(Profile)

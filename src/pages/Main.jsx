@@ -1,6 +1,5 @@
 import React, { Component, useEffect } from 'react'
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBIcon, MDBInput, MDBAnimation } from 'mdbreact'
-import CarouselPage from '../components/CarouselPage'
 import Card from '../components/Main/Card'
 import CategoriesBtn from '../components/Main/CategoriesBtn'
 import { connect } from 'react-redux'
@@ -123,4 +122,8 @@ const mapStateToProps = state => {
 
 //connect is a function, returns a higher order component
 //higher order component is wrapping the home component
-export default compose(connect(mapStateToProps), firestoreConnect([{ collection: 'items', collection: 'collectionReference'}]))(Main)
+export default compose(
+    connect(mapStateToProps), 
+    firestoreConnect([
+        { collection: 'items'}, {collection: 'collectionReference'}
+    ]))(Main)
