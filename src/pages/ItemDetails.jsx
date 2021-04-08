@@ -10,6 +10,7 @@ import GoogleMap from '../components/GoogleMap'
 import { updateItem, addRequest, reserveItem } from '../Redux/Actions/itemAction'
 import { clearError, clearMessage} from '../Redux/Actions/uiAction';
 import Message from '../components/Message'
+import {Link} from 'react-router-dom'
 
 class ItemDetails extends Component {
 
@@ -74,13 +75,20 @@ class ItemDetails extends Component {
 
                                 <MDBRow>
                                     <MDBCol size="6">
-                                        <MDBCard>
+                                        <MDBCard style = {{width: "28rem", height : '28' }}>
                                             <MDBCardImage 
                                             className="card-img-top" 
                                             src={x.imageUrl} 
                                             waves
                                             zoom
                                              />
+                                        </MDBCard>
+                                        <MDBCard style = {{width: "28rem", height : '28' }}>
+                                            <MDBCardBody>
+                                                <h6>Donated by:</h6>
+                                                <Link to = {`/profile/${x.userId}`}>{x.userHandle}</Link>
+                                                <br />
+                                            </MDBCardBody>
                                         </MDBCard>
                                     </MDBCol>
                                     <MDBCol size="6">

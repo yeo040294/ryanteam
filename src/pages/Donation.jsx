@@ -21,12 +21,12 @@ class Donation extends Component {
       file: '',
       lat: '',
       long: '',
-      categories: ["home and living", "sports", "electronic", "toys", "clothes", "luxury", "utomobile"],
-      category: '',
+      categories: ["Home and Living", "Sports", "Electronic", "Toys", "Clothes", "Luxury", "Automobile"],
+      category: 'Home and Living',
       name: '',
       description: '',
-      location: '',
-      itemCondition: '',
+      location: 'MINDS Shop@Rosyth',
+      itemCondition: 'WellUsed',
       formErrors : {}
     }
   }
@@ -142,14 +142,20 @@ class Donation extends Component {
                   <MDBInput id='description' type="textarea" value={this.state.description} onChange={this.handleChange} label="Enter the item description here" rows="5" />
 
                   <h6>Item Condition</h6>
-                  <select placeholder class="browser-default custom-select" value={this.state.itemCondition} id="itemCondition" onChange={this.handleChange}>
+                  <select placeholder class="browser-default custom-select" 
+                    value={this.state.itemCondition} 
+                    id="itemCondition" 
+                    onChange={this.handleChange}>
                     <option value='WellUsed'>Well Used</option>
                     <option value='SlightlyUsed'>Slightly Used</option>
                     <option value='New'>New</option>
                   </select>
 
                   <h6>Select Category</h6>
-                  <select placeholder class="browser-default custom-select" value={this.state.category} id="category" onChange={this.handleChange}>
+                  <select placeholder class="browser-default custom-select" 
+                    value={this.state.category} 
+                    id="category" 
+                    onChange={this.handleChange}>
                     {this.state.categories.map((each) => {
                       return (
                         <option value={each}>{each}</option>
@@ -212,7 +218,7 @@ class Donation extends Component {
           <MDBBtn 
             outline color="pink" 
             onClick={this.handleSubmit}
-            disabled = {this.props.ui.loading}>Upload </MDBBtn>
+            disabled = {this.props.ui.loading}>Submit </MDBBtn>
           <MDBBtn outline color="green" onClick={this.GoBack} > Back
                        </MDBBtn>
         </MDBContainer>
