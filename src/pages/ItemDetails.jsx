@@ -12,12 +12,21 @@ import { clearError, clearMessage} from '../Redux/Actions/uiAction';
 import Message from '../components/Message'
 
 class ItemDetails extends Component {
-    state = {
-        itemid: this.props.match.params.itemId,
-    };
+
+    constructor(props){
+        super(props)
+        this.state = {
+            itemid: this.props.match.params.itemId,
+            hasReserved : false
+        }
+    }
+    
 
     reserveItem = (item) => {
         this.props.reserveItem(item.id)
+        this.setState({
+            hasReserved : true
+        })
     }
 
     GoBack = () => {
@@ -41,54 +50,70 @@ class ItemDetails extends Component {
                                  handleClose = {this.togglePopup}
                                  buttonText = "Ok" /> : null}
 
-                    <MDBRow>
+
                         {this.props.itemlist && this.props.itemlist.map(x => {
                             let disabledBtn;
                             x.userHandle == localStorage.getItem('userhandle') ? disabledBtn = true : disabledBtn = false
                             return (
-                                <MDBCol size="6">
-                                    <h2>Item Details</h2>
-                                    <hr />
-                                    <MDBCard style={{ width: "22rem" }}>
-                                        <MDBCardImage className="img-fluid" src={x.imageUrl} waves />
+                                <div>
+                                <MDBRow>
+                                    <MDBCol md = '8'></MDBCol>
+                                    {((x.itemStatus == "Donated" || x.itemStatus == "pendingCollection" || x.userHandle == localStorage.getItem('userhandle')) && 
+                                    <MDBBtn 
+                                    onClick={() => this.reserveItem(x)} 
+                                    outline color="pink" 
+                                    disabled = "true" > Not available </MDBBtn>)  }
+                                    {((x.itemStatus != "Donated" && x.itemStatus != "pendingCollection" && x.userHandle != localStorage.getItem('userhandle')) && 
+                                    <MDBBtn 
+                                    onClick={() => this.reserveItem(x)} 
+                                    outline color="pink"
+                                    disabled = {this.state.hasReserved}>Reserve Item</MDBBtn>)  }
+                                    <MDBBtn outline color="green" onClick={this.GoBack} >  Back
+                                    </MDBBtn>
+                                </MDBRow>
+
+                                <MDBRow>
+                                    <MDBCol size="6">
+                                        <MDBCard>
+                                            <MDBCardImage 
+                                            className="card-img-top" 
+                                            src={x.imageUrl} 
+                                            waves
+                                            zoom
+                                             />
+                                        </MDBCard>
+                                    </MDBCol>
+                                    <MDBCol size="6">
+                                        <MDBCard>
                                         <MDBCardBody>
-                                            <MDBCardTitle>{x.itemName} <br/> {"Category: " + x.category}</MDBCardTitle>
-                                            <MDBCardText>
-                                                {x.description} <br />
-                                                {x.location}
-                                            </MDBCardText>
-                                            {((x.itemStatus == "Donated" || x.itemStatus == "PendingCollection") && 
-                                            <MDBBtn 
-                                            onClick={() => this.reserveItem(x)} 
-                                            outline color="pink" 
-                                            disabled = "true" > Not available </MDBBtn>)  }
-                                            {((x.itemStatus !== "Donated" && x.itemStatus !== "PendingCollection") && 
-                                            <MDBBtn 
-                                            onClick={() => this.reserveItem(x)} 
-                                            outline color="pink"
-                                            disabled = {disabledBtn}>Reserve Item</MDBBtn>)  }
+                                            <h3>Description</h3>
+                                                {"Name: " + x.itemName} <br/> 
+                                                {"Category: " + x.category} <br />
+                                                {"Details : " + x.description} <br />
+                                                {"Condition : " + x.itemCondition} <br />
+                                                {"Status : " + x.itemStatus} <br />                             
                                         </MDBCardBody>
-                                    </MDBCard>
-                                </MDBCol>
+                                        </MDBCard>
+                                        <MDBCard>
+                                            <MDBCardBody>
+                                                <h3>Location</h3>
+                                                {"Name : " + x.location} <br />
+                                            {this.props.collectionpoint && this.props.collectionpoint.map(x => {
+                                                return(<div>
+                                                    <GoogleMap address={x.Address} lat={x.Coordinates['_lat']} long={x.Coordinates['_long']} />
+                                                    <br />
+                                                    Address: {x.Address}
+                                                </div>)
+                                                })}
+
+                                            </MDBCardBody>              
+                                        </MDBCard>
+                                    </MDBCol>
+                                </MDBRow>
+                                </div>
                             )
                         })}
-
-                        <MDBCol size="6">
-                            <h2>Item Location</h2>
-                            <hr />
-                            {this.props.collectionpoint && this.props.collectionpoint.map(x => {
-                                return (
-                                    <div>
-                                        <GoogleMap address={x.Address} lat={x.Coordinates['_lat']} long={x.Coordinates['_long']} />
-                                        <br />
-                                        Address: {x.Address}
-                                    </div>
-                                )
-                            })}
-                        </MDBCol>
-                    </MDBRow>
-                    <MDBBtn outline color="green" onClick={this.GoBack} >  Back
-                       </MDBBtn>
+                   
                 </MDBContainer>
                 <br />
                 <br />

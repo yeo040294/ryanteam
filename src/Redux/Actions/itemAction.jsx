@@ -47,7 +47,7 @@ export const approveItem = (id) => dispatch => {
 
 export const rejectItem = (id) => dispatch => {
     const db = firebase.firestore()
-    db.collection("items").doc(id).update({ itemStatus: 'donatedToCollectionPoint' })
+    db.collection("items").doc(id).update({ itemStatus: 'Rejected' })
     dispatch({type :'UPDATE_ITEM'})
 }
 
