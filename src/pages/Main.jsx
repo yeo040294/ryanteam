@@ -49,7 +49,7 @@ class Main extends Component {
     render() {
         let PopularListing;
         if (this.props.itemlist)
-            PopularListing = this.props.itemlist.filter(x => x.itemStatus !== "pendingApproval" && x.itemStatus !== 'PendingCollection' && x.itemStatus !== 'Collected').map(x => 
+            PopularListing = this.props.itemlist.filter(x => x.itemStatus == "Approved").map(x => 
             <MDBCol size="4"> 
             <Card viewItem={this.Navigate} post={x} />
              </MDBCol>)
@@ -65,7 +65,9 @@ class Main extends Component {
                         <MDBRow>
                             {this.state.searchResult.length !== 0 && this.state.searchResult.map(x => {
                                 return (
-                                    <MDBCol size="4"><Card viewItem={this.Navigate} post={x} /></MDBCol>
+                                    <MDBCol size="4">
+                                        <Card viewItem={this.Navigate} post={x} />
+                                    </MDBCol>
                                 )
                             })}
 

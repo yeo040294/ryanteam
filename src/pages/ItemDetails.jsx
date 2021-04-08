@@ -139,6 +139,9 @@ const mapStateToProps = (state, ownProps) => {
             ui : state.ui
         }
     }
+    return {
+        ui : state.ui
+    }
     
 
 }
