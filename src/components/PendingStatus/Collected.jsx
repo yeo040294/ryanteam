@@ -11,7 +11,7 @@ const Collected = ({ myRequest, navigate,collectItem }) => {
     <MDBTable>
       <MDBTableHead>
         <tr>
-          <th>Item Name</th>
+          <th>Item ID</th>
           <th>Date Requested</th>
           <th>Status</th>
           <th>View Item</th>

@@ -58,22 +58,6 @@ class ItemDetails extends Component {
                             return (
                                 <div>
                                 <MDBRow>
-                                    <MDBCol md = '8'></MDBCol>
-                                    {((x.itemStatus == "Donated" || x.itemStatus == "pendingCollection" || x.userHandle == localStorage.getItem('userhandle')) && 
-                                    <MDBBtn 
-                                    onClick={() => this.reserveItem(x)} 
-                                    outline color="pink" 
-                                    disabled = "true" > Not available </MDBBtn>)  }
-                                    {((x.itemStatus != "Donated" && x.itemStatus != "pendingCollection" && x.userHandle != localStorage.getItem('userhandle')) && 
-                                    <MDBBtn 
-                                    onClick={() => this.reserveItem(x)} 
-                                    outline color="pink"
-                                    disabled = {this.state.hasReserved}>Reserve Item</MDBBtn>)  }
-                                    <MDBBtn outline color="green" onClick={this.GoBack} >  Back
-                                    </MDBBtn>
-                                </MDBRow>
-
-                                <MDBRow>
                                     <MDBCol size="6">
                                         <MDBCard style = {{width: "28rem", height : '28' }}>
                                             <MDBCardImage 
@@ -117,6 +101,21 @@ class ItemDetails extends Component {
                                             </MDBCardBody>              
                                         </MDBCard>
                                     </MDBCol>
+                                </MDBRow>
+                                <br />
+                                <MDBRow>      
+                                    {((x.itemStatus == "Donated" || x.itemStatus == "pendingCollection" || x.userHandle == localStorage.getItem('userhandle')) && 
+                                    <MDBBtn 
+                                    onClick={() => this.reserveItem(x)} 
+                                    outline color="pink" 
+                                    disabled = "true" > Not available </MDBBtn>)  }
+                                    {((x.itemStatus != "Donated" && x.itemStatus != "pendingCollection" && x.userHandle != localStorage.getItem('userhandle')) && 
+                                    <MDBBtn 
+                                    onClick={() => this.reserveItem(x)} 
+                                    outline color="pink"
+                                    disabled = {this.state.hasReserved}>Reserve Item</MDBBtn>)  }
+                                    <MDBBtn outline color="green" onClick={this.GoBack} >  Back
+                                    </MDBBtn>
                                 </MDBRow>
                                 </div>
                             )

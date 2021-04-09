@@ -119,7 +119,7 @@ class Signup extends Component {
                                         value={this.state.password} />
 
                                     <MDBInput 
-                                        label="Confirmed Password" 
+                                        label="Confirm Password" 
                                         name = "confirmPassword"
                                         icon="lock" 
                                         onChange={this.handleChange} 

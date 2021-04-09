@@ -69,11 +69,7 @@ class AdminNavBar extends Component {
                                     <strong>{ localStorage.getItem("userhandle")}</strong>
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu className="dropdown-default">                                        
-                                        <MDBNavLink 
-                                            onClick={this.closeCollapse('mainNavbarCollapse')}
-                                            to='/logout'>
-                                        <MDBDropdownItem>Log Out</MDBDropdownItem>
-                                        </MDBNavLink>
+                                     <MDBDropdownItem href='/logout'>Logout</MDBDropdownItem>
                                     </MDBDropdownMenu>
                                 </MDBDropdown>
                             </MDBNavItem>

@@ -29,6 +29,8 @@ class Profile extends Component {
     }
   }
 
+  GoBack = () => { this.props.history.goBack() }
+
   componentDidMount(){
     this.props.getUserData(this.state.userId)
     this.props.clearMessage()
@@ -198,6 +200,8 @@ updateProfile = () => {
 
                   </MDBAnimation>
             </MDBCol>
+            <MDBBtn outline color="green" onClick={this.GoBack} > Back
+                       </MDBBtn>
           </MDBRow>
           
         </MDBContainer>

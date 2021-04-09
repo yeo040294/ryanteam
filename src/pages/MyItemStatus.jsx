@@ -59,6 +59,9 @@ class MyItemStatus extends Component {
                                </MDBAnimation>
                         </MDBCol>
 
+                        <MDBBtn outline color="green" onClick={this.GoBack} > Back
+                       </MDBBtn>
+
                     </MDBRow>
                 </MDBContainer>
                 <br />
