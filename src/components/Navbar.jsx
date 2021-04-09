@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem, MDBFooter, MDBNavLink, MDBIcon, MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem } from 'mdbreact';
-
+import {Link} from 'react-router-dom'
 
 class Navbar extends Component {
     state = {
@@ -37,24 +37,17 @@ class Navbar extends Component {
         return (
             <div>
                 <MDBNavbar color='rgba-pink-strong' dark expand='md' fixed='top' scrolling>
+                    <Link to = '/'>
                     <MDBNavbarBrand to ='/' className='py-0 font-weight-bold'>
                         <MDBIcon fab icon="gratipay" style={{ height: '1.5rem', width: '1.5rem' }} />
                         <strong className='align-middle'>SecondLove</strong>
                     </MDBNavbarBrand>
+                    </Link>
                     <MDBNavbarToggler
                         onClick={this.toggleCollapse('mainNavbarCollapse')}
                     />
                     <MDBCollapse id='mainNavbarCollapse' isOpen={collapseID} navbar>
                         <MDBNavbarNav right>
-                            <MDBNavItem>
-                                <MDBNavLink
-                                    exact
-                                    to='/'
-                                    onClick={this.closeCollapse('mainNavbarCollapse')}
-                                >
-                                    <strong>Home</strong>
-                                </MDBNavLink>
-                            </MDBNavItem>
                             <MDBNavItem>
                                 <MDBNavLink
                                     onClick={this.closeCollapse('mainNavbarCollapse')}
