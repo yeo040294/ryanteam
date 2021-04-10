@@ -9,15 +9,20 @@ import Footer from '../components/Footer'
 import { firestoreConnect } from 'react-redux-firebase'
 
 class Main extends Component {
-    state = {
-        FilteredPosts: '',
-        username: localStorage.getItem("username"),
-        usertype: localStorage.getItem("usertype"),
-        itemList: [],
-        search: '',
-        searchResult: [],
-        searchDisplay: true
+
+    constructor(props){
+        super(props)
+        this.state = {
+            FilteredPosts: '',
+            username: localStorage.getItem("username"),
+            usertype: localStorage.getItem("usertype"),
+            itemList: [],
+            search: '',
+            searchResult: [],
+            searchDisplay: true
+        }
     }
+
     handleChange = (e) => {
         this.setState({ [e.target.id]: e.target.value })
     }
@@ -28,16 +33,17 @@ class Main extends Component {
         this.searchitem()
     }
     searchitem = () => {
-        //var search = this.props.itemlist.filter(x => x.itemStatus !== "pendingApproval" && x.itemStatus !== 'PendingCollection' && x.itemStatus !== 'Collected' && x.itemName.toLowerCase().includes(this.state.search))
-        var search = this.props.itemlist.filter(x => x.itemStatus !== "Rejected" && x.itemStatus !== "pendingApproval" && x.itemStatus !== 'PendingCollection' && x.itemStatus !== 'Collected' && x.itemName.toLowerCase().includes(this.state.search))
-        this.setState({ searchResult: search, searchDisplay: false })
+        var search = this.props.itemlist.filter(x => x.itemStatus == "Approved" && x.itemName.toLowerCase().includes(this.state.search))
+        this.setState({ 
+            searchResult: search, 
+            searchDisplay: false
+         })
     }
     Navigate = (itemID) => {
         this.props.history.push("/itemDetails/" + itemID)
     }
 
     FilterPosts = (id) => {
-        //console.log(id);
         let newPosts = this.props.itemlist;
         const result = newPosts.filter(x => x.category == id)
         this.setState(state => ({
@@ -63,21 +69,13 @@ class Main extends Component {
                         <hr />
                         <MDBInput id="search" onChange={this.handleChange} onKeyDown={this.onKeyPress} value={this.state.search} label="Search" />
                         <MDBRow>
-                            {this.state.searchResult.length !== 0 && this.state.searchResult.map(x => {
-                                return (
-                                    <MDBCol size="4">
-                                        <Card viewItem={this.Navigate} post={x} />
-                                    </MDBCol>
-                                )
-                            })}
-
-                            <MDBRow>
                                 <MDBCol>
                                     <h3> Categories </h3>
                                     <hr/>
                                     <CategoriesBtn posts={this.FilterPosts}></CategoriesBtn>
                                     <MDBRow>
                                         {this.state.FilteredPosts && this.state.FilteredPosts.map(x => {
+                                            console.log(this.state)
                                             return (
                                                 <MDBCol size="4">
                                                     <Card post={x} viewItem={this.Navigate} />
@@ -87,13 +85,23 @@ class Main extends Component {
                                     </MDBRow>
                                 </MDBCol>
                             </MDBRow>
+                        <MDBRow>
+                            {this.state.searchResult.length !== 0 ? this.state.searchResult.map(x => {
+                                return (
+                                    <MDBCol size="4">
+                                        <Card viewItem={this.Navigate} post={x} />
+                                    </MDBCol>
+                                )
+                            }) : <div><h6>No search result</h6></div>}
+
+                            
                             <br/>
                             <br/>
                         </MDBRow>
                         {this.state.searchDisplay &&
                             <MDBRow>
                                 <MDBCol>
-                                    <h3>Popular Listings</h3>
+                                    <h3>Items available in SecondLove</h3>
                                     <hr/>
                                     <MDBRow>
                                         {PopularListing}

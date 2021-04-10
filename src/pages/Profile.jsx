@@ -184,7 +184,7 @@ updateProfile = () => {
                       <h2>Donated Items</h2>
                       <ProfileTableDonated navigate={this.Navigate} 
                                     myRequest={this.props.itemlist } 
-                                    userHandle = {localStorage.getItem('userhandle')} />
+                                    userHandle = {this.props.user.credentials.handle} />
                   </MDBAnimation>
             </MDBCol>
           </MDBRow>

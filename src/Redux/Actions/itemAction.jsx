@@ -108,6 +108,14 @@ export const uploadItemImage = (formData) => (dispatch) => {
 export const reserveItem = (itemId) => dispatch => {
 
     const db = firebase.firestore()
+    // Code to add item name into collectionr reference
+    // let itemName
+    // db.collcetion('items').doc(itemId).get()
+    // .then((doc)=>{
+    //     itemName = doc.data().itemName
+    // })
+    // return
+
     db.collection('collectionReference').add({
         userId : localStorage.userid,
         userHandle : localStorage.getItem('userhandle'),
