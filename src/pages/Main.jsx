@@ -16,10 +16,12 @@ class Main extends Component {
             FilteredPosts: '',
             username: localStorage.getItem("username"),
             usertype: localStorage.getItem("usertype"),
-            itemList: [],
-            search: '',
+            currentItemList: [],
+            selectedCat : false,
+            searchKeyword: '',
             searchResult: [],
-            searchDisplay: true
+            selectedSearch : false,
+            expandSearch : false
         }
     }
 
@@ -33,24 +35,65 @@ class Main extends Component {
         this.searchitem()
     }
     searchitem = () => {
-        var search = this.props.itemlist.filter(x => x.itemStatus == "Approved" && x.itemName.toLowerCase().includes(this.state.search))
-        this.setState({ 
-            searchResult: search, 
-            searchDisplay: false
-         })
+        console.log(this.state)
+        if(this.state.searchKeyword == ''){
+            this.setState({
+                selectedSearch : false
+            })
+        }
+        if(this.state.selectedCat){
+            let search = this.state.currentItemList.filter(x => x.itemStatus == "Approved" && x.itemName.toLowerCase().includes(this.state.searchKeyword))
+            this.setState({ 
+                searchResult: search, 
+                selectedSearch: true
+             })
+        }
+        else{
+            let search = this.props.itemlist.filter(x => x.itemStatus == "Approved" && x.itemName.toLowerCase().includes(this.state.searchKeyword))
+            this.setState({ 
+                searchResult: search, 
+                selectedSearch: true
+             })
+        }
     }
     Navigate = (itemID) => {
         this.props.history.push("/itemDetails/" + itemID)
     }
 
-    FilterPosts = (id) => {
-        let newPosts = this.props.itemlist;
-        const result = newPosts.filter(x => x.category == id)
-        this.setState(state => ({
-            ...state,
-            FilteredPosts: result,
-        }));
+    handleCategoryChange = (categoryId)=> {
+        console.log("this is the catId : " + categoryId)
+        this.setState({
+            selectedSearch : false
+        })
+
+        if(categoryId != 'Any'){
+            const categoryArr = this.props.itemlist.filter(x => x.category == categoryId && x.itemStatus == "Approved")
+            this.setState((prevState) => ({
+                ...prevState,
+                searchKeyword : '',
+                currentItemList : categoryArr,
+                selectedCat : true
+            }))
+        }
+        else{
+            this.setState((prevState) => ({
+                ...prevState,
+                searchKeyword : '',
+                currentItemList : this.props.itemlist,
+                selectedCat : false
+            }))
+        }
+        console.log(this.state)
     }
+
+    handleExpandSearch = (e) => {
+        e.preventDefault()
+        this.setState((prevState)=>({
+            expandSearch : !prevState.expandSearch
+        }))
+    }
+
+
 
     render() {
         let PopularListing;
@@ -65,43 +108,88 @@ class Main extends Component {
                 <br />
                 <MDBContainer>
                     <MDBAnimation type="slideInLeft" duration='1s'>
-                        <h3>Search for items</h3>
-                        <hr />
-                        <MDBInput id="search" onChange={this.handleChange} onKeyDown={this.onKeyPress} value={this.state.search} label="Search" />
+                        <MDBRow>
+                            <MDBCol md = '10'></MDBCol>
+                            <MDBBtn onClick = {this.handleExpandSearch}
+                                    color = 'pink'>Toggle search</MDBBtn>
+                        </MDBRow>
+                        
+                        {this.state.expandSearch && 
+                        <div>
+                            <h3>Search item</h3>
+                        <MDBInput id="searchKeyword" 
+                        onChange={this.handleChange} 
+                        onKeyDown={this.onKeyPress} 
+                        value={this.state.searchKeyword} 
+                        label="Enter the item name here..." />
+                        </div>
+                        }
                         <MDBRow>
                                 <MDBCol>
+                                    {this.state.expandSearch &&
+                                    <div>
                                     <h3> Categories </h3>
                                     <hr/>
-                                    <CategoriesBtn posts={this.FilterPosts}></CategoriesBtn>
+                                    <CategoriesBtn posts={this.handleCategoryChange}></CategoriesBtn>
+                                    <br /><br /><br />
+                                    </div>
+                                    }
+                                    
+                                    <h3>Items available in SecondLove</h3>
+                                    
                                     <MDBRow>
-                                        {this.state.FilteredPosts && this.state.FilteredPosts.map(x => {
+                                        {/**If user selected category*/}
+                                        {this.state.selectedCat &&
+                                        !this.state.selectedSearch && this.state.currentItemList.map(x => {
                                             console.log(this.state)
                                             return (
                                                 <MDBCol size="4">
                                                     <Card post={x} viewItem={this.Navigate} />
                                                 </MDBCol>
                                             )
-                                        })}
+            
+                                        })
+                                        }
+                                        {this.state.selectedCat &&
+                                        !this.state.selectedSearch && this.state.currentItemList.length==0
+                                        && <div><br /><br /><h6>No results found.</h6></div>}
                                     </MDBRow>
                                 </MDBCol>
                             </MDBRow>
                         <MDBRow>
-                            {this.state.searchResult.length !== 0 ? this.state.searchResult.map(x => {
+                            {/**If user selected category AND search keyword*/}
+                            {this.state.selectedCat && this.state.selectedSearch && this.state.searchResult.map(x => {
                                 return (
                                     <MDBCol size="4">
                                         <Card viewItem={this.Navigate} post={x} />
                                     </MDBCol>
                                 )
-                            }) : <div><h6>No search result</h6></div>}
+                            })}
+                            {this.state.selectedCat &&
+                                        this.state.selectedSearch && this.state.searchResult.length==0
+                                        && <div><br /><br /><h6>No results found.</h6></div>}
 
-                            
+                            {/**If user select only search keyword */}
+                            {this.state.selectedSearch && !this.state.selectedCat &&
+                            this.state.searchResult.map(x => {
+                                return (
+                                    <MDBCol size="4">
+                                        <Card viewItem={this.Navigate} post={x} />
+                                    </MDBCol>
+                                )
+                            })
+                            }
+                            {!this.state.selectedCat &&
+                                        this.state.selectedSearch && this.state.searchResult.length==0
+                                        && <div><br /><br /><h6>No results found.</h6></div>}                                
+
                             <br/>
                             <br/>
+                            {/**if user only did not search keyword or category */}
                         </MDBRow>
-                        {this.state.searchDisplay &&
+                        {!this.state.selectedSearch && !this.state.selectedCat &&
                             <MDBRow>
                                 <MDBCol>
-                                    <h3>Items available in SecondLove</h3>
                                     <hr/>
                                     <MDBRow>
                                         {PopularListing}

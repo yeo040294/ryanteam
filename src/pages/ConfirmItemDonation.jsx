@@ -64,8 +64,6 @@ render(){
                     <div>
                         <br />
                         <h3>Confirm / Undo reservations</h3>
-                        <hr />
-
                         <MDBAnimation type="slideInLeft" duration='1s'>
                             {/**Search bar */}
                             

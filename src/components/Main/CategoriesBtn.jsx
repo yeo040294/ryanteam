@@ -9,6 +9,11 @@ const ButtonPage = ({posts}) => {
 
   return (
     <Fragment>
+      
+      <MDBBtn outline color="pink" id = 'Any' onClick={onSubmit}>
+        <MDBIcon icon="globe" className="mr-1" /> Any Category
+      </MDBBtn>
+
       <MDBBtn id = 'home and living' onClick = {onSubmit} outline color="pink">
         <MDBIcon  icon="utensils" className="mr-1" /> Home and Living
       </MDBBtn>

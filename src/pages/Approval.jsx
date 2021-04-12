@@ -90,8 +90,7 @@ class Approval extends Component {
                                 <Approve navigate={this.Navigate} myRequest={this.state.searchResult} toapprove={this.approveItem} toreject = {this.rejectItem} />
                                 }
                                 </MDBAnimation>
-                            <MDBBtn outline color="green" onClick={this.GoBack} > Back
-                       </MDBBtn>
+                           
                         </MDBCol>
                     </MDBRow>
 
