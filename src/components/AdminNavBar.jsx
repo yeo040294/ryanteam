@@ -59,7 +59,7 @@ class AdminNavBar extends Component {
                                     onClick={this.closeCollapse('mainNavbarCollapse')}
                                     to='/confirmItemDonation'
                                     >
-                                        <strong>Confirm donation</strong>
+                                        <strong>Confirm Collection</strong>
                                     </MDBNavLink>
                                 </MDBNavItem>
     

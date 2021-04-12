@@ -20,7 +20,7 @@ constructor(props){
     }
 }
 Navigate = (itemId) => {
-    this.props.history.push("/itemDetails/" + itemId)
+    this.props.history.push("/adminItemDetails/" + itemId)
 }
 
 componentDidMount(){
@@ -84,36 +84,7 @@ render(){
                                     <ConfirmItemTable navigate={this.Navigate} myRequest={this.props.item.listOfCollectionRefs} toConfirm={this.props.confirmItemCollection} toReject= {this.props.rejectItemCollection} refresh = {this.searchitem}/>
                                 </div>
                                  }
-                        {/**
-                         * 
-                         * <MDBTable striped>
-                            <MDBTableHead>
-                                <tr>
-                                    <th>UserId</th>
-                                    <th>ItemId</th>
-                                    <th>Created At</th>
-                                    <th>Status</th>
-                                </tr>
-                            </MDBTableHead>
-                            <MDBTableBody>
-                            {this.props.item.listOfCollectionRefs.map((eachRef => {
-                                    return (          
-                                        <tr key = {eachRef.itemId}>
-                                        <td>{eachRef.userId}</td>
-                                        <td>{eachRef.itemId}</td>
-                                        <td>{eachRef.createdAt}</td>
-                                        <td>{eachRef.status}</td>
-                                        <MDBBtn color="success" onClick={() => this.handleConfirmItemCollection(eachRef.itemId)}>
-                                        <MDBIcon icon="check" className="mr-1" /> Confirm Donation</MDBBtn>
-                                        <MDBBtn color="danger" onClick={() => this.handleRejectItemCollection(eachRef.itemId)}>
-                                        <MDBIcon icon="times" className="mr-1" /> Undo reservation</MDBBtn>                      
-                                        </tr>
-                                    )
-                                    }))}
-                            </MDBTableBody>
-                        </MDBTable>
-                         * 
-                         */}
+                      
                         
                         </MDBAnimation>
                     </div>

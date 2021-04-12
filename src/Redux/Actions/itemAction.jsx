@@ -43,12 +43,20 @@ export const approveItem = (id) => dispatch => {
     dispatch({
         type: "APPROVE_ITEM"
     })
+    dispatch({
+        type: "SET_MESSAGE",
+        payload : ({message : "Item has been approved."})
+    })
 }
 
 export const rejectItem = (id) => dispatch => {
     const db = firebase.firestore()
     db.collection("items").doc(id).update({ itemStatus: 'Rejected' })
     dispatch({type :'UPDATE_ITEM'})
+    dispatch({
+        type: "SET_MESSAGE",
+        payload : ({message : "Item has been rejected."})
+    })
 }
 
 

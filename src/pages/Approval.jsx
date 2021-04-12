@@ -1,23 +1,31 @@
 import React, { Component } from 'react'
-import { MDBContainer, MDBRow, MDBCol, MDBAnimation ,MDBBtn} from "mdbreact";
+import { MDBContainer, MDBRow, MDBCol, MDBAnimation ,MDBBtn, MDBInput} from "mdbreact";
 import Approve from '../components/ApprovalPage/Approve'
 import AdminNavBar from '../components/AdminNavBar'
 import Footer from '../components/Footer'
-
+import {clearMessage} from '../Redux/Actions/uiAction'
 import { firestoreConnect } from 'react-redux-firebase'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { approveItem, addRequest, rejectItem } from '../Redux/Actions/itemAction'
+import Message from '../components/Message'
 
 class Approval extends Component {
-    //state havent put yet ( look at status page for information)
-    state = {
-        username: localStorage.getItem("username"),
-        usertype: localStorage.getItem("usertype"),
-        itemList: [],
+    constructor(props){
+        super(props)
+        this.state = {
+            username: localStorage.getItem("username"),
+            usertype: localStorage.getItem("usertype"),
+            itemList: [],
+            searchResult: [],
+            searchDisplay : false
+        }
     }
 
-
+    componentDidMount(){
+        this.props.clearMessage()
+    }
+    
     approveItem = (itemid) => {
         this.props.approveItem(itemid);
     }
@@ -27,7 +35,30 @@ class Approval extends Component {
     }
 
     Navigate = (itemId) => {
-        this.props.history.push("/itemDetails/" + itemId)
+        this.props.history.push("/adminItemDetails/" + itemId)
+    }
+
+    togglePopup = () => {
+        this.props.clearMessage()
+        this.searchitem()
+      }
+    
+      handleChange = (e) => {
+        this.setState({ [e.target.id]: e.target.value })
+    }
+    
+    onKeyPress = (e) => {
+        //add func to if search is '', show everything
+        this.searchitem()
+    }
+    
+    searchitem = () => {
+       //var search = this.props.collectionRefList.filter(x => x.userHandle.toLowerCase().includes(this.state.search))
+       var search = this.props.itemlist.filter(x => x.userHandle.toLowerCase().includes(this.state.search))
+        this.setState({ 
+            searchResult: search, 
+            searchDisplay: true 
+        })
     }
 
     GoBack = () => { this.props.history.push("/") }
@@ -38,12 +69,29 @@ class Approval extends Component {
                 <MDBContainer>
                     <MDBRow>
                         <MDBCol>
-                            <MDBAnimation type='slideInUp'>
-                                <br />
+                        {this.props.ui.newMessage ? 
+                        <Message    content = {this.props.ui.message.message}
+                                    handleClose = {this.togglePopup}
+                                    buttonText = "Ok" /> : null}
+                        <br />
                                 <h2>Pending Approval</h2>
+                            <h6>Enter a user handle to find their item...</h6>
+                            
+                            <MDBInput id="search" onChange={this.handleChange} onKeyDown={this.onKeyPress} value={this.state.search} label="Search" />
+
+                            <MDBAnimation type='slideInUp'>
+                               
                                 <hr />
-                                <Approve navigate={this.Navigate} myRequest={this.props.itemlist} toapprove={this.approveItem} toreject = {this.rejectItem} />
-                            </MDBAnimation>
+                                {this.state.searchResult.length == 0 ? 
+                                <div>
+                                {this.state.searchDisplay && <h6>No search result found..</h6>}
+                                <Approve navigate={this.Navigate} myRequest={this.props.itemlist} toapprove={this.approveItem} toreject = {this.rejectItem} /></div>
+                                : 
+                                <Approve navigate={this.Navigate} myRequest={this.state.searchResult} toapprove={this.approveItem} toreject = {this.rejectItem} />
+                                }
+                                </MDBAnimation>
+                            <MDBBtn outline color="green" onClick={this.GoBack} > Back
+                       </MDBBtn>
                         </MDBCol>
                     </MDBRow>
 
@@ -56,14 +104,9 @@ class Approval extends Component {
 }
 
 const mapStateToProps = state => {
-
-    // let username = localStorage.getItem("username");
-    // let users = state.firestore.ordered.users;
-    // let userhandle = users.filter((user) => user.email == username)
-    // console.log(userhandle);
-
     return {
+        ui : state.ui,
         itemlist: state.firestore.ordered.items,
     }
 }
-export default compose(connect(mapStateToProps, { approveItem, addRequest, rejectItem }), firestoreConnect([{ collection: 'items' }]))(Approval)
+export default compose(connect(mapStateToProps, { approveItem, addRequest, rejectItem, clearMessage }), firestoreConnect([{ collection: 'items' }]))(Approval)

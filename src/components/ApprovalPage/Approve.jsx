@@ -20,11 +20,9 @@ const Approve = ({ myRequest, navigate, toapprove, toreject }) => {
     <MDBTable>
       <MDBTableHead>
         <tr>
-          <th>Item Name</th>
-          <th>Image</th>
-          <th>Description</th>
-          <th>Conditon</th>
-          <th>Date Requested</th>
+          <th>User Handle</th>
+          <th>Item Details</th>
+          <th>Date Donated</th>
           <th>Status</th>
           <th>Approval</th>
           <th>Rejection</th>
@@ -34,19 +32,20 @@ const Approve = ({ myRequest, navigate, toapprove, toreject }) => {
 
         { //createdat: to format time to string
           myRequest && myRequest.filter(x => x.itemStatus === "pendingApproval").map(x => {
+            let tempDate = new Date(x.createdAt)
+            let tempDay = tempDate.getDate()
+            let month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+            let tempMonth = month[tempDate.getMonth()]
+            let tempYear = tempDate.getFullYear()
+
             return (
               <tr>
-                <td>{x.itemName}</td>
-                <td>
-                  <img src={x.imageUrl} width="100" height="100" />
-                </td>
-                <td>{x.description}</td>
-                <td>{x.itemCondition}</td>
-                <td>{x.createdAt}</td>
+                <td>{x.userHandle}</td>
+                <td><MDBBtn size="sm" onClick={() => viewItem(x.id)} outline color="pink">View item</MDBBtn></td>
+                <td>{tempDay + '-' + tempMonth + '-' + tempYear}</td>
                 <td>{x.itemStatus}</td>
-
-                <td><MDBBtn size="sm" onClick={() => approve(x.id)} outline color="pink">Approve</MDBBtn></td>
-                <td><MDBBtn size="sm" onClick={() => reject(x.id)} outline color="pink">Reject</MDBBtn></td>
+                <td><MDBBtn size="sm" onClick={() => approve(x.id)} outline color="green">Approve</MDBBtn></td>
+                <td><MDBBtn size="sm" onClick={() => reject(x.id)} outline color="red">Reject</MDBBtn></td>
               </tr>
             )
           })}
