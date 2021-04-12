@@ -7,10 +7,16 @@ const Rejected = ({ myRequest, navigate, collectItem }) => {
   };
   let filteredData = myRequest.filter(x => x.itemStatus === "Rejected" && x.userHandle === localStorage.getItem("userhandle"))
   let display = filteredData.map(x => { //need to call userhandle by account 
+    let tempDate = new Date(x.createdAt)
+    let tempDay = tempDate.getDate()
+    let month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    let tempMonth = month[tempDate.getMonth()]
+    let tempYear = tempDate.getFullYear()
+
     return (
       <tr>
         <td>{x.itemName}</td>
-        <td>{x.createdAt}</td>
+        <td>{tempDay + '-' + tempMonth + '-' + tempYear}</td>
         <td>{x.itemStatus}</td>
         <td><MDBBtn size="sm" onClick={() => viewItem(x.id)} outline color="pink">View Item</MDBBtn></td>
       </tr>
@@ -21,7 +27,7 @@ const Rejected = ({ myRequest, navigate, collectItem }) => {
       <MDBTableHead>
         <tr>
           <th>Item Name</th>
-          <th>Date Requested</th>
+          <th>Date Posted</th>
           <th>Status</th>
           <th>View Item</th>
         </tr>
