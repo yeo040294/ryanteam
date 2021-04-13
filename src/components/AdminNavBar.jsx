@@ -35,7 +35,7 @@ class AdminNavBar extends Component {
         
         return (
             <div>
-                <MDBNavbar color='rgba-pink-strong' dark expand='md' fixed='top' scrolling>
+                <MDBNavbar color='rgba-purple-strong' dark expand='md' fixed='top' scrolling>
                     <MDBNavbarBrand href='/approval' className='py-0 font-weight-bold'>
                         <MDBIcon fab icon="gratipay" style={{ height: '1.5rem', width: '1.5rem' }} />
                         <strong className='align-middle'>SecondLove</strong>

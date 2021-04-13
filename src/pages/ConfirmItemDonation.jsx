@@ -6,6 +6,7 @@ import {clearMessage} from '../Redux/Actions/uiAction'
 import { MDBContainer, MDBRow, MDBCol, MDBTable, MDBTableBody, MDBTableHead, MDBBtn, MDBIcon, MDBAnimation, MDBInput } from "mdbreact";
 import { firestoreConnect } from 'react-redux-firebase'
 import AdminNavBar from '../components/AdminNavBar'
+import Footer from '../components/AdminFooter'
 import Message from '../components/Message'
 import ConfirmItemTable from "../components/ConfirmItemTable";
 
@@ -89,6 +90,7 @@ render(){
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>
+            <Footer />
             </div>
     )
     

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { MDBContainer, MDBRow, MDBCol, MDBAnimation ,MDBBtn, MDBInput} from "mdbreact";
 import Approve from '../components/ApprovalPage/Approve'
 import AdminNavBar from '../components/AdminNavBar'
-import Footer from '../components/Footer'
+import Footer from '../components/AdminFooter'
 import {clearMessage} from '../Redux/Actions/uiAction'
 import { firestoreConnect } from 'react-redux-firebase'
 import { connect } from 'react-redux'
