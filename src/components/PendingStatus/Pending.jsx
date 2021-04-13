@@ -40,7 +40,7 @@ const Pending = ({ myRequest, navigate,collectItem }) => {
         </tr>
       </MDBTableHead>
       <MDBTableBody>
-      {(filteredData.length !== 0) ? display : <div><br /><React.Fragment>This user has yet to have any item rejected in SecondLove.</React.Fragment></div>}
+      {(filteredData.length !== 0) ? display : <div><br /><React.Fragment>This user has yet to have any item reserved but not collected in SecondLove.</React.Fragment></div>}
          </MDBTableBody>
     </MDBTable>
   );
