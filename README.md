@@ -141,4 +141,4 @@ AdminItemDetails.jsx is a page only available for admins. It provides details of
     {"Condition : " + x.itemCondition} <br />
     {"Status : " + x.itemStatus} <br />
 ```
-The Card.jsx componwnt is used to display the item descriptions
+The Card.jsx component is used to display the item descriptions
