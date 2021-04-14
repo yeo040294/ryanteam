@@ -64,7 +64,7 @@ render(){
                                  buttonText = "Ok" /> : null}
                     <div>
                         <br />
-                        <h3>Confirm / Undo reservations</h3>
+                        <h3>Items Reservations</h3>
                         <MDBAnimation type="slideInLeft" duration='1s'>
                             {/**Search bar */}
                             

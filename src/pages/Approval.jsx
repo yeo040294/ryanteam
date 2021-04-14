@@ -74,7 +74,7 @@ class Approval extends Component {
                                     handleClose = {this.togglePopup}
                                     buttonText = "Ok" /> : null}
                         <br />
-                                <h2>Pending Approval</h2>
+                                <h2>Donation Approval</h2>
                             <h6>Enter a user handle to find their item...</h6>
                             
                             <MDBInput id="search" onChange={this.handleChange} onKeyDown={this.onKeyPress} value={this.state.search} label="Search" />
