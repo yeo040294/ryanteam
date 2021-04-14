@@ -129,3 +129,16 @@ Card will contain:
 2. Username
 3. User's email address
 4. User's location info
+
+## Pages
+#### AdminItemDetails.jsx
+AdminItemDetails.jsx is a page only available for admins. It provides details of the items.
+```javascript
+<h3>Description</h3>
+    {"Name: " + x.itemName} <br/> 
+    {"Category: " + x.category} <br />
+    {"Details : " + x.description} <br />
+    {"Condition : " + x.itemCondition} <br />
+    {"Status : " + x.itemStatus} <br />
+```
+The Card.jsx componwnt is used to display the item descriptions
