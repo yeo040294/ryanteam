@@ -189,7 +189,7 @@ MyItemStatus.jsx is the Reservation Summary page where uses can view their items
 ```Javascript
 <Pending collectItem={this.collectitem} navigate={this.Navigate} myRequest={this.props.collectRefList} />
 <Collected collectItem={this.collectitem} navigate={this.Navigate} myRequest={this.props.collectRefList} />
- <Unreserved collectItem={this.collectitem} navigate={this.Navigate} myRequest={this.props.collectRefList} />
+<Unreserved collectItem={this.collectitem} navigate={this.Navigate} myRequest={this.props.collectRefList} />
  ```
 
  #### MyDotateItem.jsx 
