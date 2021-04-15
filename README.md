@@ -132,7 +132,8 @@ Card will contain:
 
 ## Pages
 #### AdminItemDetails.jsx
-AdminItemDetails.jsx is a page only available for admins. It provides details of the items.
+AdminItemDetails.jsx is a page only available for admin accounts. It provides details of the items.
+
 ```javascript
 <h3>Description</h3>
     {"Name: " + x.itemName} <br/> 
@@ -141,4 +142,23 @@ AdminItemDetails.jsx is a page only available for admins. It provides details of
     {"Condition : " + x.itemCondition} <br />
     {"Status : " + x.itemStatus} <br />
 ```
-The Card.jsx component is used to display the item descriptions
+The Card.jsx component is used to display the item descriptions.
+
+#### Approval.jsx
+Approval.jsx is a page only available for admin accounts. It generates a list of items that have yet to pass quality checks and be approved by the admin. 
+
+```javascript
+export default compose(connect(mapStateToProps, { approveItem, addRequest, rejectItem, clearMessage }), firestoreConnect([{ collection: 'items' }]))(Approval)
+```
+#### ConfirmItemDonation.jsx
+ConfirmItemDonation.jsx is a page only available for admin accounts. It generates a list of items that have been reserved by users before coming down for collection. Admins can either confirm donation or un-reserve the item.
+
+#### Donation.jsx
+Donation.jsx is a page for users to submit items that they want to donate. They have to fill up a form and can input an image file.
+
+##### Image
+```javascript
+<input type = "file" id = "imageInput" onChange = {this.handleImageChange} />
+```
+
+
