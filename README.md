@@ -161,4 +161,47 @@ Donation.jsx is a page for users to submit items that they want to donate. They 
 <input type = "file" id = "imageInput" onChange = {this.handleImageChange} />
 ```
 
+##### Form
+```javascript
+this.setState({
+        file: '',
+        lat: '',
+        long: '',
+        category: '',
+        name: '',
+        description: '',
+        location: '',
+        itemCondition: ''
+      })
+```
+
+#### Main.jsx
+Main.jsx is the first page that users see when they have successfully logged in. The online catalogue of items with status `approved` will be displayed for users to browse. Users will also be able to toggle their search by category as well as use the  component `navBar.jsx` to access other pages.
+
+##### Category Search
+```javascript
+const categoryArr = this.props.itemlist.filter(x => x.category == categoryId && x.itemStatus == "Approved")
+```
+
+#### MyItemStatus.jsx
+MyItemStatus.jsx is the Reservation Summary page where uses can view their items that they have reserved and items that they have previously collected. It will make use of 3 components Unreserved, Collected and Pending.
+
+```Javascript
+<Pending collectItem={this.collectitem} navigate={this.Navigate} myRequest={this.props.collectRefList} />
+<Collected collectItem={this.collectitem} navigate={this.Navigate} myRequest={this.props.collectRefList} />
+ <Unreserved collectItem={this.collectitem} navigate={this.Navigate} myRequest={this.props.collectRefList} />
+ ```
+
+ #### MyDotateItem.jsx 
+ MyDonateItem.jsx is the Donation Summary page where users can view their donated items and check if their items have been approved for listing. The page uses 3 components, PendingApproval, Approved and Rejected.
+
+ ```Javascript
+ <PendingApproval navigate={this.Navigate} myRequest={this.props.itemlist} />
+ <Approved navigate={this.Navigate} myRequest={this.props.itemlist} />
+ <Rejected navigate={this.Navigate} myRequest={this.props.itemlist} />
+ ```
+
+
+
+
 
