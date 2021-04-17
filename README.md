@@ -130,6 +130,24 @@ Card will contain:
 3. User's email address
 4. User's location info
 
+## Navbar
+Navbar always present at top of screen.
+
+Navbar contains several buttons which will link to other pages in the SecondLove website.
+
+Reservation Summary
+```javascript
+<MDBNavLink onClick={this.closeCollapse('mainNavbarCollapse')} to='/status'>
+````
+Donation Summary
+```javascript
+<MDBNavLink onClick={this.closeCollapse('mainNavbarCollapse')} to='/mydonate'>
+````
+Donate Items
+```javascript
+<MDBNavLink onClick={this.closeCollapse('mainNavbarCollapse')} to='/donation'>
+````
+
 ## Pages
 #### AdminItemDetails.jsx
 AdminItemDetails.jsx is a page only available for admin accounts. It provides details of the items.
