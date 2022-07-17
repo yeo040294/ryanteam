@@ -19,7 +19,7 @@ class DonationGoogleMap extends Component {
       // Important! Always set the container height explicitly
       <div style={{ height: '70vh', width: '100%' }}>
         <GoogleMapReact 
-          bootstrapURLKeys={{ key: 'AIzaSyA7UYITtdux3_kJzsFhO8r5Mom0bfXgyXU' }}
+          bootstrapURLKeys={{ key: '' }}
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
         >
